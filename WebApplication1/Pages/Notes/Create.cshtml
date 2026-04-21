@@ -1,0 +1,68 @@
+@page
+@model Uniflow.Pages.Notes.CreateModel
+@{
+    ViewData["Title"] = "Creează Notiță";
+}
+
+<div class="container mt-4">
+    <div class="glass-card p-4 mx-auto" style="max-width: 800px;">
+        <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-secondary">
+            <i class="hgi-stroke hgi-add-01 hgi-2x me-3 text-primary"></i>
+            <h2 class="mb-0 fw-bold">Creează Notiță Nouă</h2>
+        </div>
+
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div asp-validation-summary="All" class="text-danger mb-3"></div>
+            
+            @if (TempData["ErrorMessage"] != null)
+            {
+                <div class="alert alert-danger glass-card border-danger text-danger">
+                    <i class="hgi-stroke hgi-cancel-01 me-2"></i> @TempData["ErrorMessage"]
+                </div>
+            }
+            
+            @if (TempData["WarningMessage"] != null)
+            {
+                <div class="alert alert-warning glass-card border-warning text-warning">
+                    <i class="hgi-stroke hgi-cancel-01 me-2"></i> @TempData["WarningMessage"]
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="Note.CourseId" class="form-label text-light fw-bold">Curs</label>
+                <select asp-for="Note.CourseId" class="form-select form-control-light" asp-items="Model.Courses">
+                    <option value="">-- Selectează Curs --</option>
+                </select>
+                <span asp-validation-for="Note.CourseId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="Note.Title" class="form-label text-light fw-bold">Titlu</label>
+                <input asp-for="Note.Title" class="form-control" placeholder="Introduceți un titlu sugestiv" />
+                <span asp-validation-for="Note.Title" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-4">
+                <label asp-for="Note.Content" class="form-label text-light fw-bold">Conținut</label>
+                <textarea asp-for="Note.Content" class="form-control" rows="10" placeholder="Scrieți conținutul notiței aici..."></textarea>
+                <span asp-validation-for="Note.Content" class="text-danger"></span>
+            </div>
+
+            <div class="d-flex justify-content-between pt-2">
+                <a asp-page="Index" class="btn btn-outline-secondary">
+                    <i class="hgi-stroke hgi-cancel-01 me-2"></i> Anulează
+                </a>
+                <button type="submit" class="btn btn-primary px-4">
+                    <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> Creează Notiță
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+

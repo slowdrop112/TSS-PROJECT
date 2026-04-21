@@ -1,0 +1,245 @@
+@page
+@model Uniflow.Pages.Admin.Users.IndexModel
+@{
+    ViewData["Title"] = "Administrare Utilizatori";
+}
+
+<div class="container-fluid mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4 border-bottom border-secondary pb-3">
+        <h2 class="text-light fw-bold"><i class="hgi-stroke hgi-user-group me-3 text-primary"></i>Administrare Utilizatori</h2>
+        <span class="badge bg-secondary p-2">Total: @Model.Users.Count</span>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success glass-card border-success alert-dismissible fade show" role="alert">
+            <i class="hgi-stroke hgi-tick-02 me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger glass-card border-danger alert-dismissible fade show" role="alert">
+            <i class="hgi-stroke hgi-alert-circle me-2"></i> @TempData["ErrorMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    <!-- Filters and Search -->
+    <div class="glass-card p-4 mb-4">
+        <form method="get" class="row g-3 align-items-end">
+            <div class="col-md-4">
+                <label class="form-label text-light"><i class="hgi-stroke hgi-filter me-2 text-info"></i>Filtrare după Rol</label>
+                <select name="RoleFilter" class="form-select form-control-light" onchange="this.form.submit()">
+                    <option value="">Toate Rolurile</option>
+                    <option value="Student" selected="@(Model.RoleFilter == "Student")">Studenți</option>
+                    <option value="Profesor" selected="@(Model.RoleFilter == "Profesor")">Profesori</option>
+                    <option value="Admin" selected="@(Model.RoleFilter == "Admin")">Administratori</option>
+                </select>
+            </div>
+            <div class="col-md-6">
+                <label class="form-label text-light"><i class="hgi-stroke hgi-search-01 me-2 text-info"></i>Căutare</label>
+                <input type="text" name="SearchString" value="@Model.SearchString" class="form-control form-control-light" placeholder="Caută după email sau username...">
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 fw-bold shadow-sm">
+                    <i class="hgi-stroke hgi-search-01 me-2"></i> Căutare
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Users Table -->
+    <div class="glass-card p-0 overflow-hidden border-0 shadow-lg">
+        @if (Model.Users.Any())
+        {
+            <div class="table-responsive">
+                <table class="table table-hover align-middle mb-0" style="background-color: transparent;">
+                    <thead class="bg-light bg-opacity-75 small text-uppercase">
+                        <tr>
+                            <th class="p-3 ps-4 text-dark border-bottom"><i class="hgi-stroke hgi-user me-2 text-primary"></i>Username</th>
+                            <th class="p-3 text-dark border-bottom"><i class="hgi-stroke hgi-mail-01 me-2 text-primary"></i>Email</th>
+                            <th class="p-3 text-dark border-bottom"><i class="hgi-stroke hgi-tag-01 me-2 text-primary"></i>Rol</th>
+                            <th class="p-3 text-dark border-bottom"><i class="hgi-stroke hgi-tick-02 me-2 text-primary"></i>Email Confirmat</th>
+                            <th class="p-3 pe-4 text-end text-dark border-bottom"><i class="hgi-stroke hgi-settings-02 me-2 text-primary"></i>Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var user in Model.Users)
+                        {
+                            <tr class="border-bottom border-light hover-bg-light transition-all">
+                                <td class="p-3 ps-4">
+                                    <div class="d-flex align-items-center">
+                                         <div class="neuro-btn-icon bg-secondary text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0" style="width: 40px; height: 40px;">
+                                            <span class="fw-bold">@user.UserName.Substring(0, 1).ToUpper()</span>
+                                        </div>
+                                        <div>
+                                            <strong class="text-dark d-block">@user.UserName</strong>
+                                            @if (user.IsCurrentUser)
+                                            {
+                                                <span class="badge bg-primary text-white rounded-pill px-2" style="font-size: 0.6rem;">Tu</span>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-3 text-muted">@user.Email</td>
+                                <td class="p-3">
+                                    @if (user.Role == "Admin")
+                                    {
+                                        <span class="badge bg-danger text-white shadow-sm px-3 py-2 rounded-pill"><i class="hgi-stroke hgi-security-check me-1"></i> @user.Role</span>
+                                    }
+                                    else if (user.Role == "Profesor")
+                                    {
+                                        <span class="badge bg-primary text-white shadow-sm px-3 py-2 rounded-pill"><i class="hgi-stroke hgi-teacher me-1"></i> @user.Role</span>
+                                    }
+                                    else if (user.Role == "Student")
+                                    {
+                                        <span class="badge bg-success text-white shadow-sm px-3 py-2 rounded-pill"><i class="hgi-stroke hgi-mortarboard-01 me-1"></i> @user.Role</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-secondary text-white shadow-sm px-3 py-2 rounded-pill">@user.Role</span>
+                                    }
+                                </td>
+                                <td class="p-3">
+                                    @if (user.EmailConfirmed)
+                                    {
+                                        <span class="badge bg-success text-white px-3 py-2 rounded-pill d-inline-flex align-items-center">
+                                            <i class="hgi-stroke hgi-tick-01 me-1"></i> Confirmat
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge bg-warning text-white px-3 py-2 rounded-pill d-inline-flex align-items-center">
+                                            <i class="hgi-stroke hgi-cancel-01 me-1"></i> Neconfirmat
+                                        </span>
+                                    }
+                                </td>
+                                <td class="p-3 pe-4 text-end">
+                                    @if (user.IsCurrentUser)
+                                    {
+                                        <button class="btn btn-sm btn-light opacity-50 pe-none" disabled>
+                                            <i class="hgi-stroke hgi-unavailable me-1"></i>
+                                        </button>
+                                    }
+                                    else
+                                    {
+                                        <button type="button" class="btn btn-sm btn-white text-danger shadow-sm border hover-lift" 
+                                                data-bs-toggle="modal" 
+                                                data-bs-target="#deleteModal"
+                                                data-user-id="@user.Id"
+                                                data-user-name="@user.UserName"
+                                                data-user-role="@user.Role"
+                                                title="Șterge utilizator">
+                                            <i class="hgi-stroke hgi-delete-02"></i>
+                                        </button>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+        else
+        {
+            <div class="text-center py-5">
+                <div class="mb-3">
+                     <i class="hgi-stroke hgi-user-block-01 text-muted opacity-25" style="font-size: 4rem;"></i>
+                </div>
+                <h5 class="text-dark fw-bold">Nu s-au găsit utilizatori</h5>
+                <p class="text-muted mb-0">Încearcă să modifici filtrele de căutare.</p>
+            </div>
+        }
+    </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white border-0 shadow-lg p-4">
+            <!-- Close button absolute positioned -->
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            
+            <div class="text-center mb-0">
+                <!-- Icon -->
+                <div class="mb-3 text-center">
+                    <i class="hgi-stroke hgi-delete-02 hgi-3x text-danger" style="font-size: 3rem;"></i>
+                </div>
+                
+                <!-- Title -->
+                <h3 class="fw-bold mb-3 text-dark" id="deleteModalLabel">Șterge Utilizator</h3>
+                
+                <!-- Alert Box -->
+                <div class="alert bg-danger text-white border-0 d-inline-block text-start mb-4 shadow-sm w-100">
+                    <div class="d-flex align-items-start">
+                         <i class="hgi-stroke hgi-alert-circle me-2 mt-1"></i>
+                         <div>
+                            <strong>Atenție!</strong> Ești sigur că vrei să ștergi acest utilizator? Această acțiune este ireversibilă.
+                         </div>
+                    </div>
+                </div>
+
+                <!-- User Details Box -->
+                <div class="p-3 mb-4 text-start bg-light rounded-3 border">
+                     <h5 class="mb-2 text-dark fw-bold" id="deleteUserName"></h5>
+                     <p class="text-muted mb-2 small">Acțiunea va șterge:</p>
+                     <ul id="deleteWarningList" class="mb-0 ps-3 small text-muted">
+                        <!-- Will be populated by JavaScript -->
+                     </ul>
+                </div>
+
+                <!-- Buttons -->
+                <form method="post" asp-page-handler="Delete">
+                    <input type="hidden" name="userId" id="deleteUserId" />
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-bold" data-bs-dismiss="modal">
+                             Renunță
+                        </button>
+                        <button type="submit" class="btn btn-danger px-4 rounded-pill fw-bold shadow-sm hover-lift">
+                            <i class="hgi-stroke hgi-delete-02 me-2"></i> Șterge Definitiv
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Handle delete modal
+        const deleteModal = document.getElementById('deleteModal');
+        deleteModal.addEventListener('show.bs.modal', function (event) {
+            const button = event.relatedTarget;
+            const userId = button.getAttribute('data-user-id');
+            const userName = button.getAttribute('data-user-name');
+            const userRole = button.getAttribute('data-user-role');
+
+            document.getElementById('deleteUserId').value = userId;
+            document.getElementById('deleteUserName').textContent = userName;
+
+            // Update warning list based on role
+            const warningList = document.getElementById('deleteWarningList');
+            warningList.innerHTML = '';
+
+            if (userRole === 'Student') {
+                warningList.innerHTML = `
+                    <li>Toate înscrierile la cursuri</li>
+                    <li>Toate notițele create</li>
+                    <li>Toate voturile și comentariile</li>
+                    <li>Punctele de gamificare</li>
+                `;
+            } else if (userRole === 'Profesor') {
+                warningList.innerHTML = `
+                    <li>Toate cursurile create</li>
+                    <li>Toate materialele și anunțurile asociate</li>
+                    <li>Toate înscrierile studenților la cursurile sale</li>
+                `;
+            } else {
+                warningList.innerHTML = `<li>Toate datele asociate utilizatorului</li>`;
+            }
+        });
+    </script>
+}

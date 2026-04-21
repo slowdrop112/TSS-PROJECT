@@ -1,0 +1,180 @@
+@page
+@model Uniflow.Pages.Vouchers.IndexModel
+@{
+    ViewData["Title"] = "Voucherele Mele";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2><i class="bi bi-ticket-perforated"></i> Voucherele Mele</h2>
+                <div class="text-muted">
+                    <i class="bi bi-star-fill text-warning"></i> Nivel @Model.CurrentLevel | @Model.CurrentXP XP
+                </div>
+            </div>
+
+            @if (!Model.ActiveVouchers.Any() && !Model.RedeemedVouchers.Any() && !Model.ExpiredVouchers.Any())
+            {
+                <div class="alert alert-info text-center">
+                    <i class="bi bi-info-circle fs-1 d-block mb-3"></i>
+                    <h4>Nu ai încă niciun voucher</h4>
+                    <p class="mb-0">Acordăm vouchere automat la nivelurile 5, 10, 15, 20, 25, 30 și așa mai departe!</p>
+                    <p class="text-muted">Continuă să acumulezi XP pentru a debloca recompense!</p>
+                </div>
+            }
+            else
+            {
+                <!-- Vouchere Active -->
+                @if (Model.ActiveVouchers.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="mb-3"><i class="bi bi-check-circle text-success"></i> Vouchere Active (@Model.ActiveVouchers.Count)</h4>
+                        <div class="row">
+                            @foreach (var userVoucher in Model.ActiveVouchers)
+                            {
+                                var voucher = userVoucher.Voucher;
+                                var daysLeft = (userVoucher.ExpiryDate - DateTime.Now).Days;
+                                
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100 border-success shadow-sm">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div style="font-size: 2rem;">@voucher.IconUrl</div>
+                                                <span class="badge bg-success">Activ</span>
+                                            </div>
+                                            <h5 class="card-title">@voucher.Title</h5>
+                                            <p class="text-muted small mb-2">@voucher.PartnerName</p>
+                                            <p class="card-text">@voucher.Description</p>
+                                            
+                                            <div class="border-top pt-3 mt-3">
+                                                <div class="d-flex justify-content-between align-items-center mb-2">
+                                                    <strong class="text-primary">Discount:</strong>
+                                                    <span class="badge bg-primary">@voucher.DiscountValue</span>
+                                                </div>
+                                                <div class="mb-2">
+                                                    <strong>Cod Voucher:</strong>
+                                                    <div class="input-group input-group-sm mt-1">
+                                                        <input type="text" class="form-control font-monospace fw-bold" value="@userVoucher.Code" readonly id="code-@userVoucher.Id">
+                                                        <button class="btn btn-outline-secondary" type="button" onclick="copyCode('@userVoucher.Code', @userVoucher.Id)">
+                                                            <i class="bi bi-clipboard"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="text-muted small">
+                                                    <i class="bi bi-clock"></i> Expiră în @daysLeft @(daysLeft == 1 ? "zi" : "zile")
+                                                    <br>
+                                                    <small>@userVoucher.ExpiryDate.ToString("dd MMM yyyy")</small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Vouchere Folosite -->
+                @if (Model.RedeemedVouchers.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="mb-3"><i class="bi bi-check2-all text-secondary"></i> Vouchere Folosite (@Model.RedeemedVouchers.Count)</h4>
+                        <div class="row">
+                            @foreach (var userVoucher in Model.RedeemedVouchers)
+                            {
+                                var voucher = userVoucher.Voucher;
+                                
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100 border-secondary opacity-75">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div style="font-size: 2rem;">@voucher.IconUrl</div>
+                                                <span class="badge bg-secondary">Folosit</span>
+                                            </div>
+                                            <h5 class="card-title text-muted">@voucher.Title</h5>
+                                            <p class="text-muted small mb-2">@voucher.PartnerName</p>
+                                            <p class="card-text text-muted">@voucher.Description</p>
+                                            
+                                            <div class="border-top pt-3 mt-3">
+                                                <div class="text-muted small">
+                                                    <i class="bi bi-check-circle"></i> Folosit: @userVoucher.RedeemedDate?.ToString("dd MMM yyyy")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+
+                <!-- Vouchere Expirate -->
+                @if (Model.ExpiredVouchers.Any())
+                {
+                    <div class="mb-4">
+                        <h4 class="mb-3"><i class="bi bi-x-circle text-danger"></i> Vouchere Expirate (@Model.ExpiredVouchers.Count)</h4>
+                        <div class="row">
+                            @foreach (var userVoucher in Model.ExpiredVouchers)
+                            {
+                                var voucher = userVoucher.Voucher;
+                                
+                                <div class="col-md-6 col-lg-4 mb-3">
+                                    <div class="card h-100 border-danger opacity-50">
+                                        <div class="card-body">
+                                            <div class="d-flex justify-content-between align-items-start mb-2">
+                                                <div style="font-size: 2rem;">@voucher.IconUrl</div>
+                                                <span class="badge bg-danger">Expirat</span>
+                                            </div>
+                                            <h5 class="card-title text-muted">@voucher.Title</h5>
+                                            <p class="text-muted small mb-2">@voucher.PartnerName</p>
+                                            <p class="card-text text-muted">@voucher.Description</p>
+                                            
+                                            <div class="border-top pt-3 mt-3">
+                                                <div class="text-muted small">
+                                                    <i class="bi bi-calendar-x"></i> Expirat: @userVoucher.ExpiryDate.ToString("dd MMM yyyy")
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+
+            <!-- Info Box -->
+            <div class="alert alert-primary mt-4">
+                <h5><i class="bi bi-info-circle"></i> Cum primești vouchere?</h5>
+                <ul class="mb-0">
+                    <li>Primești automat vouchere când atingi anumite nivele (5, 10, 15, 20, 25, 30...)</li>
+                    <li>Acumulezi XP prin: înscriere la cursuri (50 XP), crearea de notițe (30 XP), comentarii (10 XP), vote-uri (5 XP)</li>
+                    <li>Nivel curent: <strong>@Model.CurrentLevel</strong> (Următorul nivel milestone: <strong>@((Model.CurrentLevel / 5 + 1) * 5)</strong>)</li>
+                    <li>XP necesar pentru următorul milestone: <strong>@(((Model.CurrentLevel / 5 + 1) * 5 * 100) - Model.CurrentXP) XP</strong></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function copyCode(code, voucherId) {
+            navigator.clipboard.writeText(code).then(function() {
+                // Show success feedback
+                const btn = event.target.closest('button');
+                const originalHTML = btn.innerHTML;
+                btn.innerHTML = '<i class="bi bi-check-lg"></i>';
+                btn.classList.add('btn-success');
+                btn.classList.remove('btn-outline-secondary');
+                
+                setTimeout(function() {
+                    btn.innerHTML = originalHTML;
+                    btn.classList.remove('btn-success');
+                    btn.classList.add('btn-outline-secondary');
+                }, 2000);
+            });
+        }
+    </script>
+}
