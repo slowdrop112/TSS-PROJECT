@@ -1,0 +1,209 @@
+@page
+@model Uniflow.Pages.Notes.ValidateModel
+@{
+    ViewData["Title"] = "Validează Notițe";
+}
+
+<div class="container mt-4">
+    <div class="d-flex align-items-center mb-4">
+        <i class="hgi-stroke hgi-checkmark-circle-01 hgi-2x me-3 text-success"></i>
+        <h2 class="text-light fw-bold mb-0">Validează Notițe</h2>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success glass-card border-success alert-dismissible fade show" role="alert">
+            <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Tabs -->
+    <ul class="nav nav-pills mb-4 gap-2" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link @(Model.Tab == "pending" || string.IsNullOrEmpty(Model.Tab) ? "active" : "text-muted")" 
+               asp-page="Validate" asp-route-tab="pending">
+                <i class="hgi-stroke hgi-clock-01 me-2"></i> În Așteptare (@Model.PendingNotes.Count)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(Model.Tab == "approved" ? "active" : "text-muted")" 
+               asp-page="Validate" asp-route-tab="approved">
+                <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> Aprobate (@Model.ApprovedNotes.Count)
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link @(Model.Tab == "rejected" ? "active" : "text-muted")" 
+               asp-page="Validate" asp-route-tab="rejected">
+                <i class="hgi-stroke hgi-cancel-01 me-2"></i> Respinse (@Model.RejectedNotes.Count)
+            </a>
+        </li>
+    </ul>
+
+    <!-- Conținut Tab -->
+    <div class="tab-content">
+        @if (Model.Tab == "pending" || string.IsNullOrEmpty(Model.Tab))
+        {
+            <div class="tab-pane fade show active">
+                @if (Model.PendingNotes.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var note in Model.PendingNotes)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card neuro-card h-100 border-0">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <h5 class="card-title fw-bold text-truncate mb-3">@note.Title</h5>
+                                        
+                                        <div class="mb-3 text-muted small">
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-book-01 me-2 w-20"></i> @note.CourseTitle</div>
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-user me-2 w-20"></i> @note.StudentName</div>
+                                            <div class="d-flex align-items-center"><i class="hgi-stroke hgi-calendar-01 me-2 w-20"></i> @note.CreatedDate.ToString("dd.MM.yyyy HH:mm")</div>
+                                        </div>
+
+                                        <p class="card-text text-light flex-grow-1" style="opacity: 0.8;">
+                                            @(note.Content.Length > 150 ? note.Content.Substring(0, 150) + "..." : note.Content)
+                                        </p>
+                                        
+                                        <div class="d-flex justify-content-between align-items-center mt-3 pt-3 border-top border-secondary">
+                                            <div class="d-flex gap-2">
+                                                 <span class="text-success small"><i class="hgi-stroke hgi-thumbs-up"></i> @note.Upvotes</span>
+                                                 <span class="text-danger small"><i class="hgi-stroke hgi-thumbs-down"></i> @note.Downvotes</span>
+                                            </div>
+                                        </div>
+
+                                        <div class="mt-3 d-flex flex-column gap-2">
+                                            <div class="d-flex gap-2">
+                                                <form method="post" asp-page-handler="Approve" class="flex-grow-1">
+                                                    <input type="hidden" name="noteId" value="@note.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-success w-100">
+                                                        <i class="hgi-stroke hgi-checkmark-circle-01 me-1"></i> Aprobă
+                                                    </button>
+                                                </form>
+                                                <form method="post" asp-page-handler="Reject" class="flex-grow-1">
+                                                    <input type="hidden" name="noteId" value="@note.Id" />
+                                                    <button type="submit" class="btn btn-sm btn-danger w-100">
+                                                        <i class="hgi-stroke hgi-cancel-01 me-1"></i> Respinge
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            <a asp-page="Details" asp-route-id="@note.Id" class="btn btn-sm btn-outline-primary w-100">
+                                                <i class="hgi-stroke hgi-view me-1"></i> Vezi Detalii
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                    <div class="glass-card border-0 p-5 d-inline-block">
+                        <i class="hgi-stroke hgi-task-done-01 hgi-4x text-muted mb-3 opacity-50"></i>
+                        <h4 class="text-light">Totul este curat!</h4>
+                        <p class="text-muted mb-0">Nu există notițe în așteptare pentru validare.</p>
+                    </div>
+                </div>
+                }
+            </div>
+        }
+
+        @if (Model.Tab == "approved")
+        {
+            <div class="tab-pane fade show active">
+                @if (Model.ApprovedNotes.Any())
+                {
+                     <div class="row g-4">
+                        @foreach (var note in Model.ApprovedNotes)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card neuro-card h-100 border-0">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <h5 class="card-title fw-bold text-truncate mb-0">@note.Title</h5>
+                                            <span class="badge bg-success rounded-pill">Aprobat</span>
+                                        </div>
+
+                                        <div class="mb-3 text-muted small">
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-book-01 me-2 w-20"></i> @note.CourseTitle</div>
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-user me-2 w-20"></i> @note.StudentName</div>
+                                            <div class="d-flex align-items-center"><i class="hgi-stroke hgi-calendar-01 me-2 w-20"></i> @(note.ValidationDate.HasValue ? note.ValidationDate.Value.ToString("dd.MM.yyyy") : "-")</div>
+                                        </div>
+
+                                        <p class="card-text text-light flex-grow-1" style="opacity: 0.8;">
+                                            @(note.Content.Length > 150 ? note.Content.Substring(0, 150) + "..." : note.Content)
+                                        </p>
+                                        
+                                         <div class="mt-3 pt-3 border-top border-secondary text-end">
+                                            <a asp-page="Details" asp-route-id="@note.Id" class="btn btn-sm btn-outline-primary w-100">
+                                                <i class="hgi-stroke hgi-view me-1"></i> Vezi Detalii
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                     </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                    <i class="hgi-stroke hgi-folder-open hgi-3x text-muted mb-3 opacity-25"></i>
+                    <p class="text-muted mb-0">Nu există notițe aprobate încă.</p>
+                </div>
+                }
+            </div>
+        }
+
+        @if (Model.Tab == "rejected")
+        {
+            <div class="tab-pane fade show active">
+                @if (Model.RejectedNotes.Any())
+                {
+                     <div class="row g-4">
+                        @foreach (var note in Model.RejectedNotes)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card neuro-card h-100 border-0">
+                                    <div class="card-body p-4 d-flex flex-column">
+                                        <div class="d-flex justify-content-between align-items-start mb-3">
+                                            <h5 class="card-title fw-bold text-truncate mb-0">@note.Title</h5>
+                                            <span class="badge bg-danger rounded-pill">Respins</span>
+                                        </div>
+
+                                        <div class="mb-3 text-muted small">
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-book-01 me-2 w-20"></i> @note.CourseTitle</div>
+                                            <div class="d-flex align-items-center mb-1"><i class="hgi-stroke hgi-user me-2 w-20"></i> @note.StudentName</div>
+                                            <div class="d-flex align-items-center"><i class="hgi-stroke hgi-calendar-01 me-2 w-20"></i> @(note.ValidationDate.HasValue ? note.ValidationDate.Value.ToString("dd.MM.yyyy") : "-")</div>
+                                        </div>
+
+                                        <p class="card-text text-light flex-grow-1" style="opacity: 0.8;">
+                                            @(note.Content.Length > 150 ? note.Content.Substring(0, 150) + "..." : note.Content)
+                                        </p>
+                                        
+                                         <div class="mt-3 pt-3 border-top border-secondary text-end">
+                                            <a asp-page="Details" asp-route-id="@note.Id" class="btn btn-sm btn-outline-primary w-100">
+                                                <i class="hgi-stroke hgi-view me-1"></i> Vezi Detalii
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5">
+                    <i class="hgi-stroke hgi-folder-open hgi-3x text-muted mb-3 opacity-25"></i>
+                    <p class="text-muted mb-0">Nu există notițe respinse.</p>
+                </div>
+                }
+            </div>
+        }
+    </div>
+</div>
+
+

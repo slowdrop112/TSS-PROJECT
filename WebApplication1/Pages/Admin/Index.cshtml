@@ -1,0 +1,510 @@
+@page
+@model Uniflow.Pages.Admin.IndexModel
+@{
+    ViewData["Title"] = "Administrare Utilizatori";
+}
+
+<div class="container-fluid px-4 mt-4">
+    <!-- Header Section -->
+    <div class="row align-items-center mb-4">
+        <div class="col-md-8">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb mb-2" style="background: transparent; padding: 0;">
+                    <li class="breadcrumb-item"><a asp-page="/Index" class="text-muted small">Acasă</a></li>
+                    <li class="breadcrumb-item active small" aria-current="page">Admin-Dashboard</li>
+                </ol>
+            </nav>
+            <h1 class="h2 text-dark fw-bold mb-0">Dashboard Administrare</h1>
+            <p class="text-muted small">Monitorizează progresul și gestionează ecosistemul Uniflow</p>
+        </div>
+        <div class="col-md-4 text-md-end mt-3 mt-md-0">
+            <a asp-page="./RoleRequests" class="btn btn-primary shadow-sm position-relative">
+                <i class="hgi-stroke hgi-user-shield-01 me-2"></i> Cereri de Roluri
+                @if (Model.Statistics.PendingRoleRequests > 0)
+                {
+                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger border border-white">
+                        @Model.Statistics.PendingRoleRequests
+                    </span>
+                }
+            </a>
+        </div>
+    </div>
+
+    @if (!string.IsNullOrEmpty(Model.StatusMessage))
+    {
+        var isError = Model.StatusMessage.StartsWith("Error");
+        <div class="alert @(isError ? "alert-danger" : "alert-success") alert-dismissible fade show mb-4" role="alert">
+            <i class="hgi-stroke @(isError ? "hgi-alert-circle" : "hgi-checkmark-circle-01") me-2"></i>
+            @Model.StatusMessage
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- Global Notification Card -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="glass-card p-4 border-0 bg-white shadow-sm">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="material-icon-wrapper bg-info text-white me-3" style="width: 40px; height: 40px;">
+                        <i class="hgi-stroke hgi-notification-02"></i>
+                    </div>
+                    <h5 class="fw-bold text-dark mb-0">Trimite Notificare Globală</h5>
+                </div>
+                <form asp-page-handler="SendGlobalNotification" method="post">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <input asp-for="GlobalTitle" class="form-control" placeholder="Titlu notificare..." required />
+                        </div>
+                        <div class="col-md-5">
+                            <input asp-for="GlobalMessage" class="form-control" placeholder="Mesaj pentru toți utilizatorii..." required />
+                        </div>
+                        <div class="col-md-2">
+                            <select asp-for="GlobalType" class="form-select">
+                                <option value="info">Info (Albastru)</option>
+                                <option value="success">Succes (Verde)</option>
+                                <option value="warning">Avertisment (Galben)</option>
+                                <option value="important">Important (Roșu)</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <button type="submit" class="btn btn-dark w-100">
+                                <i class="hgi-stroke hgi-sent me-2"></i> Trimite
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Overview Statistics -->
+    <div class="row g-4 mb-4">
+        <div class="col-xl-3 col-md-6">
+            <div class="glass-card p-4 border-0 h-100 bg-white shadow-sm hover-lift">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="neuro-btn-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                        <i class="hgi-stroke hgi-user-group hgi-xl"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase ls-1" style="font-size: 0.7rem;">Utilizatori</small>
+                        <h3 class="mb-0 fw-bold text-dark">@Model.TotalStudents</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3 mb-2" style="height: 6px;">
+                    <div class="progress-bar bg-primary rounded-pill" role="progressbar" style="width: 100%"></div>
+                </div>
+                <small class="text-muted d-block">Total studenți înregistrați</small>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="glass-card p-4 border-0 h-100 bg-white shadow-sm hover-lift">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="neuro-btn-icon bg-success text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                        <i class="hgi-stroke hgi-teacher hgi-xl"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase ls-1" style="font-size: 0.7rem;">Profesori</small>
+                        <h3 class="mb-0 fw-bold text-dark">@Model.TotalProfessors</h3>
+                    </div>
+                </div>
+                <div class="progress mt-3 mb-2" style="height: 6px;">
+                    <div class="progress-bar bg-success rounded-pill" role="progressbar" style="width: 100%"></div>
+                </div>
+                <small class="text-muted d-block">Staff academic validat</small>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="glass-card p-4 h-100 border-0 shadow-sm bg-white hover-lift">
+                 <h5 class="fw-bold text-dark mb-4">Sistem</h5>
+                 <div class="d-flex justify-content-between align-items-center mb-2">
+                     <span class="text-muted">Cursuri Totale</span>
+                     <span class="fw-bold text-dark">@Model.TotalCourses</span>
+                 </div>
+                 <div class="d-flex justify-content-between align-items-center mb-2">
+                     <span class="text-muted">Server Status</span>
+                     <span class="text-success fw-bold"><i class="hgi-stroke hgi-dot-03 me-1"></i>Online</span>
+                 </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-md-6">
+            <div class="glass-card p-4 border-0 h-100 bg-white shadow-sm hover-lift">
+                <div class="d-flex align-items-center mb-3">
+                    <div class="neuro-btn-icon bg-danger text-white rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 50px; height: 50px;">
+                        <i class="hgi-stroke hgi-notification-03 hgi-xl"></i>
+                    </div>
+                    <div>
+                        <small class="text-muted fw-bold text-uppercase ls-1" style="font-size: 0.7rem;">Acțiuni</small>
+                        <h3 class="mb-0 fw-bold text-dark">Necesare</h3>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center mb-2 border-bottom pb-2">
+                    <span class="text-muted small fw-bold"><i class="hgi-stroke hgi-user-security me-1"></i>Cereri Rol</span>
+                    <span class="badge @(Model.Statistics.PendingRoleRequests > 0 ? "bg-danger" : "bg-light text-muted border") rounded-pill">
+                        @Model.Statistics.PendingRoleRequests
+                    </span>
+                </div>
+                
+                <div class="d-flex justify-content-between align-items-center pt-1">
+                    <span class="text-muted small fw-bold"><i class="hgi-stroke hgi-file-check me-1"></i>Notițe Noi</span>
+                    <span class="badge @(Model.Statistics.PendingNotes > 0 ? "bg-warning text-dark" : "bg-light text-muted border") rounded-pill">
+                        @Model.Statistics.PendingNotes
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Metrics row -->
+    <div class="row g-4 mb-4">
+        <!-- Content Metrics -->
+        <div class="col-lg-8">
+            <div class="glass-card p-4 h-100 bg-white shadow-sm border-0">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h5 class="fw-bold text-dark mb-0"><i class="hgi-stroke hgi-analytics-up-01 text-primary me-2"></i>Activitate Platformă</h5>
+                    <div class="btn-group btn-group-sm">
+                        <button class="btn btn-outline-dark active">30 Zile</button>
+                        <button class="btn btn-outline-secondary">90 Zile</button>
+                    </div>
+                </div>
+                <div class="row g-3 text-center mb-2">
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light hover-lift">
+                            <i class="hgi-stroke hgi-book-open-01 text-primary hgi-lg mb-2"></i>
+                            <h4 class="fw-bold text-primary mb-0">+@Model.Trends.NewCoursesLast30Days</h4>
+                            <p class="text-muted small mb-0">Cursuri Noi</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light hover-lift">
+                            <i class="hgi-stroke hgi-user-add-01 text-success hgi-lg mb-2"></i>
+                            <h4 class="fw-bold text-success mb-0">+@Model.Trends.NewEnrollmentsLast30Days</h4>
+                            <p class="text-muted small mb-0">Înscrieri</p>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light hover-lift">
+                            <i class="hgi-stroke hgi-note-edit text-info hgi-lg mb-2"></i>
+                            <h4 class="fw-bold text-info mb-0">+@Model.Trends.NewNotesLast30Days</h4>
+                            <p class="text-muted small mb-0">Notițe Noi</p>
+                        </div>
+                    </div>
+                     <div class="col-md-3">
+                        <div class="p-3 border rounded-3 bg-light hover-lift">
+                            <i class="hgi-stroke hgi-user-group text-warning hgi-lg mb-2"></i>
+                            <h4 class="fw-bold text-warning mb-0">+@Model.Trends.NewUsersLast30Days</h4>
+                            <p class="text-muted small mb-0">Membri Noi</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-4 p-3 border-top bg-light bg-opacity-50 rounded-bottom">
+                    <div class="row g-3 align-items-center">
+                        <div class="col-sm-6 border-end">
+                             <div class="d-flex align-items-center justify-content-center">
+                                <div class="neuro-btn-icon bg-info bg-opacity-10 text-info rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="hgi-stroke hgi-note hgi-lg"></i>
+                                </div>
+                                <div class="text-start">
+                                    <h5 class="mb-0 fw-bold text-dark">@Model.Statistics.TotalNotes</h5>
+                                    <small class="text-muted">Total Notițe</small>
+                                </div>
+                             </div>
+                        </div>
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center justify-content-center">
+                                <div class="neuro-btn-icon bg-danger bg-opacity-10 text-danger rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                    <i class="hgi-stroke hgi-favourite hgi-lg"></i>
+                                </div>
+                                <div class="text-start">
+                                    <h5 class="mb-0 fw-bold text-dark">@Model.Statistics.TotalVotes</h5>
+                                    <small class="text-muted">Interacțiuni</small>
+                                </div>
+                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Right Sidebar Metrics (XP System) -->
+        <div class="col-lg-4">
+             <div class="glass-card p-4 h-100 bg-white shadow-sm border-0 d-flex flex-column">
+                <h5 class="fw-bold text-dark mb-4"><i class="hgi-stroke hgi-champion text-warning me-2"></i>Ecosistem XP</h5>
+                
+                <div class="mb-4 text-center p-5 rounded-4 bg-primary text-white position-relative overflow-hidden shadow-lg">
+                    <div class="position-absolute top-0 start-0 w-100 h-100 opacity-10" style="background: radial-gradient(circle at center, #fff 0%, transparent 70%);"></div>
+                    <h1 class="display-3 fw-bold mb-0 position-relative">@Model.Statistics.TotalXP</h1>
+                    <p class="text-white-50 small text-uppercase fw-bold mb-0 position-relative ls-2">Total XP Generat</p>
+                </div>
+
+                <div class="list-group list-group-flush mt-auto">
+                    <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0 py-3 border-light">
+                        <span class="text-muted">Medie Globală</span>
+                        <span class="fw-bold text-dark h5 mb-0">@Model.Statistics.AverageXP XP</span>
+                    </div>
+                    <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0 py-3 border-light">
+                        <span class="text-muted">Voturi Pozitive</span>
+                        <span class="text-success fw-bold h5 mb-0">@Model.Statistics.TotalUpvotes</span>
+                    </div>
+                    <div class="list-group-item bg-transparent d-flex justify-content-between align-items-center px-0 py-3 border-0">
+                        <span class="text-muted">Notițe Aprobate</span>
+                        <span class="text-info fw-bold h5 mb-0">@Model.Statistics.ApprovedNotes</span>
+                    </div>
+                </div>
+             </div>
+        </div>
+    </div>
+
+    <!-- Rankings & User List row -->
+    <div class="row g-4 mb-4">
+        <!-- Top Lists -->
+        <div class="col-xl-6">
+            <div class="glass-card bg-white shadow-sm border-0 h-100">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light bg-opacity-50">
+                    <h5 class="fw-bold text-dark mb-0"><i class="hgi-stroke hgi-champion text-warning me-2"></i>Clasamente Top</h5>
+                    <ul class="nav nav-pills nav-pills-sm" id="pills-tab" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active fw-bold" id="pills-courses-tab" data-bs-toggle="pill" data-bs-target="#pills-courses" type="button" role="tab"><i class="hgi-stroke hgi-book-02 me-1"></i>Cursuri</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link fw-bold" id="pills-students-tab" data-bs-toggle="pill" data-bs-target="#pills-students" type="button" role="tab"><i class="hgi-stroke hgi-graduate-hat me-1"></i>Studenți</button>
+                        </li>
+                    </ul>
+                </div>
+                <div class="tab-content" id="pills-tabContent">
+                    <div class="tab-pane fade show active p-4" id="pills-courses" role="tabpanel">
+                         @if (Model.TopCourses.Any())
+                        {
+                            @foreach (var course in Model.TopCourses)
+                            {
+                                <div class="d-flex align-items-center mb-4 last-no-border p-3 rounded-3 hover-bg-light transition-all">
+                                    <div class="neuro-btn-icon bg-primary bg-opacity-10 text-primary rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 48px; height: 48px;">
+                                        <span class="fw-bold h5 mb-0">@(Model.TopCourses.IndexOf(course) + 1)</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 fw-bold text-dark">@course.Title</h6>
+                                        <small class="text-muted d-flex align-items-center"><i class="hgi-stroke hgi-user-group me-1"></i>@course.EnrollmentCount înscrieri active</small>
+                                    </div>
+                                    <a href="/Courses/Details?id=@course.CourseId" class="btn btn-sm btn-white border shadow-sm rounded-pill fw-bold text-dark hover-lift d-flex align-items-center">
+                                        <i class="hgi-stroke hgi-arrow-right-01 me-1"></i> Vezi Curs
+                                    </a>
+                                </div>
+                            }
+                        }
+                    </div>
+                    <div class="tab-pane fade p-4" id="pills-students" role="tabpanel">
+                         @if (Model.TopStudents.Any())
+                        {
+                            @foreach (var student in Model.TopStudents)
+                            {
+                                <div class="d-flex align-items-center mb-4 last-no-border p-3 rounded-3 hover-bg-light transition-all">
+                                    <div class="neuro-btn-icon bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center me-3 shadow-sm" style="width: 48px; height: 48px;">
+                                        <span class="fw-bold h5 mb-0">#@(Model.TopStudents.IndexOf(student) + 1)</span>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1 fw-bold text-dark d-flex align-items-center"><i class="hgi-stroke hgi-user-01 me-2 text-primary"></i>@student.Email</h6>
+                                        <small class="text-muted d-flex align-items-center"><i class="hgi-stroke hgi-certificate-01 me-1 text-warning"></i>Campion Academic</small>
+                                    </div>
+                                    <div class="text-end">
+                                        <span class="fw-bold text-primary h5 mb-0 d-flex align-items-center justify-content-end"><i class="hgi-stroke hgi-lightning-01 me-1 text-warning"></i>@student.XP</span>
+                                        <small class="text-muted d-block text-uppercase" style="font-size: 0.65rem;">Total XP</small>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Management Minimalist List -->
+        <div class="col-xl-6">
+            <div class="glass-card bg-white shadow-sm border-0 w-100">
+                <div class="p-4 border-bottom d-flex justify-content-between align-items-center bg-light bg-opacity-50">
+                    <h5 class="fw-bold text-dark mb-0"><i class="hgi-stroke hgi-user-account-settings text-primary me-2"></i>Utilizatori Recenți</h5>
+                    <div class="d-flex align-items-center gap-2">
+                        <form method="post" asp-page-handler="PopulateDemoData" onsubmit="return confirm('Vrei să adaugi utilizatorii demo (10 studenți, 5 profesori)?');">
+                            <button type="submit" class="btn btn-sm btn-success fw-bold rounded-pill px-3 shadow-sm hover-lift">
+                                <i class="hgi-stroke hgi-user-group me-1"></i> Populează Date
+                            </button>
+                        </form>
+                        <form method="post" asp-page-handler="CleanupUniflowUsers" onsubmit="return confirm('Sigur vrei să ștergi toți utilizatorii @@uniflow.com (exceptând adminii)?');">
+                            <button type="submit" class="btn btn-sm btn-danger fw-bold rounded-pill px-3 shadow-sm hover-lift">
+                                <i class="hgi-stroke hgi-delete-02 me-1"></i> Cleanup @@uniflow.com
+                            </button>
+                        </form>
+                        <a asp-page="/Admin/Users/Index" class="btn btn-sm btn-link text-decoration-none fw-bold">Vezi Tot <i class="hgi-stroke hgi-arrow-right-01 ms-1"></i></a>
+                    </div>
+                </div>
+                <div class="p-0">
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle mb-0">
+                            <thead class="bg-light bg-opacity-50 small text-uppercase">
+                                <tr>
+                                    <th class="ps-4 py-3 text-muted border-0"><i class="hgi-stroke hgi-user me-2"></i>Utilizator</th>
+                                    <th class="py-3 text-muted border-0"><i class="hgi-stroke hgi-tag-01 me-2"></i>Rol</th>
+                                    <th class="text-end pe-4 py-3 text-muted border-0"><i class="hgi-stroke hgi-settings-02 me-2"></i>Acțiuni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var user in Model.Users.Take(8))
+                                {
+                                    <tr class="border-bottom border-light">
+                                        <td class="ps-4 py-3">
+                                            <div class="d-flex align-items-center">
+                                                <div class="neuro-btn-icon bg-primary text-white rounded-circle d-flex align-items-center justify-content-center me-3 flex-shrink-0 shadow-sm" style="width: 36px; height: 36px;">
+                                                    <span class="fw-bold small">@(user.Email.Length > 0 ? user.Email.Substring(0, 1).ToUpper() : "?")</span>
+                                                </div>
+                                                <span class="text-dark fw-bold small">@user.Email</span>
+                                            </div>
+                                        </td>
+                                        <td class="py-3">
+                                             @if (user.Roles.Contains("Admin"))
+                                            {
+                                                <span class="badge bg-danger text-white rounded-pill px-3 py-2 fw-bold small d-inline-flex align-items-center"><i class="hgi-stroke hgi-security-check me-1"></i>Admin</span>
+                                            }
+                                            else if (user.Roles.Contains("Profesor"))
+                                            {
+                                                <span class="badge bg-primary text-white rounded-pill px-3 py-2 fw-bold small d-inline-flex align-items-center"><i class="hgi-stroke hgi-teacher me-1"></i>Profesor</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="badge bg-success text-white rounded-pill px-3 py-2 fw-bold small d-inline-flex align-items-center"><i class="hgi-stroke hgi-mortarboard-01 me-1"></i>Student</span>
+                                            }
+                                        </td>
+                                        <td class="text-end pe-4 py-3">
+                                            @if (user.IsCurrentUser)
+                                            {
+                                                <button class="btn btn-sm btn-light opacity-50 pe-none" disabled>
+                                                    <i class="hgi-stroke hgi-unavailable me-1"></i>
+                                                </button>
+                                            }
+                                            else
+                                            {
+                                                <button type="button" class="btn btn-sm btn-white text-danger shadow-sm border hover-lift" 
+                                                        data-bs-toggle="modal" 
+                                                        data-bs-target="#deleteModal"
+                                                        data-user-id="@user.Id"
+                                                        data-user-name="@user.UserName"
+                                                        data-user-role="@(user.Roles.Contains("Admin") ? "Admin" : user.Roles.Contains("Profesor") ? "Profesor" : "Student")"
+                                                        title="Șterge utilizator">
+                                                    <i class="hgi-stroke hgi-delete-02"></i>
+                                                </button>
+                                            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .last-no-border:last-child {
+        border-bottom: 0 !important;
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+</style>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content bg-white border-0 shadow-lg p-4">
+            <!-- Close button absolute positioned -->
+            <button type="button" class="btn-close position-absolute top-0 end-0 m-3" data-bs-dismiss="modal" aria-label="Close"></button>
+            
+            <div class="text-center mb-0">
+                <!-- Icon -->
+                <div class="mb-3 text-center">
+                    <i class="hgi-stroke hgi-delete-02 hgi-3x text-danger" style="font-size: 3rem;"></i>
+                </div>
+                
+                <!-- Title -->
+                <h3 class="fw-bold mb-3 text-dark" id="deleteModalLabel">Șterge Utilizator</h3>
+                
+                <!-- Alert Box -->
+                <div class="alert bg-danger text-white border-0 d-inline-block text-start mb-4 shadow-sm w-100">
+                    <div class="d-flex align-items-start">
+                         <i class="hgi-stroke hgi-alert-circle me-2 mt-1"></i>
+                         <div>
+                            <strong>Atenție!</strong> Ești sigur că vrei să ștergi acest utilizator? Această acțiune este ireversibilă.
+                         </div>
+                    </div>
+                </div>
+
+                <!-- User Details Box -->
+                <div class="p-3 mb-4 text-start bg-light rounded-3 border">
+                     <h5 class="mb-2 text-dark fw-bold" id="deleteUserName"></h5>
+                     <p class="text-muted mb-2 small">Acțiunea va șterge:</p>
+                     <ul id="deleteWarningList" class="mb-0 ps-3 small text-muted">
+                        <!-- Will be populated by JavaScript -->
+                     </ul>
+                </div>
+
+                <!-- Buttons -->
+                <form method="post" asp-page="/Admin/Users/Index" asp-page-handler="Delete">
+                    <input type="hidden" name="userId" id="deleteUserId" />
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="button" class="btn btn-outline-secondary px-4 rounded-pill fw-bold" data-bs-dismiss="modal">
+                             Renunță
+                        </button>
+                        <button type="submit" class="btn btn-danger px-4 rounded-pill fw-bold shadow-sm hover-lift">
+                            <i class="hgi-stroke hgi-delete-02 me-2"></i> Șterge Definitiv
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Handle delete modal
+        const deleteModal = document.getElementById('deleteModal');
+        if (deleteModal) {
+            deleteModal.addEventListener('show.bs.modal', function (event) {
+                const button = event.relatedTarget;
+                const userId = button.getAttribute('data-user-id');
+                const userName = button.getAttribute('data-user-name');
+                const userRole = button.getAttribute('data-user-role');
+
+                document.getElementById('deleteUserId').value = userId;
+                document.getElementById('deleteUserName').textContent = userName;
+
+                // Update warning list based on role
+                const warningList = document.getElementById('deleteWarningList');
+                warningList.innerHTML = '';
+
+                if (userRole === 'Student') {
+                    warningList.innerHTML = `
+                        <li>Toate înscrierile la cursuri</li>
+                        <li>Toate notițele create</li>
+                        <li>Toate voturile și comentariile</li>
+                        <li>Punctele de gamificare</li>
+                    `;
+                } else if (userRole === 'Profesor') {
+                    warningList.innerHTML = `
+                        <li>Toate cursurile create</li>
+                        <li>Toate materialele și anunțurile asociate</li>
+                        <li>Toate înscrierile studenților la cursurile sale</li>
+                    `;
+                } else {
+                     warningList.innerHTML = `
+                        <li>Profilul utilizatorului</li>
+                        <li>Role-urile asociate</li>
+                    `;
+                }
+            });
+        }
+    </script>
+}
+
+
+
+
+

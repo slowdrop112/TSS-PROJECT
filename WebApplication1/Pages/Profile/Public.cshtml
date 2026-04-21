@@ -1,0 +1,185 @@
+@page "{id}"
+@model Uniflow.Pages.Profile.PublicModel
+@{
+    ViewData["Title"] = "Profil Public";
+}
+
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <!-- Main Card (White, clean, rounded) -->
+        <div class="card border-0 shadow-lg rounded-5 overflow-hidden mb-5 animate-slide-up">
+            
+            <!-- 1. Header Cover -->
+            <div class="profile-cover-clean" style="height: 200px; background: linear-gradient(120deg, #a1c4fd 0%, #c2e9fb 100%); position: relative;">
+                <!-- Optional: Add a subtle pattern or image overlay here if needed -->
+            </div>
+
+            <div class="card-body px-5 pb-5">
+                <!-- Avatar & Identity -->
+                <div class="d-flex flex-column align-items-center" style="margin-top: -60px;">
+                    <div class="profile-avatar-clean bg-white p-1 rounded-circle shadow-sm mb-3 position-relative">
+                        <div class="rounded-circle bg-light d-flex align-items-center justify-content-center overflow-hidden" style="width: 120px; height: 120px; font-size: 3rem; font-weight: bold; color: #444;">
+                             @if (!string.IsNullOrEmpty(Model.UserName))
+                            {
+                                @Model.UserName[0].ToString().ToUpper()
+                            }
+                        </div>
+                    </div>
+                    
+                    <h2 class="fw-bold mb-1 text-dark">@Model.UserName</h2>
+                    <p class="text-muted mb-4">Student Uniflow</p>
+                </div>
+
+                <!-- 2. Stats Row (Clean 4-col) -->
+                <div class="row border-top border-bottom border-light py-4 my-4 g-4 text-center text-md-start">
+                    <div class="col-6 col-md-3 border-end-md border-light">
+                        <div class="text-muted small mb-1">XP Total</div>
+                        <div class="fw-bold text-dark">@Model.XP</div>
+                    </div>
+                    <div class="col-6 col-md-3 border-end-md border-light">
+                        <div class="text-muted small mb-1">Rank</div>
+                        <div class="fw-bold text-dark">#@Model.Rank</div>
+                    </div>
+                    <div class="col-6 col-md-3 border-end-md border-light">
+                        <div class="text-muted small mb-1">Notițe Validate</div>
+                        <div class="fw-bold text-dark">@Model.TotalNotes</div>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <div class="text-muted small mb-1">Aprecieri Primite</div>
+                        <div class="fw-bold text-dark">@Model.TotalUpvotesReceived</div>
+                    </div>
+                </div>
+
+                <!-- 3. Badges Section -->
+                @if (Model.Badges.Any())
+                {
+                   <div class="mt-4">
+                        <h5 class="fw-bold mb-4 text-center">
+                            <i class="hgi-stroke hgi-award-02 me-2 text-primary"></i>
+                            Insigne & Realizări
+                        </h5>
+                        <div class="row g-4 justify-content-center">
+                            @foreach (var badge in Model.Badges)
+                            {
+                                <div class="col-6 col-md-4 col-lg-3">
+                                    <div class="badge-card-plain position-relative text-center p-3" 
+                                         data-bs-toggle="tooltip" 
+                                         data-bs-placement="top" 
+                                         title="@badge.Description"
+                                         style="cursor: pointer; transition: all 0.3s ease; background: transparent; border: none;">
+                                        <div class="badge-icon mb-3">
+                                            <img src="@badge.IconClass" alt="@badge.Name" style="width: 100px; height: 100px; object-fit: contain;" />
+                                        </div>
+                                        <div class="badge-name fw-bold text-dark" style="font-size: 0.85rem; line-height: 1.3;">
+                                            @badge.Name
+                                        </div>
+                                        <!-- Sparkle effect for special badges -->
+                                        @if (badge.Type == "Rank1" || badge.Type == "TopContributor1")
+                                        {
+                                            <div class="badge-sparkle position-absolute" style="top: 10px; right: 10px;">
+                                                <i class="hgi-stroke hgi-star-circle text-warning"></i>
+                                            </div>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                   </div>
+                }
+                else
+                {
+                    <div class="text-center py-4 text-muted">
+                        <i class="hgi-stroke hgi-award-01 mb-2" style="font-size: 2rem; opacity: 0.5;"></i>
+                        <p>Studentul nu a obținut încă insigne.</p>
+                    </div>
+                }
+                
+                <div class="d-flex justify-content-center mt-5">
+                    <a href="javascript:history.back()" class="btn btn-outline-secondary rounded-pill px-4">
+                        <i class="hgi-stroke hgi-arrow-left-02 me-2"></i> Înapoi
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Badge Styles (Copied from Profile/Index for consistency) -->
+<style>
+    /* Badge Gradient Backgrounds - Enhanced Vibrant Colors */
+    .badge-gradient-gold {
+        background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+        border: 3px solid #FF8C00;
+        box-shadow: 0 4px 15px rgba(255, 215, 0, 0.4);
+    }
+    .badge-gradient-silver {
+        background: linear-gradient(135deg, #E8E8E8 0%, #C0C0C0 100%);
+        border: 3px solid #A9A9A9;
+        box-shadow: 0 4px 15px rgba(192, 192, 192, 0.4);
+    }
+    .badge-gradient-bronze {
+        background: linear-gradient(135deg, #CD7F32 0%, #8B4513 100%);
+        border: 3px solid #A0522D;
+        box-shadow: 0 4px 15px rgba(205, 127, 50, 0.4);
+    }
+    .badge-gradient-fire {
+        background: linear-gradient(135deg, #FF4500 0%, #DC143C 100%);
+        border: 3px solid #B22222;
+        box-shadow: 0 4px 15px rgba(255, 69, 0, 0.4);
+    }
+    .badge-gradient-blue {
+        background: linear-gradient(135deg, #1E90FF 0%, #0047AB 100%);
+        border: 3px solid #00008B;
+        box-shadow: 0 4px 15px rgba(30, 144, 255, 0.4);
+    }
+    .badge-gradient-primary {
+        background: linear-gradient(135deg, #9370DB 0%, #6A5ACD 100%);
+        border: 3px solid #483D8B;
+        box-shadow: 0 4px 15px rgba(147, 112, 219, 0.4);
+    }
+    .badge-gradient-dark {
+        background: linear-gradient(135deg, #696969 0%, #2F4F4F 100%);
+        border: 3px solid #000000;
+        box-shadow: 0 4px 15px rgba(47, 79, 79, 0.4);
+    }
+    .badge-gradient-secondary {
+        background: linear-gradient(135deg, #87CEEB 0%, #4682B4 100%);
+        border: 3px solid #4169E1;
+        box-shadow: 0 4px 15px rgba(135, 206, 235, 0.4);
+    }
+    
+    .badge-card-plain {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: all 0.3s ease;
+    }
+    
+    .badge-card-plain:hover img {
+        transform: scale(1.1);
+        filter: drop-shadow(0 5px 15px rgba(0,0,0,0.3));
+    }
+    
+    .badge-card-plain img {
+        transition: all 0.3s ease;
+    }
+    
+    .badge-sparkle {
+        animation: sparkle 2s infinite;
+    }
+    
+    @@keyframes sparkle {
+        0%, 100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        50% { opacity: 0.6; transform: scale(1.3) rotate(180deg); }
+    }
+</style>
+
+@section Scripts {
+    <script>
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+    </script>
+}

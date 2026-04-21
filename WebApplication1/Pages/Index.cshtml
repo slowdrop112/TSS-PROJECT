@@ -1,0 +1,374 @@
+@page
+@model IndexModel
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@{
+    ViewData["Title"] = "Acasă";
+}
+
+@if (!SignInManager.IsSignedIn(User))
+{
+    <!-- Hero Section (Logged Out) -->
+    <section class="py-5 mt-4 fade-in">
+        <div class="container">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6">
+                    <div class="landing-pill text-uppercase ls-1 fw-bold fs-xs text-primary bg-primary bg-opacity-10 px-3 py-2 rounded-pill d-inline-block mb-4">
+                         Platformă Academică 
+                    </div>
+                    <h1 class="display-3 fw-bold mb-4 lh-sm text-dark">
+                        Educația ta,<br />
+                        <span class="text-primary position-relative">
+                            Simplificată.
+                            <svg class="position-absolute start-0 bottom-0 w-100" height="12" viewBox="0 0 100 12" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style="z-index: -1; opacity: 0.3;">
+                                <path d="M0 12C30 12 70 0 100 0C70 4 30 12 0 12Z" fill="currentColor"/>
+                            </svg>
+                        </span>
+                    </h1>
+                    <p class="lead text-muted mb-5 pe-lg-5">
+                        Uniflow este ecosistemul digital complet pentru studenți și profesori. Gestionează cursuri, partajează notițe și transformă învățarea într-o experiență colaborativă.
+                    </p>
+                    <div class="d-flex gap-3">
+                        <a asp-area="Identity" asp-page="/Account/Register" class="btn btn-primary btn-lg rounded-pill px-5 shadow-lg hover-lift">
+                            Începe Acum
+                        </a>
+                        <a href="#features" class="btn btn-outline-dark btn-lg rounded-pill px-5 hover-lift">
+                            Funcționalități
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="position-relative text-center">
+                         <img src="~/images/landing-hero.png" alt="Uniflow Preview" class="img-fluid">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Bar -->
+    <section class="py-5">
+        <div class="container">
+            <div class="glass-card bg-dark text-white p-5 rounded-5 border-0 shadow-lg position-relative overflow-hidden">
+                <div class="position-absolute top-0 end-0 opacity-10 p-5">
+                    <i class="hgi-stroke hgi-chart-bar-line hgi-9x"></i>
+                </div>
+                
+                <div class="row g-4 position-relative z-index-1 align-items-center">
+                     <div class="col-lg-3 col-6 text-center text-lg-start border-end border-secondary border-opacity-25">
+                         <h2 class="display-5 fw-bold mb-0 text-white">10K+</h2>
+                         <p class="text-white-50 mb-0 ls-1 text-uppercase small">Studenți Activi</p>
+                     </div>
+                     <div class="col-lg-3 col-6 text-center text-lg-start border-end border-secondary border-opacity-25 d-none d-lg-block">
+                         <h2 class="display-5 fw-bold mb-0 text-white">500+</h2>
+                         <p class="text-white-50 mb-0 ls-1 text-uppercase small">Cursuri Vizibile</p>
+                     </div>
+                      <div class="col-lg-3 col-6 text-center text-lg-start border-end border-secondary border-opacity-25">
+                         <h2 class="display-5 fw-bold mb-0 text-white">98%</h2>
+                         <p class="text-white-50 mb-0 ls-1 text-uppercase small">Feedback Pozitiv</p>
+                     </div>
+                      <div class="col-lg-3 col-6 text-center text-lg-start">
+                         <h2 class="display-5 fw-bold mb-0 text-white">24/7</h2>
+                         <p class="text-white-50 mb-0 ls-1 text-uppercase small">Acces Resurse</p>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Functionalitites Section (New) -->
+    <section class="py-5" id="features">
+        <div class="container py-5">
+            <div class="row align-items-center g-5">
+                <div class="col-lg-6 order-2 order-lg-1">
+                    <div class="text-center">
+                         <img src="~/images/feature-section.png" alt="Features Overview" class="img-fluid">
+                    </div>
+                </div>
+                <div class="col-lg-6 order-1 order-lg-2">
+                    <h5 class="text-primary fw-bold text-uppercase ls-1 mb-2">De ce Uniflow?</h5>
+                    <h2 class="display-5 fw-bold text-dark mb-4">Tot ce ai nevoie pentru excelență academică</h2>
+                    
+                    <div class="d-flex gap-4 mb-4">
+                        <div class="neuro-btn-icon bg-blue-100 text-primary rounded-circle flex-shrink-0 d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                            <i class="hgi-stroke hgi-book-open-01 hgi-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Management Centralizat</h5>
+                            <p class="text-muted">Toate cursurile, orarul și materialele sunt organizate într-un singur loc accesibil.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-4 mb-4">
+                        <div class="neuro-btn-icon bg-green-100 text-success rounded-circle flex-shrink-0 d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                            <i class="hgi-stroke hgi-tick-02 hgi-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Validare Academică</h5>
+                            <p class="text-muted">Notițele și materialele încărcate sunt verificate de profesori pentru a garanta calitatea.</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex gap-4">
+                        <div class="neuro-btn-icon bg-yellow-100 text-warning rounded-circle flex-shrink-0 d-flex justify-content-center align-items-center" style="width: 50px; height: 50px;">
+                            <i class="hgi-stroke hgi-champion hgi-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark">Gamificare</h5>
+                            <p class="text-muted">Câștigă puncte XP și insigne pe măsură ce înveți și contribui la comunitate.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+else
+{
+    <!-- Logged-in Dashboard -->
+    var user = await UserManager.GetUserAsync(User);
+    if (user == null) return;
+    var roles = await UserManager.GetRolesAsync(user);
+    var isProfessor = roles.Contains("Profesor");
+    var isAdmin = roles.Contains("Admin");
+
+    <div class="row mb-5 position-relative z-index-2">
+        <div class="col-lg-12">
+            
+            <!-- Universal Dashboard Hero -->
+            <div class="glass-card mb-5 overflow-hidden position-relative border-0 shadow-lg">
+                <div class="row g-0">
+                    <div class="col-lg-7 p-5 d-flex flex-column justify-content-center">
+                        <div class="mb-2">
+                             @if(isAdmin) { <span class="badge bg-danger text-white px-3 py-2 rounded-pill fw-bold">ADMIN DASHBOARD</span> }
+                             else if(isProfessor) { <span class="badge bg-primary text-white px-3 py-2 rounded-pill fw-bold">PROFESOR DASHBOARD</span> }
+                             else { <span class="badge bg-success text-white px-3 py-2 rounded-pill fw-bold">STUDENT DASHBOARD</span> }
+                        </div>
+                        <h1 class="display-4 fw-bold mb-3 ls-t-1 text-dark">Salut, @Model.UserDisplayName!</h1>
+                        <p class="lead text-muted mb-4">
+                            Bine ai venit înapoi în spațiul tău de lucru. 
+                            @if(isProfessor) { <span>Ai <strong class="text-dark">@Model.PendingValidationsCount contribuții</strong> de revizuit.</span> }
+                            else if(isAdmin) { <span>Starea sistemului este optimă.</span> }
+                            else { <span> Continuă să acumulezi XP și să înveți.</span> }
+                        </p>
+                    </div>
+                    <div class="col-lg-5 d-none d-lg-block" style="background: url('/images/dashboard-hero.png') no-repeat center center; background-size: cover; min-height: 300px;">
+                        <!-- Image placeholder background -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Role Information Card (New Requirement) -->
+            <div class="mb-5">
+                <div class="glass-card p-4 border-0 shadow-sm">
+                    <div class="d-flex align-items-center gap-3">
+                        <div class="neuro-btn-icon bg-light text-dark rounded-circle d-flex justify-content-center align-items-center" style="width: 48px; height: 48px;">
+                            <i class="hgi-stroke hgi-information-circle hgi-xl"></i>
+                        </div>
+                        <div>
+                            <h5 class="fw-bold text-dark mb-1">Informații Rol: @(isAdmin ? "Administrator" : (isProfessor ? "Profesor" : "Student"))</h5>
+                            <p class="text-muted mb-0 small">
+                                @if (isAdmin) { <span>Ai acces complet la administrarea utilizatorilor, cursurilor și setărilor de sistem.</span> }
+                                else if (isProfessor) { <span>Poți crea cursuri, valida notițele studenților și gestiona resursele educaționale.</span> }
+                                else { <span>Poți accesa cursuri, încărca notițe pentru validare și urmări progresul tău în clasament.</span> }
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Content Grid -->
+            @if (isProfessor)
+            {
+                <!-- PROFESOR GRID -->
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                    <!-- Col 1: Quick Actions -->
+                    <div class="col">
+                         <div class="glass-card card-blue p-4 h-100 border-0 shadow-lg d-flex flex-column text-white">
+                            <h4 class="fw-bold mb-4">Management</h4>
+                            <div class="d-grid gap-3">
+                                <a asp-page="/Notes/Validate" class="btn btn-light text-primary fw-bold text-start rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift">
+                                    <span><i class="hgi-stroke hgi-tick-02 me-2"></i> Validează (@Model.PendingValidationsCount)</span>
+                                    <i class="hgi-stroke hgi-arrow-right-01"></i>
+                                </a>
+                                 <a asp-page="/Courses/Create" class="btn btn-primary-light text-white fw-bold text-start rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift border border-white border-opacity-25">
+                                    <span><i class="hgi-stroke hgi-plus me-2"></i> Curs Nou</span>
+                                    <i class="hgi-stroke hgi-arrow-right-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Col 2: Stats -->
+                    <div class="col">
+                         <div class="glass-card p-4 h-100 border-0 shadow-sm d-flex flex-column justify-content-center">
+                            <div class="d-flex align-items-center mb-3">
+                                <div class="neuro-btn-icon bg-warning text-white rounded-circle d-flex justify-content-center align-items-center me-3" style="width: 48px; height: 48px;">
+                                    <i class="hgi-stroke hgi-file-validation hgi-xl"></i>
+                                </div>
+                                <h5 class="fw-bold text-dark mb-0">De Validat</h5>
+                            </div>
+                            <h2 class="display-4 fw-bold text-dark mb-2">@Model.PendingValidationsCount</h2>
+                            <p class="text-muted small">Notițe care așteaptă aprobarea ta.</p>
+                            @if(Model.PendingValidationsCount > 0) {
+                                <a asp-page="/Notes/Validate" class="btn btn-sm btn-outline-warning text-dark fw-bold rounded-pill mt-auto">Începe Validarea</a>
+                            }
+                        </div>
+                    </div>
+
+                    <!-- Col 3: Overview -->
+                    <div class="col">
+                         <div class="glass-card p-4 h-100 border-0 shadow-sm d-flex flex-column">
+                            <h5 class="fw-bold text-dark mb-4">Statistici Rapide</h5>
+                            <ul class="list-unstyled mb-0">
+                                <li class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-light">
+                                    <span class="text-muted"><i class="hgi-stroke hgi-student-card me-2"></i>Studenți</span>
+                                    <span class="fw-bold text-dark">@Model.TotalStudents</span>
+                                </li>
+                                <li class="d-flex justify-content-between align-items-center mb-3 pb-3 border-bottom border-light">
+                                    <span class="text-muted"><i class="hgi-stroke hgi-book-open-01 me-2"></i>Cursuri</span>
+                                    <span class="fw-bold text-dark">@Model.TotalCourses</span>
+                                </li>
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <span class="text-muted"><i class="hgi-stroke hgi-chart-bar-line me-2"></i>Activitate</span>
+                                    <span class="badge bg-success text-white px-2 rounded fw-bold small">High</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+            else if (isAdmin)
+            {
+                <!-- ADMIN GRID -->
+                 <div class="row row-cols-1 row-cols-md-3 g-4">
+                     <!-- Col 1: Role Requests -->
+                     <div class="col">
+                        <div class="glass-card p-4 h-100 border-0 shadow-sm border-top border-4 border-danger">
+                            <div class="d-flex justify-content-between mb-4">
+                                <h5 class="fw-bold text-dark">Cereri Roluri</h5>
+                                <span class="badge bg-danger text-white">@Model.PendingRoleRequestsCount</span>
+                            </div>
+                            <p class="text-muted small mb-4">Studenți care solicită statutul de Profesor.</p>
+                             <div class="mt-auto">
+                                <a asp-page="/Admin/RoleRequests" class="btn btn-danger w-100 rounded-pill shadow-sm">Gestionează</a>
+                             </div>
+                        </div>
+                     </div>
+
+                     <!-- Col 2: Users -->
+                     <div class="col">
+                        <div class="glass-card p-4 h-100 border-0 shadow-sm">
+                            <div class="d-flex align-items-center mb-4">
+                                <i class="hgi-stroke hgi-user-group hgi-2x text-primary me-3"></i>
+                                <div>
+                                    <h2 class="fw-bold text-dark mb-0">@Model.TotalUsersCount</h2>
+                                    <small class="text-muted text-uppercase">Utilizatori Totali</small>
+                                </div>
+                            </div>
+                            <a asp-page="/Admin/Users/Index" class="btn btn-outline-primary w-100 rounded-pill">Vezi Lista</a>
+                        </div>
+                     </div>
+
+                     <!-- Col 3: System Stats -->
+                     <div class="col">
+                        <div class="glass-card p-4 h-100 border-0 shadow-sm">
+                             <h5 class="fw-bold text-dark mb-4">Sistem</h5>
+                             <div class="d-flex justify-content-between align-items-center mb-2">
+                                 <span class="text-muted">Cursuri Totale</span>
+                                 <span class="fw-bold text-dark">@Model.TotalCourses</span>
+                             </div>
+                             <div class="progress mb-4" style="height: 6px;">
+                                 <div class="progress-bar bg-info" style="width: 75%"></div>
+                             </div>
+                             <div class="d-flex justify-content-between align-items-center mb-2">
+                                 <span class="text-muted">Server Status</span>
+                                 <span class="text-success fw-bold"><i class="hgi-stroke hgi-dot-03"></i> Online</span>
+                             </div>
+                        </div>
+                     </div>
+                 </div>
+            }
+            else
+            {
+                <!-- STUDENT GRID -->
+                <div class="row row-cols-1 row-cols-md-3 g-4">
+                     <!-- Col 1: Actions -->
+                     <div class="col">
+                        <div class="glass-card card-blue p-4 h-100 border-0 shadow-lg d-flex flex-column text-white">
+                            <h4 class="fw-bold mb-4">Navigare</h4>
+                            <div class="d-grid gap-3">
+                                <a asp-page="/Courses/Index" class="btn btn-light text-primary fw-bold text-start rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift">
+                                    <span><i class="hgi-stroke hgi-search-01 me-2"></i> Caută Cursuri</span>
+                                    <i class="hgi-stroke hgi-arrow-right-01"></i>
+                                </a>
+                                <a asp-page="/Notes/Create" class="btn btn-primary-light text-white fw-bold text-start rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift border border-white border-opacity-25">
+                                    <span><i class="hgi-stroke hgi-pencil-edit-02 me-2"></i> Încarcă Notiță</span>
+                                    <i class="hgi-stroke hgi-arrow-right-01"></i>
+                                </a>
+                                 <a asp-page="/Leaderboard/Index" class="btn btn-primary-light text-white fw-bold text-start rounded-3 p-3 d-flex align-items-center justify-content-between hover-lift border border-white border-opacity-25">
+                                    <span><i class="hgi-stroke hgi-champion me-2"></i> Vezi Clasament</span>
+                                    <i class="hgi-stroke hgi-arrow-right-01"></i>
+                                </a>
+                            </div>
+                        </div>
+                     </div>
+
+                     <!-- Col 2: Progress/Stats -->
+                     <div class="col">
+                        <div class="glass-card p-4 h-100 border-0 shadow-sm d-flex flex-column">
+                             <h5 class="fw-bold text-dark mb-4">Progresul Tău</h5>
+                             <div class="d-flex align-items-center justify-content-between mb-3">
+                                 <div>
+                                     <div class="h2 fw-bold text-dark mb-0">XP @Model.XP</div>
+                                     <small class="text-muted">Nivel @(Model.XP/100)</small>
+                                 </div>
+                                 <div class="neuro-btn-icon bg-warning bg-opacity-10 text-warning rounded-circle d-flex align-items-center justify-content-center" style="width: 50px; height: 50px;">
+                                     <i class="hgi-stroke hgi-star-circle hgi-xl"></i>
+                                 </div>
+                             </div>
+                             <div class="progress mb-2" style="height: 8px;">
+                                 <div class="progress-bar bg-warning" style="width: @(Model.XP % 100)%"></div>
+                             </div>
+                             <small class="text-muted">Încă @(100 - (Model.XP % 100)) XP până la următorul nivel.</small>
+                        </div>
+                     </div>
+
+                     <!-- Col 3: Notifications/Updates -->
+                     <div class="col">
+                        <div class="glass-card p-4 h-100 border-0 shadow-sm">
+                             <div class="d-flex justify-content-between align-items-center mb-4">
+                                 <h5 class="fw-bold text-dark mb-0">Notificări</h5>
+                                 <span class="badge bg-danger rounded-pill">@Model.UnreadNotifications.Count noi</span>
+                             </div>
+                             @if (Model.UnreadNotifications.Any())
+                             {
+                                 <div class="d-flex flex-column gap-3">
+                                     @foreach(var note in Model.UnreadNotifications.Take(2))
+                                     {
+                                         <div class="p-3 bg-light rounded-3 border border-light">
+                                             <div class="d-flex justify-content-between mb-1">
+                                                 <small class="fw-bold text-dark text-truncate" style="max-width: 150px;">@note.Title</small>
+                                                 <small class="text-muted" style="font-size: 0.7rem;">Recent</small>
+                                             </div>
+                                             <p class="mb-0 small text-muted text-truncate">@note.Message</p>
+                                         </div>
+                                     }
+                                 </div>
+                                 <a id="features" class="btn btn-link text-primary p-0 mt-3 small fw-bold text-decoration-none">Vezi toate <i class="hgi-stroke hgi-arrow-right-01"></i></a>
+                             }
+                             else
+                             {
+                                 <div class="text-center py-4 bg-light rounded-3">
+                                     <i class="hgi-stroke hgi-notification-off-02 text-muted mb-2"></i>
+                                     <p class="small text-muted mb-0">Nu ai notificări noi.</p>
+                                 </div>
+                             }
+                        </div>
+                     </div>
+                </div>
+            }
+        </div>
+    </div>
+}

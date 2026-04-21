@@ -1,0 +1,555 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:data\\seeddata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\error.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\error.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\admin\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\admin\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\admin\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\services\\gamificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:services\\gamificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scripts\\markmigrationasapplied.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scripts\\markmigrationasapplied.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\courses\\downloadmaterial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\courses\\downloadmaterial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:appsettings.development.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\sentemails\\email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:sentemails\\email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\courses\\details.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\courses\\details.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\courses\\uploadmaterial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\courses\\uploadmaterial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\courses\\downloadmaterial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\courses\\downloadmaterial.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scaffoldingreadme.txt||{8B382828-6202-11D1-8870-0000F87579D2}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\profile\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\profile\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\leaderboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\leaderboard\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\migrations\\20251213131351_addrolerequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:migrations\\20251213131351_addrolerequests.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scripts\\createcourseenrollmentstable.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scripts\\createcourseenrollmentstable.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:data\\applicationdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scripts\\adaptcoursestabletomodel.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scripts\\adaptcoursestabletomodel.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scripts\\checkandfixcoursestable.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scripts\\checkandfixcoursestable.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:areas\\identity\\pages\\account\\login.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:areas\\identity\\pages\\account\\manage\\index.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\areas\\identity\\pages\\account\\manage\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:areas\\identity\\pages\\account\\manage\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\index.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:areas\\identity\\pages\\account\\login.cshtml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\pages\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:pages\\shared\\_loginpartial.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:areas\\identity\\pages\\account\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:wwwroot\\css\\site.css||{A5401142-F49D-43DB-90B1-F57BA349E55C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\uniflow.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:uniflow.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\migrations\\20251130091646_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:migrations\\20251130091646_initialcreate.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|c:\\folder d\\uniflowbun\\uniflow\\webapplication1\\scripts\\markmigrationasapplied.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame",
+      "RelativeMoniker": "D:0:0:{4EA5B6A7-08BD-43B2-8FB9-7E44165C6362}|Uniflow.csproj|solutionrelative:scripts\\markmigrationasapplied.sql||{CC5D8DF0-88F4-4BB2-9DBB-B48CEE65C30A}|CodeFrame"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 6,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Admin\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Admin\\Index.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Admin\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Admin\\Index.cshtml.cs",
+              "ViewState": "AQIAABkAAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T12:01:56.556Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DownloadMaterial.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\DownloadMaterial.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Courses\\DownloadMaterial.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\DownloadMaterial.cshtml",
+              "RelativeToolTip": "Pages\\Courses\\DownloadMaterial.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-01-13T18:30:32.119Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "appsettings.Development.json",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\appsettings.Development.json",
+              "RelativeDocumentMoniker": "appsettings.Development.json",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\appsettings.Development.json",
+              "RelativeToolTip": "appsettings.Development.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-12-14T10:40:21.135Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "GamificationService.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Services\\GamificationService.cs",
+              "RelativeDocumentMoniker": "Services\\GamificationService.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Services\\GamificationService.cs",
+              "RelativeToolTip": "Services\\GamificationService.cs",
+              "ViewState": "AQIAAEIAAAAAAAAAAAAYwDEAAAAeAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T10:38:07.375Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "MarkMigrationAsApplied.sql ",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\MarkMigrationAsApplied.sql",
+              "RelativeDocumentMoniker": "Scripts\\MarkMigrationAsApplied.sql",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\MarkMigrationAsApplied.sql",
+              "RelativeToolTip": "Scripts\\MarkMigrationAsApplied.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-12-13T11:18:17.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAQAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-11-30T09:07:34.479Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAADUAAAAAAAAAAAAmwEgAAAAKAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T09:06:57.472Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "SeedData.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Data\\SeedData.cs",
+              "RelativeDocumentMoniker": "Data\\SeedData.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Data\\SeedData.cs",
+              "RelativeToolTip": "Data\\SeedData.cs",
+              "ViewState": "AQIAABIAAAAAAAAAAAAQwBcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T09:46:17.273Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Error.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Error.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Error.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Error.cshtml.cs",
+              "RelativeToolTip": "Pages\\Error.cshtml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-30T12:02:07.269Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "Email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\SentEmails\\Email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html",
+              "RelativeDocumentMoniker": "SentEmails\\Email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\SentEmails\\Email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html",
+              "RelativeToolTip": "SentEmails\\Email_20260129_183952_6162aa42-0275-4921-87c0-a555dcaae93d.html",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACYAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2026-01-29T16:40:09.254Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Admin\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Admin\\Index.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Admin\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Admin\\Index.cshtml",
+              "ViewState": "AQIAABgAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T13:27:52.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "DownloadMaterial.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\DownloadMaterial.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Courses\\DownloadMaterial.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\DownloadMaterial.cshtml.cs",
+              "RelativeToolTip": "Pages\\Courses\\DownloadMaterial.cshtml.cs",
+              "ViewState": "AQIAACwAAAAAAAAAAAAYwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T18:30:34.153Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "Details.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\Details.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Courses\\Details.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\Details.cshtml.cs",
+              "RelativeToolTip": "Pages\\Courses\\Details.cshtml.cs",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAUwB4AAABEAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-20T11:03:53.5Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "UploadMaterial.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\UploadMaterial.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Courses\\UploadMaterial.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Courses\\UploadMaterial.cshtml.cs",
+              "RelativeToolTip": "Pages\\Courses\\UploadMaterial.cshtml.cs",
+              "ViewState": "AQIAAB8AAAAAAAAAAAAQwAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-01-13T18:34:10.425Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T13:01:10.244Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Manage\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T13:01:03.143Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "Login.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Login.cshtml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-02T12:17:25.08Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "ScaffoldingReadMe.txt",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\ScaffoldingReadMe.txt",
+              "RelativeDocumentMoniker": "ScaffoldingReadMe.txt",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\ScaffoldingReadMe.txt",
+              "RelativeToolTip": "ScaffoldingReadMe.txt",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAMAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
+              "WhenOpened": "2025-11-30T09:20:29.189Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "20251213131351_AddRoleRequests.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Migrations\\20251213131351_AddRoleRequests.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251213131351_AddRoleRequests.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Migrations\\20251213131351_AddRoleRequests.cs",
+              "RelativeToolTip": "Migrations\\20251213131351_AddRoleRequests.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-13T13:13:51.865Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Leaderboard\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Leaderboard\\Index.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Leaderboard\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Leaderboard\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-14T10:29:36.887Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "Index.cshtml.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Profile\\Index.cshtml.cs",
+              "RelativeDocumentMoniker": "Pages\\Profile\\Index.cshtml.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Profile\\Index.cshtml.cs",
+              "RelativeToolTip": "Pages\\Profile\\Index.cshtml.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACkAAAAuAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-14T10:29:50.32Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "_LoginPartial.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Shared\\_LoginPartial.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_LoginPartial.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Shared\\_LoginPartial.cshtml",
+              "RelativeToolTip": "Pages\\Shared\\_LoginPartial.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T12:17:06.972Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "ApplicationDbContext.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Data\\ApplicationDbContext.cs",
+              "RelativeDocumentMoniker": "Data\\ApplicationDbContext.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Data\\ApplicationDbContext.cs",
+              "RelativeToolTip": "Data\\ApplicationDbContext.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAqwBoAAAApAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T09:05:52.037Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "CreateCourseEnrollmentsTable.sql",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\CreateCourseEnrollmentsTable.sql",
+              "RelativeDocumentMoniker": "Scripts\\CreateCourseEnrollmentsTable.sql",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\CreateCourseEnrollmentsTable.sql",
+              "RelativeToolTip": "Scripts\\CreateCourseEnrollmentsTable.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-12-13T12:06:43.514Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "CheckAndFixCoursesTable.sql",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\CheckAndFixCoursesTable.sql",
+              "RelativeDocumentMoniker": "Scripts\\CheckAndFixCoursesTable.sql",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\CheckAndFixCoursesTable.sql",
+              "RelativeToolTip": "Scripts\\CheckAndFixCoursesTable.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-12-13T11:35:03.087Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AdaptCoursesTableToModel.sql",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\AdaptCoursesTableToModel.sql",
+              "RelativeDocumentMoniker": "Scripts\\AdaptCoursesTableToModel.sql",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Scripts\\AdaptCoursesTableToModel.sql",
+              "RelativeToolTip": "Scripts\\AdaptCoursesTableToModel.sql",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000826|",
+              "WhenOpened": "2025-12-13T11:37:24.293Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "site.css",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\wwwroot\\css\\site.css",
+              "RelativeDocumentMoniker": "wwwroot\\css\\site.css",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\wwwroot\\css\\site.css",
+              "RelativeToolTip": "wwwroot\\css\\site.css",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003000|",
+              "WhenOpened": "2025-11-30T10:20:31.844Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Pages\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAABIAAAAAAAAAAAAAACYAAAA8AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-30T09:14:09.172Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "Login.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Login.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAtAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-30T10:21:52.264Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "Index.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Index.cshtml",
+              "RelativeDocumentMoniker": "Pages\\Index.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Pages\\Index.cshtml",
+              "RelativeToolTip": "Pages\\Index.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-12-02T12:45:06.801Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "RelativeDocumentMoniker": "Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "RelativeToolTip": "Areas\\Identity\\Pages\\Account\\Register.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAACUAAAAXAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2025-11-30T10:22:26.71Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "20251130091646_InitialCreate.cs",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Migrations\\20251130091646_InitialCreate.cs",
+              "RelativeDocumentMoniker": "Migrations\\20251130091646_InitialCreate.cs",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Migrations\\20251130091646_InitialCreate.cs",
+              "RelativeToolTip": "Migrations\\20251130091646_InitialCreate.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-11-30T09:16:46.747Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "Uniflow.csproj",
+              "DocumentMoniker": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Uniflow.csproj",
+              "RelativeDocumentMoniker": "Uniflow.csproj",
+              "ToolTip": "C:\\Folder D\\UniflowBun\\Uniflow\\WebApplication1\\Uniflow.csproj",
+              "RelativeToolTip": "Uniflow.csproj",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-11-30T09:05:05.413Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

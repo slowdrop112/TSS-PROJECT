@@ -1,0 +1,303 @@
+@page "{id:int}"
+@model Uniflow.Pages.Notes.DetailsModel
+@{
+    ViewData["Title"] = "Detalii Notiță";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <!-- Sidebar pentru voturi (stânga) -->
+        <div class="col-md-1 d-none d-md-block">
+            <div class="d-flex flex-column align-items-center sticky-top pt-4" style="gap: 15px; z-index: 10;">
+                @if (!Model.IsOwner)
+                {
+                    <button class="btn btn-outline-success vote-btn @(Model.UserVote == true ? "active" : "") neuro-btn-icon" 
+                            data-note-id="@Model.Note.Id" 
+                            data-vote-type="upvote"
+                            title="Îmi place">
+                        <i class="hgi-stroke hgi-arrow-up-01 hgi-lg"></i>
+                    </button>
+                }
+                else
+                {
+                    <div class="neuro-btn-icon disabled text-success" style="opacity: 0.7;" title="Aprecieri (Autor)">
+                        <i class="hgi-stroke hgi-arrow-up-01 hgi-lg"></i>
+                    </div>
+                }
+                
+                <div class="fw-bold fs-5 text-light upvotes-@Model.Note.Id">@Model.Note.Upvotes</div>
+                
+                <div class="fw-bold fs-5 text-muted downvotes-@Model.Note.Id">@Model.Note.Downvotes</div>
+                
+                @if (!Model.IsOwner)
+                {
+                    <button class="btn btn-outline-danger vote-btn @(Model.UserVote == false ? "active" : "") neuro-btn-icon" 
+                            data-note-id="@Model.Note.Id" 
+                            data-vote-type="downvote"
+                            title="Nu îmi place">
+                        <i class="hgi-stroke hgi-arrow-down-01 hgi-lg"></i>
+                    </button>
+                }
+                else
+                {
+                    <div class="neuro-btn-icon disabled text-danger" style="opacity: 0.7;" title="Dezaprecieri (Autor)">
+                        <i class="hgi-stroke hgi-arrow-down-01 hgi-lg"></i>
+                    </div>
+                    <small class="text-muted fw-bold" style="font-size: 0.65rem;">AUTOR</small>
+                }
+            </div>
+        </div>
+
+        <!-- Conținut principal -->
+        <div class="col-md-11">
+            <div class="glass-card p-4 mb-4">
+                <div class="d-flex justify-content-between align-items-start border-bottom border-secondary pb-3 mb-4">
+                    <div>
+                        <h2 class="mb-2 fw-bold text-light">@Model.Note.Title</h2>
+                        <div class="d-flex align-items-center gap-3 text-muted small">
+                            <span><i class="hgi-stroke hgi-book-01 me-1"></i> @Model.Note.CourseTitle</span>
+                            <span><i class="hgi-stroke hgi-user me-1"></i> @Model.Note.StudentName</span>
+                            <span><i class="hgi-stroke hgi-calendar-01 me-1"></i> @Model.Note.CreatedDate.ToString("dd.MM.yyyy HH:mm")</span>
+                        </div>
+                    </div>
+                    <span class="badge bg-@(Model.Note.Status == "Approved" ? "success" : Model.Note.Status == "Rejected" ? "danger" : "warning") px-3 py-2 rounded-pill">
+                        @Model.Note.Status
+                    </span>
+                </div>
+
+                <div class="note-content text-light mb-4" style="white-space: pre-wrap; line-height: 1.6; opacity: 0.9;">@Model.Note.Content</div>
+
+                @if (Model.IsShared && !Model.IsOwner)
+                {
+                    <div class="alert alert-info glass-card border-0 mb-3">
+                        <i class="hgi-stroke hgi-information-circle me-2"></i> Această notiță a fost partajată cu tine (Read-Only)
+                    </div>
+                }
+
+                <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
+                    <div class="d-flex gap-2">
+                         <a asp-page="Index" class="btn btn-outline-secondary">
+                            <i class="hgi-stroke hgi-arrow-left-01 me-2"></i> Înapoi
+                        </a>
+                        @if (Model.IsOwner)
+                        {
+                            <a asp-page="Edit" asp-route-id="@Model.Note.Id" class="btn btn-outline-primary">
+                                <i class="hgi-stroke hgi-pencil-edit-01 me-2"></i> Editează
+                            </a>
+                            <a asp-page="Delete" asp-route-id="@Model.Note.Id" class="btn btn-outline-danger">
+                                <i class="hgi-stroke hgi-delete-01 me-2"></i> Șterge
+                            </a>
+                        }
+                    </div>
+                     @if (Model.IsOwner)
+                    {
+                        <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#shareModal">
+                            <i class="hgi-stroke hgi-share-01 me-2"></i> Partajează
+                        </button>
+                    }
+                </div>
+            </div>
+
+            <!-- Secțiune Comentarii -->
+            <div class="glass-card p-4">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h4 class="mb-0 fw-bold"><i class="hgi-stroke hgi-comment-01 me-2 text-primary"></i> Comentarii (@Model.TotalCommentsCount)</h4>
+                    @if (Model.TotalCommentsCount > 0)
+                    {
+                        <small class="text-muted">(afișate @Model.CommentsShown)</small>
+                    }
+                </div>
+
+                <!-- Formular adăugare comentariu -->
+                <form method="post" asp-page-handler="AddComment" class="mb-5">
+                    <input type="hidden" name="noteId" value="@Model.Note.Id" />
+                    <div class="mb-3">
+                        <textarea class="form-control" name="NewCommentContent" rows="3" 
+                                  placeholder="Scrie un comentariu la această notiță..." required maxlength="2000"
+></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary px-4">
+                        <i class="hgi-stroke hgi-sent me-2"></i> Postează
+                    </button>
+                </form>
+
+                <div class="comments-list">
+                    @if (Model.Comments.Any())
+                    {
+                        @foreach (var comment in Model.Comments)
+                        {
+                            <div class="glass-card p-3 mb-3 bg-transparent border border-secondary">
+                                <div class="d-flex justify-content-between align-items-start mb-2">
+                                    <div>
+                                        <strong class="text-primary">@comment.AuthorName</strong>
+                                        <small class="text-muted ms-2">@comment.CreatedDate.ToString("dd.MM.yyyy HH:mm")</small>
+                                    </div>
+                                    <button type="button" class="btn btn-sm btn-link text-muted text-decoration-none js-reply-btn" 
+                                            data-comment-id="@comment.Id" data-author-name="@comment.AuthorName">
+                                        <i class="hgi-stroke hgi-reply me-1"></i> Răspunde
+                                    </button>
+                                </div>
+                                <p class="mb-2 text-light" style="white-space: pre-wrap;">@comment.Content</p>
+
+                                <!-- Formular Reply (ascuns) -->
+                                <div class="reply-form mt-3 d-none ps-3 border-start border-primary" id="reply-form-@comment.Id">
+                                    <form method="post" asp-page-handler="AddReply">
+                                        <input type="hidden" name="noteId" value="@Model.Note.Id" />
+                                        <input type="hidden" name="parentCommentId" value="@comment.Id" />
+                                        <div class="mb-2">
+                                            <label class="form-label small text-muted">Răspunde lui @comment.AuthorName:</label>
+                                            <textarea class="form-control form-control-sm" name="replyContent" rows="2" 
+                                                      placeholder="Scrie răspunsul tău..." required maxlength="2000"
+></textarea>
+                                        </div>
+                                        <div class="d-flex gap-2">
+                                            <button type="submit" class="btn btn-sm btn-primary">Trimite</button>
+                                            <button type="button" class="btn btn-sm btn-outline-secondary js-cancel-reply" data-comment-id="@comment.Id">Renunță</button>
+                                        </div>
+                                    </form>
+                                </div>
+
+                                <!-- Reply-uri -->
+                                @if (comment.Replies != null && comment.Replies.Any())
+                                {
+                                    <div class="mt-3 ps-3 border-start border-secondary">
+                                        @foreach (var reply in comment.Replies)
+                                        {
+                                            <div class="mb-2 p-2 rounded" style="background: rgba(255,255,255,0.03);">
+                                                <div class="d-flex justify-content-between align-items-center mb-1">
+                                                    <strong class="small text-info">@reply.AuthorName</strong>
+                                                    <small class="text-muted" style="font-size: 0.75rem;">@reply.CreatedDate.ToString("dd.MM.yyyy HH:mm")</small>
+                                                </div>
+                                                <p class="mb-0 small text-light ps-1">@reply.Content</p>
+                                            </div>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        }
+                        
+                        @if (Model.HasMoreComments)
+                        {
+                            <div class="text-center mt-4">
+                                <a class="btn btn-outline-primary"
+                                   asp-page="./Details"
+                                   asp-route-id="@Model.Note.Id"
+                                   asp-route-CommentsToShow="@(Model.CommentsShown + 5)">
+                                    Încarcă mai multe comentarii
+                                </a>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <div class="text-center py-4 text-muted">
+                            <i class="hgi-stroke hgi-comment-01 hgi-3x mb-3"></i>
+                            <p>Nu există comentarii. Fii primul care comentează!</p>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal Partajare -->
+@if (Model.IsOwner)
+{
+    <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content glass-card border-0">
+                <div class="modal-header border-secondary">
+                    <h5 class="modal-title text-light" id="shareModalLabel">Partajează Notiță</h5>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="post" asp-page-handler="Share">
+                    <div class="modal-body">
+                        <input type="hidden" name="noteId" value="@Model.Note.Id" />
+                        <div class="mb-3">
+                            <label for="sharedWithUserId" class="form-label text-muted">Partajează cu:</label>
+                            <select name="sharedWithUserId" id="sharedWithUserId" class="form-select form-control-light" required>
+                                <option value="" class="text-muted">-- Selectează Student --</option>
+                                @if (Model.AvailableStudents != null && Model.AvailableStudents.Any())
+                                {
+                                    @foreach (var student in Model.AvailableStudents)
+                                    {
+                                        <option value="@student.Id">@student.DisplayName</option>
+                                    }
+                                }
+                            </select>
+                            @if (Model.AvailableStudents == null || !Model.AvailableStudents.Any())
+                            {
+                                <small class="text-warning mt-2 d-block">Nu există alți studenți disponibili pentru partajare.</small>
+                            }
+                        </div>
+                    </div>
+                    <div class="modal-footer border-secondary">
+                        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Anulează</button>
+                        <button type="submit" class="btn btn-primary">Partajează</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        // Upvote/Downvote AJAX
+        document.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const noteId = this.dataset.noteId;
+                const voteType = this.dataset.voteType;
+                
+                try {
+                    const response = await fetch(`/Notes/Vote?noteId=${noteId}&voteType=${voteType}`, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        document.querySelector(`.upvotes-${noteId}`).textContent = data.upvotes;
+                        document.querySelector(`.downvotes-${noteId}`).textContent = data.downvotes;
+                        
+                        document.querySelectorAll(`.vote-btn[data-note-id="${noteId}"]`).forEach(b => b.classList.remove('active', 'btn-success', 'btn-danger'));
+                        
+                        if (data.userVote === true) {
+                            const btnUp = document.querySelector(`.vote-btn[data-note-id="${noteId}"][data-vote-type="upvote"]`);
+                            btnUp.classList.add('active');
+                        } else if (data.userVote === false) {
+                            const btnDown = document.querySelector(`.vote-btn[data-note-id="${noteId}"][data-vote-type="downvote"]`);
+                            btnDown.classList.add('active');
+                        }
+                    }
+                } catch (error) {
+                    console.error('Eroare la vot:', error);
+                }
+            });
+        });
+
+        // Reply Toggle
+        document.querySelectorAll('.js-reply-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const commentId = this.dataset.commentId;
+                document.querySelectorAll('.reply-form').forEach(f => f.classList.add('d-none'));
+                const form = document.getElementById(`reply-form-${commentId}`);
+                form.classList.remove('d-none');
+                form.querySelector('textarea').focus();
+            });
+        });
+
+        document.querySelectorAll('.js-cancel-reply').forEach(btn => {
+            btn.addEventListener('click', function() {
+                this.closest('.reply-form').classList.add('d-none');
+            });
+        });
+    </script>
+}
+
+

@@ -1,0 +1,39 @@
+﻿@page
+@model ErrorModel
+@{
+    ViewData["Title"] = "Eroare";
+}
+
+<div class="container d-flex align-items-center justify-content-center" style="min-height: 70vh;">
+    <div class="glass-card p-5 text-center" style="max-width: 600px; width: 100%;">
+        <div class="mb-4">
+            <i class="hgi-stroke hgi-alert-triangle text-danger hgi-4x"></i>
+        </div>
+        <h1 class="text-danger mb-3">Eroare</h1>
+        <h2 class="h4 mb-4">A apărut o eroare la procesarea cererii.</h2>
+
+        @if (Model.ShowRequestId)
+        {
+            <div class="alert alert-danger d-inline-block text-start">
+                <strong>Request ID:</strong> <code>@Model.RequestId</code>
+            </div>
+        }
+
+        <div class="mt-4">
+            <a href="/" class="btn btn-primary">
+                <i class="hgi-stroke hgi-home-01 me-2"></i> Înavoi la Prima Pagină
+            </a>
+        </div>
+        
+        @if (Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") == "Development")
+        {
+            <div class="text-start mt-5 p-3 rounded" style="background: rgba(0,0,0,0.2);">
+                <h5 class="text-warning">Development Mode</h5>
+                <p class="small text-muted mb-0">
+                    Swapping to the <strong>Development</strong> environment displays detailed information.
+                    <strong>The Development environment shouldn't be enabled for deployed applications.</strong>
+                </p>
+            </div>
+        }
+    </div>
+</div>

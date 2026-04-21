@@ -1,0 +1,102 @@
+@page
+@model Uniflow.Pages.Leaderboard.IndexModel
+@{
+    ViewData["Title"] = "Clasament";
+}
+
+<div class="container mt-4">
+<div class="glass-card p-5 mx-auto" style="max-width: 1000px;">
+        <div class="text-center mb-5">
+            <h1 class="display-5 fw-bold text-dark mb-2"><i class="hgi-stroke hgi-champion text-warning me-3"></i>Clasament</h1>
+            <p class="lead text-muted">Top performanțe și contribuții în comunitate</p>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-borderless text-dark align-middle" style="border-collapse: separate; border-spacing: 0 10px;">
+                <thead class="text-muted small text-uppercase fw-bold border-bottom border-secondary border-opacity-25">
+                    <tr>
+                        <th class="pb-3 ps-4" style="width: 100px;"># Poziție</th>
+                        <th class="pb-3">Utilizator</th>
+                        <th class="text-end pb-3 pe-4">Puncte XP</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{ int position = 1; }
+                    @if (Model.Leaderboard.Any())
+                    {
+                        @foreach (var entry in Model.Leaderboard)
+                        {
+                            <tr class="glass-card-hover" style="transition: all 0.3s ease;">
+                                <td class="ps-4">
+                                    @if (position == 1)
+                                    {
+                                        <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center medal-gold" style="width: 45px; height: 45px;">
+                                            <i class="hgi-stroke hgi-champion hgi-lg"></i>
+                                        </div>
+                                    }
+                                    else if (position == 2)
+                                    {
+                                        <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center medal-silver" style="width: 45px; height: 45px;">
+                                            <span class="fw-bold fs-5">2</span>
+                                        </div>
+                                    }
+                                    else if (position == 3)
+                                    {
+                                        <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center medal-bronze" style="width: 45px; height: 45px;">
+                                            <span class="fw-bold fs-5">3</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="d-flex align-items-center justify-content-center rounded-circle leaderboard-position" style="width: 40px; height: 40px;">
+                                            <span class="fw-bold text-dark">@position</span>
+                                        </div>
+                                    }
+                                </td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 35px; height: 35px;">
+                                            <i class="hgi-stroke hgi-user hgi-sm text-muted"></i>
+                                        </div>
+                                        <div>
+                                            <a asp-page="/Profile/Public" asp-route-id="@entry.UserId" class="fw-bold text-dark text-decoration-none hover-underline">@entry.UserName</a>
+                                            <div class="small text-muted">@entry.UserEmail</div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-end pe-4">
+                                    <span class="badge bg-primary rounded-pill px-3 py-2 text-white shadow-sm d-inline-flex align-items-center">
+                                        <i class="hgi-stroke hgi-star me-1 text-white"></i> @entry.XP XP
+                                    </span>
+                                </td>
+                            </tr>
+                            position++;
+                        }
+                    }
+                    else
+                    {
+                         <tr>
+                            <td colspan="3" class="text-center py-5">
+                                <div class="glass-card border-0 p-4 d-inline-block">
+                                    <i class="hgi-stroke hgi-user-group hgi-3x text-muted mb-3 opacity-50"></i>
+                                    <p class="text-muted mb-0">Nu există încă date în clasament.</p>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center mt-5">
+             <a asp-page="/Profile/Index" class="btn btn-outline-secondary px-4">
+                <i class="hgi-stroke hgi-arrow-left-01 me-2"></i> Înapoi la Profil
+            </a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
