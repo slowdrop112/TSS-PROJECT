@@ -1,0 +1,58 @@
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
+}
+<ul class="nav nav-pills flex-column gap-2 manage-nav">
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.IndexNavClass(ViewContext) d-flex align-items-center" id="profile" asp-page="./Index">
+            <i class="hgi-stroke hgi-user me-3" style="width: 20px;"></i> Profil
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.EmailNavClass(ViewContext) d-flex align-items-center" id="email" asp-page="./Email">
+            <i class="hgi-stroke hgi-mail-01 me-3" style="width: 20px;"></i> Email
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.ChangePasswordNavClass(ViewContext) d-flex align-items-center" id="change-password" asp-page="./ChangePassword">
+            <i class="hgi-stroke hgi-lock-password me-3" style="width: 20px;"></i> Parolă
+        </a>
+    </li>
+    @if (hasExternalLogins)
+    {
+        <li id="external-logins" class="nav-item">
+            <a id="external-login" class="nav-link @ManageNavPages.ExternalLoginsNavClass(ViewContext) d-flex align-items-center" asp-page="./ExternalLogins">
+                <i class="hgi-stroke hgi-share-01 me-3" style="width: 20px;"></i> Logare Externă
+            </a>
+        </li>
+    }
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext) d-flex align-items-center" id="two-factor" asp-page="./TwoFactorAuthentication">
+            <i class="hgi-stroke hgi-security-check me-3" style="width: 20px;"></i> 2FA
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link @ManageNavPages.PersonalDataNavClass(ViewContext) d-flex align-items-center" id="personal-data" asp-page="./PersonalData">
+            <i class="hgi-stroke hgi-database-01 me-3" style="width: 20px;"></i> Date Personale
+        </a>
+    </li>
+</ul>
+
+<style>
+    .manage-nav .nav-link {
+        color: var(--text-gray);
+        padding: 12px 20px;
+        border-radius: 12px;
+        transition: all 0.3s ease;
+    }
+    .manage-nav .nav-link:hover {
+        background-color: rgba(49, 113, 198, 0.08);
+        color: var(--text-light);
+        transform: translateX(5px);
+    }
+    .manage-nav .nav-link.active {
+        background-color: var(--color-accent);
+        color: var(--color-white);
+        box-shadow: 0 4px 15px rgba(49, 113, 198, 0.3);
+    }
+</style>

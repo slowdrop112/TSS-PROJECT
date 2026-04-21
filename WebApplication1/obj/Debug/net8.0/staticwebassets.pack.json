@@ -1,0 +1,389 @@
+{
+  "Files": [
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/obj/Debug/net8.0/scopedcss/projectbundle/Uniflow.bundle.scp.css",
+      "PackagePath": "staticwebassets/Uniflow.wqya72igdf.bundle.scp.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/1.png",
+      "PackagePath": "staticwebassets/badges/1.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/10.png",
+      "PackagePath": "staticwebassets/badges/10.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/2.png",
+      "PackagePath": "staticwebassets/badges/2.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/3.png",
+      "PackagePath": "staticwebassets/badges/3.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/4.png",
+      "PackagePath": "staticwebassets/badges/4.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/5.png",
+      "PackagePath": "staticwebassets/badges/5.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/6.png",
+      "PackagePath": "staticwebassets/badges/6.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/7.png",
+      "PackagePath": "staticwebassets/badges/7.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/8.png",
+      "PackagePath": "staticwebassets/badges/8.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/badges/9.png",
+      "PackagePath": "staticwebassets/badges/9.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/css/general-sans.css",
+      "PackagePath": "staticwebassets/css/general-sans.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/css/site.css",
+      "PackagePath": "staticwebassets/css/site.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Regular.eot",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Regular.eot"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Regular.ttf",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Regular.ttf"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Regular.woff",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Regular.woff"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Regular.woff2",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Regular.woff2"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Semibold.eot",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Semibold.eot"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Semibold.ttf",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Semibold.ttf"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Semibold.woff",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Semibold.woff"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/fonts/GeneralSans-Semibold.woff2",
+      "PackagePath": "staticwebassets/fonts/GeneralSans-Semibold.woff2"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/images/dashboard-cover.png",
+      "PackagePath": "staticwebassets/images/dashboard-cover.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/images/dashboard-hero.png",
+      "PackagePath": "staticwebassets/images/dashboard-hero.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/images/feature-section.png",
+      "PackagePath": "staticwebassets/images/feature-section.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/images/landing-hero.png",
+      "PackagePath": "staticwebassets/images/landing-hero.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/images/uniflow-2.png",
+      "PackagePath": "staticwebassets/images/uniflow-2.png"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/js/notifications.js",
+      "PackagePath": "staticwebassets/js/notifications.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/js/site.js",
+      "PackagePath": "staticwebassets/js/site.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/LICENSE",
+      "PackagePath": "staticwebassets/lib/bootstrap"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-grid.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-reboot.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap-utilities.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/css/bootstrap.rtl.min.css.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.bundle.min.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.esm.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.esm.min.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/bootstrap/dist/js/bootstrap.min.js.map",
+      "PackagePath": "staticwebassets/lib/bootstrap/dist/js/bootstrap.min.js.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation-unobtrusive/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation/LICENSE.md",
+      "PackagePath": "staticwebassets/lib/jquery-validation/LICENSE.md"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation/dist/additional-methods.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation/dist/additional-methods.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/additional-methods.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation/dist/jquery.validate.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery-validation/dist/jquery.validate.min.js",
+      "PackagePath": "staticwebassets/lib/jquery-validation/dist/jquery.validate.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery/LICENSE.txt",
+      "PackagePath": "staticwebassets/lib/jquery/LICENSE.txt"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery/dist/jquery.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery/dist/jquery.min.js",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.js"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/lib/jquery/dist/jquery.min.map",
+      "PackagePath": "staticwebassets/lib/jquery/dist/jquery.min.map"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uniflow-2.ico",
+      "PackagePath": "staticwebassets/uniflow-2.ico"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uploads/courses/10/4c711388-8e8c-403a-91fb-aaeaeca2275f.pdf",
+      "PackagePath": "staticwebassets/uploads/courses/10/4c711388-8e8c-403a-91fb-aaeaeca2275f.pdf"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uploads/courses/10/9006897b-3d3d-46cb-8e74-46d29fea0de0.pdf",
+      "PackagePath": "staticwebassets/uploads/courses/10/9006897b-3d3d-46cb-8e74-46d29fea0de0.pdf"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uploads/courses/23/7c6fca36-8797-4a2a-a708-5c4abb3a3619.pdf",
+      "PackagePath": "staticwebassets/uploads/courses/23/7c6fca36-8797-4a2a-a708-5c4abb3a3619.pdf"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uploads/courses/33/a7d0ca87-fdb5-4b25-8f1c-dba2b509fe97.pptx",
+      "PackagePath": "staticwebassets/uploads/courses/33/a7d0ca87-fdb5-4b25-8f1c-dba2b509fe97.pptx"
+    },
+    {
+      "Id": "/Users/gabirelul/Docs/Uni/Uniflow/WebApplication1/wwwroot/uploads/courses/9/5f22c0b2-5f25-4712-886b-40d56cc6d6a2_Plan_Cariera_Dobrin_Eduard.pdf",
+      "PackagePath": "staticwebassets/uploads/courses/9/5f22c0b2-5f25-4712-886b-40d56cc6d6a2_Plan_Cariera_Dobrin_Eduard.pdf"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Uniflow.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.Uniflow.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.build.Uniflow.props",
+      "PackagePath": "build\\Uniflow.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.Uniflow.props",
+      "PackagePath": "buildMultiTargeting\\Uniflow.props"
+    },
+    {
+      "Id": "obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.Uniflow.props",
+      "PackagePath": "buildTransitive\\Uniflow.props"
+    }
+  ],
+  "ElementsToRemove": []
+}

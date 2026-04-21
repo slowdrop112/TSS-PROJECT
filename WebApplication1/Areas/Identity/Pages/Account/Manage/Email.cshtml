@@ -1,0 +1,50 @@
+﻿@page
+@model EmailModel
+@{
+    ViewData["Title"] = "Gestionează Email";
+    ViewData["ActivePage"] = ManageNavPages.Email;
+}
+
+<h3 class="text-dark mb-4 border-bottom border-secondary pb-2">@ViewData["Title"]</h3>
+<partial name="_StatusMessage" for="StatusMessage" />
+
+<div class="row">
+    <div class="col-md-9">
+        <form id="email-form" method="post">
+            <div asp-validation-summary="All" class="alert alert-danger glass-card border-danger text-danger mb-4" role="alert"></div>
+            
+            @if (Model.IsEmailConfirmed)
+            {
+                <div class="form-floating mb-3 input-group">
+                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                    <div class="input-group-append">
+                        <span class="input-group-text bg-success bg-opacity-25 border-secondary text-success font-weight-bold h-100"><i class="hgi-stroke hgi-checkmark-circle-01"></i></span>
+                    </div>
+                    <label asp-for="Email" class="text-muted">Email</label>
+                </div>
+            }
+            else
+            {
+                <div class="form-floating mb-3">
+                    <input asp-for="Email" class="form-control" placeholder="Please enter your email." disabled />
+                    <label asp-for="Email" class="text-muted">Email</label>
+                    <button id="email-verification" type="submit" asp-page-handler="SendVerificationEmail" class="btn btn-link link-info text-decoration-none mt-2 ps-0">Trimite email de verificare</button>
+                </div>
+            }
+            
+            <div class="form-floating mb-4">
+                <input asp-for="Input.NewEmail" class="form-control" autocomplete="email" aria-required="true" placeholder="Please enter new email." />
+                <label asp-for="Input.NewEmail" class="text-muted">Email Nou</label>
+                <span asp-validation-for="Input.NewEmail" class="text-danger small"></span>
+            </div>
+            
+            <button id="change-email-button" type="submit" asp-page-handler="ChangeEmail" class="btn btn-primary d-flex align-items-center gap-2 px-4 py-2">
+                <i class="hgi-stroke hgi-mail-send-01"></i> Schimbă Email
+            </button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

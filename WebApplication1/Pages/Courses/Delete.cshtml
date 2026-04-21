@@ -1,0 +1,51 @@
+@page
+@model Uniflow.Pages.Courses.DeleteModel
+@{
+    ViewData["Title"] = "Șterge Curs";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="glass-card p-5 text-center border-danger" style="border-width: 1px;">
+                <div class="mb-4">
+                    <i class="hgi-stroke hgi-delete-01 hgi-4x text-danger"></i>
+                </div>
+                
+                <h2 class="fw-bold mb-3">Șterge Curs</h2>
+                
+                <div class="alert alert-danger bg-danger bg-opacity-10 border-danger d-inline-block text-start mb-4">
+                    <i class="hgi-stroke hgi-cancel-01 me-2"></i> <strong>Atenție!</strong> Ești sigur că vrei să ștergi acest curs? Această acțiune este ireversibilă.
+                </div>
+
+                <div class="glass-card p-4 mb-4 text-start bg-transparent border border-secondary">
+                    <h4 class="mb-2 text-light">@Model.Course.Title</h4>
+                    <p class="text-muted mb-2">
+                        <i class="hgi-stroke hgi-teacher me-2"></i> <strong>Profesor:</strong> @Model.ProfesorEmail
+                    </p>
+                    @if (!string.IsNullOrEmpty(Model.Course.Description))
+                    {
+                        <p class="text-muted mb-0">@Model.Course.Description</p>
+                    }
+                </div>
+
+                <form method="post">
+                    <input type="hidden" asp-for="Course.Id" />
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-page="./Index" class="btn btn-outline-secondary px-4">
+                            <i class="hgi-stroke hgi-arrow-left-01 me-2"></i> Renunță
+                        </a>
+                        <button type="submit" class="btn btn-danger px-4">
+                            <i class="hgi-stroke hgi-delete-01 me-2"></i> Șterge Definitiv
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+

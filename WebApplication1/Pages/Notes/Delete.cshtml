@@ -1,0 +1,49 @@
+@page "{id:int}"
+@model Uniflow.Pages.Notes.DeleteModel
+@{
+    ViewData["Title"] = "Șterge Notiță";
+}
+
+<div class="container mt-5">
+    <div class="glass-card p-5 mx-auto text-center border-danger" style="max-width: 600px; box-shadow: 0 0 20px rgba(220, 53, 69, 0.2);">
+        <div class="mb-4">
+            <i class="hgi-stroke hgi-delete-01 hgi-4x text-danger mb-3"></i>
+            <h2 class="fw-bold text-light">Șterge Notiță</h2>
+            <p class="text-light opacity-75">Sunteți sigur că doriți să ștergeți această notiță? Această acțiune este ireversibilă.</p>
+        </div>
+
+        <div class="text-start bg-light p-4 rounded mb-4 border border-secondary">
+            <dl class="row mb-0">
+                <dt class="col-sm-3 text-muted">Titlu:</dt>
+                <dd class="col-sm-9 fw-bold text-light">@Html.DisplayFor(model => model.Note.Title)</dd>
+                
+                <dt class="col-sm-3 text-muted">Curs:</dt>
+                <dd class="col-sm-9 text-light">@Html.DisplayFor(model => model.Note.Course!.Title)</dd>
+
+                <dt class="col-sm-3 text-muted">Data:</dt>
+                <dd class="col-sm-9 text-light">@Html.DisplayFor(model => model.Note.CreatedDate)</dd>
+
+                <dt class="col-sm-3 text-muted">Status:</dt>
+                <dd class="col-sm-9">
+                    <span class="badge bg-@(Model.Note.Status == "Approved" ? "success" : Model.Note.Status == "Rejected" ? "danger" : "warning")">
+                        @Model.Note.Status
+                    </span>
+                </dd>
+            </dl>
+        </div>
+
+        <form method="post">
+            <input type="hidden" asp-for="Note.Id" />
+            <div class="d-flex justify-content-center gap-3">
+                <a asp-page="Index" class="btn btn-outline-secondary px-4">
+                    <i class="hgi-stroke hgi-cancel-01 me-2"></i> Anulează
+                </a>
+                <button type="submit" class="btn btn-danger px-4">
+                    <i class="hgi-stroke hgi-delete-01 me-2"></i> Confirmă Ștergerea
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+

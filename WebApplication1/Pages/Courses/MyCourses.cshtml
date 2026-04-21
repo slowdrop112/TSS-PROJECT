@@ -1,0 +1,65 @@
+@page
+@model Uniflow.Pages.Courses.MyCoursesModel
+@{
+    ViewData["Title"] = "Cursurile Mele";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-light fw-bold"><i class="hgi-stroke hgi-mortarboard-01 me-2"></i> Cursurile Mele</h1>
+    </div>
+
+    @if (Model.MyCourses.Any())
+    {
+        <div class="row g-4">
+            @foreach (var course in Model.MyCourses)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card neuro-card h-100 border-0">
+                        <div class="card-body p-4">
+                            <div class="d-flex align-items-start gap-3 mb-3">
+                                <div class="rounded-3 d-flex align-items-center justify-content-center bg-primary text-white" style="width: 50px; height: 50px;">
+                                    <i class="hgi-stroke hgi-book-01 hgi-lg"></i>
+                                </div>
+                                <div>
+                                    <h4 class="mb-1 fw-bold">@course.Title</h4>
+                                    <small class="text-muted"><i class="hgi-stroke hgi-teacher me-1"></i> @course.ProfesorEmail</small>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <span class="badge bg-success text-white p-2 w-100 text-start rounded-3 fw-normal">
+                                    <i class="hgi-stroke hgi-user-check me-1"></i> Înscris la: @course.EnrollmentDate.ToString("dd.MM.yyyy")
+                                </span>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(course.Description))
+                            {
+                                <p class="card-text text-muted">@(course.Description.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent border-top border-secondary p-3">
+                            <a asp-page="./Details" asp-route-id="@course.Id" class="btn btn-primary w-100">
+                                <i class="hgi-stroke hgi-information-circle"></i> Accesează Cursul
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="glass-card p-5 text-center">
+            <i class="hgi-stroke hgi-mortarboard-01 hgi-4x text-muted mb-3"></i>
+            <h3>Nu ești înscris la niciun curs</h3>
+            <p class="text-muted">Explorează cursurile disponibile și începe să înveți.</p>
+            <a asp-page="./Index" class="btn btn-primary mt-3">Explorează Cursurile</a>
+        </div>
+    }
+</div>
+
+
+
+
+
