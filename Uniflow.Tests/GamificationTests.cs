@@ -405,6 +405,31 @@ public class GamificationTests : IDisposable
     }
 
     #endregion  
+    
+    #region ETAPA 1 - STUDENT 3: Analiza Valorilor de Frontiera BVA (Frontiere Upvotes)
+
+    [Theory]
+    // Frontiera Originara (0 si 1)
+    [InlineData(0, 0, 0)]   // Exact 0
+    [InlineData(1, 0, 10)]  // Prima valoare posibila
+
+    // Frontiera trecerii de la Tier 1 la Tier 2 (limita de 10 upvotes)
+    [InlineData(10, 0, 125)] // Limita exacta: 10 * 10 XP = 100 XP + 25 XP (Milestone-ul de la 10)
+    [InlineData(11, 0, 133)] // Fix dupa limita: 100 XP + 1 * 8 XP + 25 XP = 133 XP
+
+    // Frontiera trecerii de la Tier 2 la Tier 3 (limita de 25 upvotes)
+    [InlineData(25, 0, 295)] // Limita exacta: 100 XP (T1) + 15 * 8 XP (T2) = 220 XP + 25 XP (M1) + 50 XP (M2) = 295 XP
+    [InlineData(26, 0, 300)] // Fix dupa limita: 220 XP + 1 * 5 XP (T3) = 225 XP + 25 XP (M1) + 50 XP (M2) = 300 XP
+    public void CalculateXPFromVotes_BVA_UpvoteBoundaries_ReturnsCorrectXP(int upvotes, int downvotes, int expectedXp)
+    {
+        // Act
+        int resultXp = _gamificationService.CalculateXPFromVotes(upvotes, downvotes);
+
+        // Assert
+        Assert.Equal(expectedXp, resultXp);
+    }
+
+    #endregion
 
     public void Dispose()
     {
