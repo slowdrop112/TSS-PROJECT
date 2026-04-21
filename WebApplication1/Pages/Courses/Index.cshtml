@@ -1,0 +1,110 @@
+@page
+@model Uniflow.Pages.Courses.IndexModel
+@{
+    ViewData["Title"] = "Cursuri Disponibile";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-checkmark-circle-01"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-cancel-01"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="text-light fw-bold"><i class="hgi-stroke hgi-book-01 me-2"></i> Cursuri Disponibile</h1>
+    </div>
+
+    <!-- Formular de căutare -->
+    <div class="glass-card mb-4 p-4">
+        <form method="get" class="row g-3">
+            <div class="col-md-10">
+                <input type="text" asp-for="SearchString" class="form-control" placeholder="Caută după titlu sau descriere..." />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100 h-100">
+                    <i class="hgi-stroke hgi-search-01"></i> Caută
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Lista de cursuri -->
+    @if (Model.Courses.Any())
+    {
+        <div class="row g-4">
+            @foreach (var course in Model.Courses)
+            {
+                <div class="col-md-6">
+                    <div class="card neuro-card h-100 border-0">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-start mb-3">
+                                <h4 class="mb-0 fw-bold">@course.Title</h4>
+                                @if (course.IsEnrolled)
+                                {
+                                    <span class="badge bg-success">
+                                        <i class="hgi-stroke hgi-checkmark-circle-01"></i> Înscris
+                                    </span>
+                                }
+                            </div>
+                            
+                            <div class="d-flex align-items-center gap-3 text-muted mb-3" style="font-size: 0.9rem;">
+                                <span><i class="hgi-stroke hgi-teacher me-1"></i> @course.ProfesorEmail</span>
+                                <span><i class="hgi-stroke hgi-calendar-01 me-1"></i> @course.CreatedDate.ToString("dd.MM.yyyy")</span>
+                            </div>
+
+                            @if (!string.IsNullOrEmpty(course.Description))
+                            {
+                                <p class="card-text text-muted">@(course.Description.Length > 150 ? course.Description.Substring(0, 150) + "..." : course.Description)</p>
+                            }
+                        </div>
+                        <div class="card-footer bg-transparent border-top border-secondary p-3">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a asp-page="./Details" asp-route-id="@course.Id" class="btn btn-primary btn-sm">
+                                    <i class="hgi-stroke hgi-information-circle"></i> Detalii
+                                </a>
+                                <div class="d-flex align-items-center gap-2">
+                                    @if (course.IsOwner || User.IsInRole("Admin"))
+                                    {
+                                        <a asp-page="./Edit" asp-route-id="@course.Id" class="btn btn-outline-warning btn-sm">
+                                            <i class="hgi-stroke hgi-pencil-edit-01"></i>
+                                        </a>
+                                        <a asp-page="./Delete" asp-route-id="@course.Id" class="btn btn-outline-danger btn-sm">
+                                            <i class="hgi-stroke hgi-delete-01"></i>
+                                        </a>
+                                    }
+                                    @if (User.IsInRole("Student") && !course.IsEnrolled)
+                                    {
+                                        <form method="post" asp-page-handler="Enroll" style="display: inline;">
+                                            <input type="hidden" name="courseId" value="@course.Id" />
+                                            <button type="submit" class="btn btn-success btn-sm">
+                                                <i class="hgi-stroke hgi-user-add-01"></i> Înscrie-te
+                                            </button>
+                                        </form>
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-info glass-card border-0">
+            <i class="hgi-stroke hgi-information-circle me-2"></i> Nu există cursuri disponibile momentan.
+        </div>
+    }
+</div>
+

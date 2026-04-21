@@ -1,0 +1,125 @@
+@page
+@model Uniflow.Pages.Admin.RoleRequestsModel
+@{
+    ViewData["Title"] = "Cereri Roluri";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-tick-02"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["InfoMessage"] != null)
+{
+    <div class="alert alert-info alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-information-circle"></i> @TempData["InfoMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-5 border-bottom border-secondary pb-4">
+        <div>
+             <h1 class="text-light fw-bold mb-0"><i class="hgi-stroke hgi-user-checkmark text-primary me-3"></i>Cereri Roluri</h1>
+             <p class="text-muted mb-0">Validează cererile de upgrade la conturi de profesor</p>
+        </div>
+        <a asp-page="./Index" class="btn btn-outline-secondary">
+            <i class="hgi-stroke hgi-arrow-left-01 me-2"></i> Înapoi la Dashboard
+        </a>
+    </div>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success glass-card border-success alert-dismissible fade show mb-4" role="alert">
+            <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> @TempData["SuccessMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (TempData["InfoMessage"] != null)
+    {
+        <div class="alert alert-info glass-card border-info alert-dismissible fade show mb-4" role="alert">
+            <i class="hgi-stroke hgi-information-circle me-2"></i> @TempData["InfoMessage"]
+            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert"></button>
+        </div>
+    }
+
+    @if (Model.PendingRequests.Any())
+    {
+        <div class="glass-card p-4">
+            <h5 class="text-light mb-4"><i class="hgi-stroke hgi-menu-01 me-2 text-warning"></i> Cereri în Așteptare</h5>
+            
+            <div class="table-responsive">
+                <table class="table table-borderless text-light align-middle mb-0">
+                    <thead class="text-muted small text-uppercase bg-light border-bottom border-secondary">
+                        <tr>
+                            <th class="ps-4 py-3">Email Utilizator</th>
+                            <th class="py-3">Rol Solicitat</th>
+                            <th class="py-3">Data Cererii</th>
+                            <th class="text-end pe-4 py-3">Acțiuni</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var request in Model.PendingRequests)
+                        {
+                            <tr class="border-bottom border-secondary">
+                                <td class="ps-4">
+                                    <div class="d-flex align-items-center">
+                                        <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center me-3" style="width: 40px; height: 40px;">
+                                            <i class="hgi-stroke hgi-user text-muted"></i>
+                                        </div>
+                                        <span class="fw-bold">@request.UserEmail</span>
+                                    </div>
+                                </td>
+                                <td>
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info rounded-pill px-3">
+                                        @request.RequestedRole
+                                    </span>
+                                </td>
+                                <td class="text-muted">
+                                    <i class="hgi-stroke hgi-clock-01 me-1"></i> @request.RequestDate.ToString("dd.MM.yyyy HH:mm")
+                                </td>
+                                <td class="text-end pe-4">
+                                    <div class="d-flex justify-content-end gap-2">
+                                        <form method="post" asp-page-handler="Approve" style="display: inline;">
+                                            <input type="hidden" name="requestId" value="@request.Id" />
+                                            <button type="submit" class="btn btn-sm btn-success" title="Aprobă" onclick="return confirm('Ești sigur că vrei să aprobi această cerere?')">
+                                                <i class="hgi-stroke hgi-checkmark-circle-01 me-1"></i> Aprobă
+                                            </button>
+                                        </form>
+                                        <form method="post" asp-page-handler="Reject" style="display: inline;">
+                                            <input type="hidden" name="requestId" value="@request.Id" />
+                                            <button type="submit" class="btn btn-sm btn-danger" title="Respinge" onclick="return confirm('Ești sigur că vrei să respingi această cerere?')">
+                                                <i class="hgi-stroke hgi-cancel-01 me-1"></i> Respinge
+                                            </button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-5">
+             <div class="glass-card border-0 p-5 d-inline-block">
+                <i class="hgi-stroke hgi-task-done-01 hgi-4x text-success mb-3 opacity-50"></i>
+                <h4 class="text-light">Totul este la zi!</h4>
+                <p class="text-muted mb-0">Nu există cereri de rol în așteptare.</p>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+
+

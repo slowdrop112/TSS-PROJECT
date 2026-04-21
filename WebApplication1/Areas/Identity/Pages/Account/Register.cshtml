@@ -1,0 +1,72 @@
+﻿@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Înregistrare";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="glass-card p-5">
+                <div class="text-center mb-4">
+                    <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center mx-auto mb-3" style="width: 70px; height: 70px;">
+                        <i class="hgi-stroke hgi-user-add-01 hgi-3x text-primary"></i>
+                    </div>
+                    <h2 class="text-dark fw-bold">Creează Cont</h2>
+                    <p class="text-muted">Alătură-te comunității Uniflow</p>
+                </div>
+
+                <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger glass-card border-danger text-danger" role="alert"></div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="username" style="background-color: white !important; color: black !important;" />
+                        <label asp-for="Input.UserName" class="text-muted">Username</label>
+                        <span asp-validation-for="Input.UserName" class="text-danger small"></span>
+                        <small class="text-muted d-block mt-1" style="font-size: 0.75rem;">Only letters, numbers, and underscores.</small>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Email" class="form-control" autocomplete="email" aria-required="true" placeholder="name@example.com" style="background-color: white !important; color: black !important;" />
+                        <label asp-for="Input.Email" class="text-muted">Email</label>
+                        <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" style="background-color: white !important; color: black !important;" />
+                        <label asp-for="Input.Password" class="text-muted">Parolă</label>
+                        <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="password" style="background-color: white !important; color: black !important;" />
+                        <label asp-for="Input.ConfirmPassword" class="text-muted">Confirmă Parola</label>
+                        <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                    </div>
+
+                    <div class="form-floating mb-4">
+                        <select asp-for="Input.AccountType" class="form-select" aria-required="true" style="background-color: white !important; color: black !important;">
+                            <option value="Student">Student</option>
+                            <option value="Profesor">Profesor (necesită aprobare)</option>
+                        </select>
+                        <label asp-for="Input.AccountType" class="text-muted">Tip de cont</label>
+                        <span asp-validation-for="Input.AccountType" class="text-danger small"></span>
+                    </div>
+
+                    <button id="registerSubmit" type="submit" class="btn btn-primary w-100 py-2 fw-bold shadow-sm">
+                        <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> Înregistrare
+                    </button>
+
+                    <div class="mt-4 text-center">
+                        <span class="text-muted">Aveți deja un cont?</span>
+                        <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="text-primary text-decoration-none fw-bold ms-1">Autentificați-vă</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

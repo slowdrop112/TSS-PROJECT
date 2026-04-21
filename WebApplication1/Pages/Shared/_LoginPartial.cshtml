@@ -1,0 +1,47 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    var user = await UserManager.GetUserAsync(User);
+    var initials = user?.UserName?.Length >= 2 ? user.UserName.Substring(0, 2).ToUpper() : "U";
+
+    <li class="nav-item dropdown user-menu-dropdown">
+        <a class="nav-link user-menu-btn dropdown-toggle" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <div class="user-avatar">@initials</div>
+            <span class="d-none d-md-inline">@UserManager.GetUserName(User)</span>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0" aria-labelledby="userDropdown">
+            <li>
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index">
+                    <i class="hgi-stroke hgi-user me-2"></i> Profil
+                </a>
+            </li>
+            <li><hr class="dropdown-divider"></li>
+            <li>
+                <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/Index", new { area = "" })">
+                    <button id="logout" type="submit" class="dropdown-item text-danger">
+                        <i class="hgi-stroke hgi-logout-01 me-2"></i> Deconectare
+                    </button>
+                </form>
+            </li>
+        </ul>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">
+            <i class="hgi-stroke hgi-user-add-01 me-1"></i> Înregistrare
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="btn btn-primary ms-2" id="login" asp-area="Identity" asp-page="/Account/Login">
+            Autentificare
+        </a>
+    </li>
+}
+</ul>

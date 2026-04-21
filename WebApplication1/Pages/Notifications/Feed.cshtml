@@ -1,0 +1,150 @@
+@page
+@model Uniflow.Pages.Notifications.FeedModel
+@{
+    ViewData["Title"] = "Notificări";
+}
+
+<div class="container mt-4">
+    <div class="glass-card p-5 mx-auto" style="max-width: 900px;">
+        <div class="d-flex justify-content-between align-items-center mb-5 pb-3 border-bottom border-secondary border-opacity-25">
+            <div>
+                <h2 class="mb-1 text-dark fw-bold"><i class="hgi-stroke hgi-notification-03 me-2 text-warning"></i>Notificările Tale</h2>
+                <p class="text-muted mb-0">Rămâi la curent cu ultimele noutăți</p>
+            </div>
+            @if (Model.Notifications.Any(n => !n.IsRead))
+            {
+                <button id="markAllReadPageBtn" class="btn btn-primary shadow-sm">
+                    <i class="hgi-stroke hgi-task-done-01 me-2"></i> Marchează totul ca citit
+                </button>
+            }
+        </div>
+
+        <div class="notification-list">
+            @if (Model.Notifications.Any())
+            {
+                <div class="d-flex flex-column gap-3">
+                    @foreach (var note in Model.Notifications)
+                    {
+                        var isReadClass = note.IsRead ? "opacity-75" : "border-start border-4 border-primary";
+                        var bgClass = note.IsRead ? "bg-transparent" : "notification-unread";
+                        var icon = note.Type?.ToLower() switch
+                        {
+                            "success" => "hgi-checkmark-circle-01 text-success",
+                            "warning" => "hgi-alert-triangle text-warning",
+                            "error" => "hgi-cancel-01 text-danger",
+                            _ => "hgi-information-circle text-info"
+                        };
+
+                        <div class="glass-card p-4 @isReadClass @bgClass position-relative notification-item-card shadow-sm" data-id="@note.Id">
+                            <div class="d-flex align-items-start gap-3">
+                                <div class="neuro-btn-icon rounded-circle d-flex align-items-center justify-content-center flex-shrink-0 bg-white shadow-sm" style="width: 45px; height: 45px;">
+                                    <i class="hgi-stroke @icon hgi-lg"></i>
+                                </div>
+                                <div class="flex-grow-1">
+                                    <div class="d-flex justify-content-between align-items-start mb-1">
+                                        <h5 class="fw-bold text-dark mb-0">@note.Title</h5>
+                                        <small class="text-muted white-space-nowrap ms-3">@note.CreatedDate.ToString("dd.MM.yyyy HH:mm")</small>
+                                    </div>
+                                    <p class="text-muted mb-2">@note.Message</p>
+                                    
+                                    <div class="d-flex align-items-center gap-2 mt-2">
+                                        @if (!string.IsNullOrEmpty(note.LinkUrl))
+                                        {
+                                            <a href="@note.LinkUrl" class="btn btn-sm btn-outline-info">
+                                                <i class="hgi-stroke hgi-link-01 me-1"></i> Deschide
+                                            </a>
+                                        }
+                                        @if (!note.IsRead)
+                                        {
+                                            <button class="btn btn-sm btn-outline-secondary js-mark-read-page">
+                                                <i class="hgi-stroke hgi-checkmark-circle-01 me-1"></i> Marchează ca citit
+                                            </button>
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="text-center py-5">
+                    <div class="glass-card border-0 p-5 d-inline-block">
+                        <i class="hgi-stroke hgi-notification-off-02 hgi-4x text-muted mb-3 opacity-50"></i>
+                         <h4 class="text-dark">Nu ai notificări</h4>
+                        <p class="text-muted mb-0">Momentan nu există notificări de afișat.</p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@Html.AntiForgeryToken()
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = document.querySelector('input[name="__RequestVerificationToken"]').value;
+
+            // Mark single read
+            document.querySelectorAll('.js-mark-read-page').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const card = this.closest('.notification-item-card');
+                    const id = card.getAttribute('data-id');
+                    
+                    this.disabled = true;
+                    
+                    try {
+                        const body = new URLSearchParams({ id: id });
+                        const res = await fetch('/Notifications/Feed?handler=MarkRead', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                                'RequestVerificationToken': token
+                            },
+                            body: body
+                        });
+                        
+                        if (res.ok) {
+                            // Update UI
+                            card.classList.remove('border-start', 'border-4', 'border-primary', 'notification-unread');
+                            card.classList.add('opacity-75', 'bg-transparent');
+                            this.remove();
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        this.disabled = false;
+                    }
+                });
+            });
+
+            // Mark all read
+            const markAllBtn = document.getElementById('markAllReadPageBtn');
+            if (markAllBtn) {
+                markAllBtn.addEventListener('click', async function() {
+                    if(!confirm('Sigur dorești să marchezi toate notificările ca citite?')) return;
+                    
+                    this.disabled = true;
+                    try {
+                        const res = await fetch('/Notifications/Feed?handler=MarkAllRead', {
+                             method: 'POST',
+                             headers: { 'RequestVerificationToken': token }
+                        });
+                        
+                        if (res.ok) {
+                            window.location.reload();
+                        } else {
+                            this.disabled = false;
+                        }
+                    } catch (e) {
+                        console.error(e);
+                        this.disabled = false;
+                    }
+                });
+            }
+        });
+    </script>
+}
+

@@ -1,0 +1,59 @@
+@page
+@model Uniflow.Pages.Courses.CreateAnnouncementModel
+@{
+    ViewData["Title"] = "Creează Anunț";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="glass-card p-4">
+                <div class="d-flex align-items-center mb-4 pb-3 border-bottom border-secondary">
+                    <i class="hgi-stroke hgi-notification-01 hgi-2x me-3 text-primary"></i>
+                    <div>
+                        <h2 class="mb-1 fw-bold">Creează Anunț</h2>
+                        <h5 class="text-muted mb-0">pentru cursul: <span class="fw-bold text-light">@Model.Course?.Title</span></h5>
+                    </div>
+                </div>
+
+                <form method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Title" class="form-label fw-bold text-muted">Titlu Anunț</label>
+                        <input asp-for="Input.Title" class="form-control form-control-light" placeholder="Introduceți titlul anunțului" />
+                        <span asp-validation-for="Input.Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Input.Content" class="form-label fw-bold text-muted">Conținut</label>
+                        <textarea asp-for="Input.Content" class="form-control form-control-light" rows="8" 
+                                  placeholder="Introduceți conținutul anunțului..."></textarea>
+                        <span asp-validation-for="Input.Content" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4 form-check ps-4">
+                        <input asp-for="Input.IsImportant" class="form-check-input" type="checkbox" />
+                        <label asp-for="Input.IsImportant" class="form-check-label text-muted ms-2">
+                            Marchează ca anunț important <i class="hgi-stroke hgi-cancel-01 text-danger ms-1"></i>
+                        </label>
+                    </div>
+
+                    <div class="d-flex justify-content-between pt-2">
+                        <a asp-page="./Details" asp-route-id="@Model.Course?.Id" class="btn btn-outline-secondary">
+                            <i class="hgi-stroke hgi-arrow-left-01"></i> Înapoi
+                        </a>
+                        <button type="submit" class="btn btn-primary px-4">
+                            <i class="hgi-stroke hgi-checkmark-circle-01 me-2"></i> Postează Anunț
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+

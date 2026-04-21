@@ -1,0 +1,346 @@
+@page "{id:int?}"
+@model Uniflow.Pages.Courses.DetailsModel
+@{
+    ViewData["Title"] = Model.Course?.Title ?? "Detalii Curs";
+}
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-checkmark-circle-01"></i> @TempData["SuccessMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <i class="hgi-stroke hgi-cancel-01"></i> @TempData["ErrorMessage"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+@if (Model.Course != null)
+{
+    @* --- Header Section --- *@
+    <div class="course-header-section mb-5">
+        <div class="glass-card p-4">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-start gap-3">
+                <div class="flex-grow-1">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <a asp-page="./Index" class="btn btn-sm btn-outline-secondary">
+                            <i class="hgi-stroke hgi-arrow-left-01"></i> Înapoi
+                        </a>
+                        @if (Model.IsEnrolled)
+                        {
+                            <span class="badge bg-success p-2">
+                                <i class="hgi-stroke hgi-checkmark-circle-01"></i> Înscris
+                            </span>
+                        }
+                    </div>
+                    
+                    <h1 class="display-4 fw-bold text-light mb-2">@Model.Course.Title</h1>
+                    
+                    <div class="d-flex align-items-center gap-4 text-muted mb-3">
+                        <span><i class="hgi-stroke hgi-teacher me-2"></i> @Model.ProfesorEmail</span>
+                        <span><i class="hgi-stroke hgi-calendar-01 me-2"></i> @Model.Course.CreatedDate.ToString("dd.MM.yyyy")</span>
+                    </div>
+                    
+                    @if (!string.IsNullOrEmpty(Model.Course.Description))
+                    {
+                        <p class="lead text-muted fs-6">@Model.Course.Description</p>
+                    }
+                </div>
+                
+                <div class="d-flex gap-2">
+                    @if (Model.IsOwner || User.IsInRole("Admin"))
+                    {
+                        <a asp-page="./Edit" asp-route-id="@Model.Course.Id" class="btn btn-outline-warning">
+                            <i class="hgi-stroke hgi-pencil-edit-01"></i> Editează
+                        </a>
+                        <a asp-page="./Delete" asp-route-id="@Model.Course.Id" class="btn btn-outline-danger">
+                            <i class="hgi-stroke hgi-delete-01"></i>
+                        </a>
+                    }
+                    @if (User.IsInRole("Student") && !Model.IsEnrolled)
+                    {
+                        <form method="post" asp-page-handler="Enroll" style="display: inline;">
+                            <input type="hidden" name="id" value="@Model.Course.Id" />
+                            <button type="submit" class="btn btn-success btn-lg">
+                                <i class="hgi-stroke hgi-user-add-01 me-2"></i> Înscrie-te
+                            </button>
+                        </form>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    @* --- Tabs Navigation --- *@
+    <div class="course-nav-tabs mb-4">
+        <ul class="nav nav-pills gap-3" style="border: none;">
+            <li class="nav-item">
+                <a class="btn @(Model.Tab == "announcements" || string.IsNullOrEmpty(Model.Tab) ? "btn-primary" : "btn-outline-secondary")" 
+                   asp-page="./Details" asp-route-id="@Model.Course.Id" asp-route-tab="announcements">
+                    <i class="hgi-stroke hgi-notification-01 me-2"></i> Anunțuri
+                    @if (Model.Announcements.Any())
+                    {
+                        <span class="badge bg-secondary ms-2">@Model.Announcements.Count</span>
+                    }
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="btn @(Model.Tab == "materials" ? "btn-primary" : "btn-outline-secondary")" 
+                   asp-page="./Details" asp-route-id="@Model.Course.Id" asp-route-tab="materials">
+                    <i class="hgi-stroke hgi-folder-open me-2"></i> Materiale
+                    @if (Model.Materials.Any())
+                    {
+                        <span class="badge bg-secondary ms-2">@Model.Materials.Count</span>
+                    }
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="btn @(Model.Tab == "notes" ? "btn-primary" : "btn-outline-secondary")" 
+                   asp-page="./Details" asp-route-id="@Model.Course.Id" asp-route-tab="notes">
+                    <i class="hgi-stroke hgi-note me-2"></i> Notițe Validate
+                    @if (Model.ApprovedNotes.Any())
+                    {
+                        <span class="badge bg-secondary ms-2">@Model.ApprovedNotes.Count</span>
+                    }
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    @* --- Content Area --- *@
+    <div class="course-content">
+        @if (Model.Tab == "announcements" || string.IsNullOrEmpty(Model.Tab))
+        {
+            <div class="announcements-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="text-light">Toate Anunțurile</h3>
+                    @if (Model.IsOwner || User.IsInRole("Admin"))
+                    {
+                        <a asp-page="./CreateAnnouncement" asp-route-courseId="@Model.Course.Id" class="btn btn-primary">
+                            <i class="hgi-stroke hgi-add-01 me-2"></i> Postează Anunț
+                        </a>
+                    }
+                </div>
+
+                @if (Model.Announcements.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var announcement in Model.Announcements)
+                        {
+                            <div class="col-12">
+                                <div class="glass-card p-4 @(announcement.IsImportant ? "announcement-important" : "")">
+                                    <div class="d-flex justify-content-between align-items-start mb-2">
+                                        <h5 class="fw-bold text-light mb-0">@announcement.Title</h5>
+                                        @if (announcement.IsImportant)
+                                        {
+                                            <span class="badge bg-danger">Important</span>
+                                        }
+                                    </div>
+                                    <p class="text-muted mb-3">@announcement.Content</p>
+                                    <div class="d-flex gap-3 text-muted small border-top border-secondary pt-3">
+                                        <span><i class="hgi-stroke hgi-user me-1"></i> @announcement.AuthorName</span>
+                                        <span><i class="hgi-stroke hgi-calendar-01 me-1"></i> @announcement.PostedDate.ToString("dd.MM.yyyy HH:mm")</span>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 glass-card">
+                        <i class="hgi-stroke hgi-notification-01 hgi-4x text-muted mb-3"></i>
+                        <p class="text-muted">Nu există anunțuri pentru acest curs.</p>
+                    </div>
+                }
+            </div>
+        }
+        else if (Model.Tab == "notes")
+        {
+            <div class="notes-section">
+                <h3 class="text-light mb-4">Notițe Validate</h3>
+                @if (Model.ApprovedNotes.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var note in Model.ApprovedNotes)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card neuro-card h-100 border-0">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <h5 class="card-title fw-bold">
+                                                <a asp-page="/Notes/Details" asp-route-id="@note.Id" class="text-light text-decoration-none">@note.Title</a>
+                                            </h5>
+                                            <span class="badge bg-success"><i class="hgi-stroke hgi-checkmark-circle-01"></i></span>
+                                        </div>
+                                        <p class="text-muted small mb-3">
+                                            @(note.Content.Length > 100 ? note.Content.Substring(0, 100) + "..." : note.Content)
+                                        </p>
+                                        <div class="d-flex justify-content-between align-items-center pt-3 border-top border-secondary">
+                                            <small class="text-muted">
+                                                <i class="hgi-stroke hgi-user me-1"></i> 
+                                                @if (!string.IsNullOrEmpty(note.StudentId))
+                                                {
+                                                    <a asp-page="/Profile/Public" asp-route-id="@note.StudentId" class="text-muted text-decoration-none hover-underline" style="transition: color 0.2s;">@note.StudentName</a>
+                                                }
+                                                else
+                                                {
+                                                    @note.StudentName
+                                                }
+                                            </small>
+                                            <div class="d-flex gap-2 align-items-center">
+                                                @if (!note.IsMyNote)
+                                                {
+                                                    <button class="btn btn-sm btn-outline-success vote-btn @(note.UserVote == true ? "active" : "")" 
+                                                            data-note-id="@note.Id" 
+                                                            data-vote-type="upvote"
+                                                            title="Îmi place">
+                                                        <i class="hgi-stroke hgi-thumbs-up"></i> <span class="upvotes-@note.Id">@note.Upvotes</span>
+                                                    </button>
+                                                    <button class="btn btn-sm btn-outline-danger vote-btn @(note.UserVote == false ? "active" : "")" 
+                                                            data-note-id="@note.Id" 
+                                                            data-vote-type="downvote"
+                                                            title="Nu îmi place">
+                                                        <i class="hgi-stroke hgi-thumbs-down"></i> <span class="downvotes-@note.Id">@note.Downvotes</span>
+                                                    </button>
+                                                }
+                                                else
+                                                {
+                                                    <div class="d-flex align-items-center gap-2 text-muted" title="Nu poți vota propria notiță">
+                                                        <span class="badge bg-light text-success border"><i class="hgi-stroke hgi-thumbs-up me-1"></i>@note.Upvotes</span>
+                                                        <span class="badge bg-light text-danger border"><i class="hgi-stroke hgi-thumbs-down me-1"></i>@note.Downvotes</span>
+                                                        <small class="fw-bold ms-1" style="font-size: 0.75rem;">AUTOR</small>
+                                                    </div>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 glass-card">
+                        <i class="hgi-stroke hgi-note hgi-4x text-muted mb-3"></i>
+                        <p class="text-muted">Nu există notițe validate.</p>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="materials-section">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="text-light">Materiale</h3>
+                    @if (Model.IsOwner || User.IsInRole("Admin"))
+                    {
+                        <a asp-page="./UploadMaterial" asp-route-courseId="@Model.Course.Id" class="btn btn-primary">
+                            <i class="hgi-stroke hgi-upload-01 me-2"></i> Încarcă
+                        </a>
+                    }
+                </div>
+
+                @if (Model.Materials.Any())
+                {
+                    <div class="row g-4">
+                        @foreach (var material in Model.Materials)
+                        {
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card neuro-card h-100 border-0">
+                                    <div class="card-body p-4">
+                                        <div class="d-flex align-items-start gap-3 mb-3">
+                                            <div class="material-icon-wrapper">
+                                                <i class="hgi-stroke hgi-file-pdf hgi-xl text-danger"></i>
+                                            </div>
+                                            <div class="flex-grow-1">
+                                                <h6 class="fw-bold text-light mb-1">@material.FileName</h6>
+                                                <p class="text-muted small mb-1">@material.Description</p>
+                                                <small class="text-muted d-block"><i class="hgi-stroke hgi-clock-01 me-1"></i> @material.UploadDate.ToString("dd.MM.yyyy")</small>
+                                            </div>
+                                        </div>
+                                        <a asp-page="./DownloadMaterial" asp-route-id="@material.Id" class="btn btn-outline-secondary w-100 btn-sm">
+                                            <i class="hgi-stroke hgi-download-01 me-2"></i> Descarcă
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+                else
+                {
+                    <div class="text-center py-5 glass-card">
+                        <i class="hgi-stroke hgi-folder-open hgi-4x text-muted mb-3"></i>
+                        <p class="text-muted">Nu există materiale încărcate.</p>
+                    </div>
+                }
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="container mt-4">
+        <div class="alert alert-danger glass-card border-0">
+            <i class="hgi-stroke hgi-cancel-01"></i> Cursul nu a fost găsit.
+        </div>
+    </div>
+}
+
+@section Scripts {
+    <script>
+        document.querySelectorAll('.vote-btn').forEach(btn => {
+            btn.addEventListener('click', async function(e) {
+                e.preventDefault();
+                const noteId = this.dataset.noteId;
+                const voteType = this.dataset.voteType;
+                
+                // Add loading state visual if desired
+                
+                try {
+                    // Use the current page's handler
+                    const response = await fetch(`?handler=Vote&noteId=${noteId}&voteType=${voteType}`, {
+                        method: 'POST',
+                        headers: {
+                            'RequestVerificationToken': document.querySelector('input[name="__RequestVerificationToken"]')?.value || ''
+                        }
+                    });
+                    
+                    if (response.ok) {
+                        const data = await response.json();
+                        
+                        // Update counts
+                        const upEl = document.querySelector(`.upvotes-${noteId}`);
+                        if (upEl) upEl.textContent = data.upvotes;
+                        
+                        const downEl = document.querySelector(`.downvotes-${noteId}`);
+                        if (downEl) downEl.textContent = data.downvotes;
+                        
+                        // Reset active state for this note's buttons
+                        document.querySelectorAll(`.vote-btn[data-note-id="${noteId}"]`).forEach(b => b.classList.remove('active'));
+                        
+                        // Set new active state
+                        if (data.userVote === true) {
+                            const btnUp = document.querySelector(`.vote-btn[data-note-id="${noteId}"][data-vote-type="upvote"]`);
+                            if(btnUp) btnUp.classList.add('active');
+                        } else if (data.userVote === false) {
+                            const btnDown = document.querySelector(`.vote-btn[data-note-id="${noteId}"][data-vote-type="downvote"]`);
+                            if(btnDown) btnDown.classList.add('active');
+                        }
+                    } else {
+                        console.error('Vote failed:', response.status);
+                    }
+                } catch (error) {
+                    console.error('Eroare la vot:', error);
+                }
+            });
+        });
+    </script>
+}

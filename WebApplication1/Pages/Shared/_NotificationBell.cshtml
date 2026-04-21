@@ -1,0 +1,39 @@
+@using Microsoft.AspNetCore.Antiforgery
+@inject IAntiforgery Antiforgery
+
+@{
+    // Token for JS POST requests (mark read)
+    var tokens = Antiforgery.GetAndStoreTokens(Context);
+}
+
+<li class="nav-item dropdown notification-dropdown">
+    <button class="nav-link notification-bell-btn" type="button" id="notificationBellButton" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="hgi-stroke hgi-notification-03"></i>
+        <span class="notification-badge d-none" id="notificationUnreadBadge">0</span>
+    </button>
+
+    <div class="dropdown-menu dropdown-menu-end notification-menu p-0" id="notificationDropdownMenu" aria-labelledby="notificationBellButton">
+        <div class="notification-menu-header">
+            <div class="d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Notificări</span>
+                <span id="notificationStatusText" class="small text-muted" style="font-size: 0.7rem;"></span>
+                <button class="btn btn-sm btn-link text-decoration-none p-0" style="font-size: 0.8rem;" type="button" id="notificationMarkAllReadBtn">
+                    Marchează tot
+                </button>
+            </div>
+            <input type="hidden" id="notificationAntiforgeryToken" value="@tokens.RequestToken" />
+        </div>
+
+        <div class="notification-menu-body" id="notificationItems">
+            <div class="notification-empty">
+                <i class="hgi-stroke hgi-notification-off-01 hgi-2x mb-2 text-muted"></i>
+                <p class="mb-0 small">Nu ai notificări noi</p>
+            </div>
+        </div>
+
+        <div class="notification-menu-footer text-center">
+            <a href="/Notifications/Feed" class="text-decoration-none small">Vezi toate notificările</a>
+        </div>
+    </div>
+</li>
+

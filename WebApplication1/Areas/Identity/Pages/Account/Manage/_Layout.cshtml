@@ -1,0 +1,32 @@
+﻿@{
+    if (ViewData.TryGetValue("ParentLayout", out var parentLayout) && parentLayout !=  null)
+    {
+        Layout = parentLayout.ToString();
+    }
+    else
+    {
+        Layout = "/Areas/Identity/Pages/_Layout.cshtml";
+    }
+}
+
+<div class="container mt-4">
+    <div class="glass-card p-5" style="min-height: 600px;">
+        <div class="mb-5 border-bottom border-secondary pb-4">
+            <h1 class="text-light fw-bold"><i class="hgi-stroke hgi-settings-01 me-3 text-primary"></i>Setări Cont</h1>
+            <p class="text-muted mb-0">Gestionează profilul, securitatea și preferințele contului tău.</p>
+        </div>
+
+        <div class="row g-5">
+            <div class="col-md-3 border-end border-secondary">
+                <partial name="_ManageNav" />
+            </div>
+            <div class="col-md-9">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @RenderSection("Scripts", required: false)
+}

@@ -1,0 +1,211 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.EntityFrameworkCore
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+@inject Uniflow.Data.ApplicationDbContext DbContext
+
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light">
+    <meta name="theme-color" content="#F4F3F1">
+    <title>@ViewData["Title"] - Uniflow</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/general-sans.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="https://use.hugeicons.com/font/icons.css" />
+    <link rel="icon" type="image/x-icon" href="~/uniflow-2.ico" />
+</head>
+<body>
+    <!-- Background blurred shapes -->
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light">
+            <div class="container-fluid px-4 px-lg-5">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">
+                    <img src="~/images/uniflow-2.png" alt="Uniflow Logo" style="height:40px;">
+                    <span style="margin-left: 0.5rem; font-weight: 700;">Uniflow</span>
+                </a>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between align-items-center">
+
+                    <ul class="navbar-nav flex-grow-1">
+                        <li class="nav-item">
+                            <a class="nav-link" asp-area="" asp-page="/Index">Acasă</a>
+                        </li>
+
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            // Dropdown pentru Studenți
+                            @if (User.IsInRole("Student") && !User.IsInRole("Admin") && !User.IsInRole("Profesor"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="studentDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Cursuri
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="studentDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Courses/Index"><i class="hgi-stroke hgi-book-01 me-2"></i> Cursuri Disponibile</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Courses/MyCourses"><i class="hgi-stroke hgi-mortarboard-01 me-2"></i> Cursurile Mele</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="notesDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Notițe
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="notesDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Notes/Index"><i class="hgi-stroke hgi-note me-2"></i> Notițele Mele</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/Profile/Index">Profil</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/Vouchers/Index"><i class="bi bi-ticket-perforated me-1"></i> Vouchere</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/Leaderboard/Index">Clasament</a>
+                                </li>
+                            }
+
+                            // Dropdown pentru Profesori
+                            @if (User.IsInRole("Profesor") && !User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="professorDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Cursuri
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="professorDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Courses/Create"><i class="hgi-stroke hgi-add-01 me-2"></i> Creează Curs</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Courses/Index"><i class="hgi-stroke hgi-book-01 me-2"></i> Cursuri Disponibile</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/Notes/Validate">Validează Notițe</a>
+                                </li>
+                            }
+
+                            // Dropdown pentru Admin
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle text-danger fw-bold" href="#" id="adminPanelDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="hgi-stroke hgi-settings-01 me-1"></i> Admin Panel
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminPanelDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Admin/Index"><i class="hgi-stroke hgi-dashboard-square-01 me-2"></i> Dashboard</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/Users/Index"><i class="hgi-stroke hgi-user-group me-2"></i> Administrare Utilizatori</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Admin/RoleRequests"><i class="hgi-stroke hgi-user-shield-01 me-2"></i> Cereri Roluri</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        Cursuri
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                                        <li><a class="dropdown-item" asp-page="/Courses/Create"><i class="hgi-stroke hgi-add-01 me-2"></i> Creează Curs</a></li>
+                                        <li><a class="dropdown-item" asp-page="/Courses/Index"><i class="hgi-stroke hgi-book-01 me-2"></i> Cursuri Disponibile</a></li>
+                                    </ul>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-page="/Notes/Validate">Validează Notițe</a>
+                                </li>
+                            }
+                        }
+                    </ul>
+
+                    <ul class="navbar-nav">
+                        @if (SignInManager.IsSignedIn(User))
+                        {
+                            var currentUser = await UserManager.GetUserAsync(User);
+                            string? displayName = null;
+                            if (currentUser != null)
+                            {
+                                var profile = await DbContext.UserProfiles
+                                    .FirstOrDefaultAsync(p => p.UserId == currentUser.Id);
+                                
+                                if (profile != null && !string.IsNullOrWhiteSpace(profile.FullName))
+                                {
+                                    displayName = profile.FullName;
+                                }
+                                else
+                                {
+                                    // Prioritizează username-ul față de email
+                                    displayName = currentUser.UserName ?? currentUser.Email ?? "Utilizator";
+                                }
+                            }
+                            
+                            <li class="nav-item dropdown user-menu-dropdown">
+                                <button class="user-menu-btn" type="button" id="userMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <div class="user-avatar">
+                                        @(displayName?.Substring(0, 1).ToUpper() ?? "U")
+                                    </div>
+                                    <span>@displayName</span>
+                                    <i class="hgi-stroke hgi-arrow-down-01 ms-1" style="font-size: 0.75rem;"></i>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userMenuButton">
+                                    <li><a class="dropdown-item" asp-page="/Profile/Index"><i class="hgi-stroke hgi-user me-2"></i> Profil</a></li>
+                                    <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index"><i class="hgi-stroke hgi-settings-01 me-2"></i> Setări</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li>
+                                        <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Page("/", new { area = "" })">
+                                            <button type="submit" class="dropdown-item text-danger">
+                                                <i class="hgi-stroke hgi-logout-01 me-2"></i> Delogare
+                                            </button>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </li>
+                            @await Html.PartialAsync("_NotificationBell")
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="Identity" asp-page="/Account/Register">Înregistrare</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link btn btn-outline-primary ms-2" asp-area="Identity" asp-page="/Account/Login">Autentificare</a>
+                            </li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main role="main">
+        <div class="container-fluid px-4 px-lg-5 fade-in">
+            @RenderBody()
+        </div>
+    </main>
+
+    <footer>
+        <div class="container-fluid px-4 px-lg-5">
+            <div class="d-flex justify-content-between align-items-center flex-wrap">
+                <div>
+                    <p class="text-muted mb-0">&copy; 2025 - Uniflow - Organizare Academică</p>
+                </div>
+                <div class="d-flex gap-3 mt-2 mt-md-0">
+                    <a href="#" class="text-muted" style="text-decoration: none;">Despre</a>
+                    <a href="#" class="text-muted" style="text-decoration: none;">Contact</a>
+                    <a href="#" class="text-muted" style="text-decoration: none;">Termeni</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/notifications.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
