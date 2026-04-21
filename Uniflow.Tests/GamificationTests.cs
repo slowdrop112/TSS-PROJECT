@@ -373,6 +373,39 @@ public class GamificationTests : IDisposable
 
     #endregion
 
+    #region ETAPA 1 - STUDENT 2: Partitionare in Clase de Echivalenta (Downvotes si Limite Negative)
+
+    [Theory]
+    // Partitia 1 de Downvotes (1-5): Ex. 3 downvotes.
+    // Calcul: 12 upvotes = 116 XP. Milestone = +25 XP. Downvotes = 3 * 2 = 6 XP.
+    // Total = 116 + 25 - 6 = 135 XP.
+    [InlineData(12, 3, 135)]
+    
+    // Partitia 2 de Downvotes (6-15): Ex. 10 downvotes.
+    // Calcul: 12 upvotes = 116 XP. Milestone = +25 XP. Downvotes = (5*2) + (5*3) = 25 XP.
+    // Total = 116 + 25 - 25 = 116 XP.
+    [InlineData(12, 10, 116)]
+
+    // Partitia 3 de Downvotes (16+): Ex. 20 downvotes.
+    // Calcul: 20 upvotes = 180 XP. Milestone = +25 XP. Downvotes = (5*2) + (10*3) + (5*1) = 45 XP.
+    // Total = 180 + 25 - 45 = 160 XP.
+    [InlineData(20, 20, 160)]
+
+    // Clasa de limite extreme: Limitarea per total la minim 0 XP. Ex. 5 upvotes, 50 downvotes.
+    // Calcul: 5 upvotes = +50 XP. Downvotes = (5*2) + (10*3) + (35*1) = 10 + 30 + 35 = 75 XP penalizare.
+    // Total teoretic: 50 - 75 = -25. Logica alege Math.Max(0, -25) = 0 XP.
+    [InlineData(5, 50, 0)]
+    public void CalculateXPFromVotes_EP_ValidDownvoteTiers_ReturnsCorrectXP(int upvotes, int downvotes, int expectedXp)
+    {
+        // Act
+        int resultXp = _gamificationService.CalculateXPFromVotes(upvotes, downvotes);
+
+        // Assert
+        Assert.Equal(expectedXp, resultXp);
+    }
+
+    #endregion  
+
     public void Dispose()
     {
         _context.Database.EnsureDeleted();
@@ -383,7 +416,3 @@ public class GamificationTests : IDisposable
         }
     }
 }
-
-
-
-
