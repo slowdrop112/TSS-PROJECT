@@ -404,8 +404,8 @@ public class GamificationTests : IDisposable
         Assert.Equal(expectedXp, resultXp);
     }
 
-    #endregion  
-    
+    #endregion
+
     #region ETAPA 1 - STUDENT 3: Analiza Valorilor de Frontiera BVA (Frontiere Upvotes)
 
     [Theory]
@@ -421,6 +421,32 @@ public class GamificationTests : IDisposable
     [InlineData(25, 0, 295)] // Limita exacta: 100 XP (T1) + 15 * 8 XP (T2) = 220 XP + 25 XP (M1) + 50 XP (M2) = 295 XP
     [InlineData(26, 0, 300)] // Fix dupa limita: 220 XP + 1 * 5 XP (T3) = 225 XP + 25 XP (M1) + 50 XP (M2) = 300 XP
     public void CalculateXPFromVotes_BVA_UpvoteBoundaries_ReturnsCorrectXP(int upvotes, int downvotes, int expectedXp)
+    {
+        // Act
+        int resultXp = _gamificationService.CalculateXPFromVotes(upvotes, downvotes);
+
+        // Assert
+        Assert.Equal(expectedXp, resultXp);
+    }
+
+    #endregion
+
+    #region ETAPA 1 - STUDENT 4: Analiza Valorilor de Frontiera BVA (Frontiere Downvotes)
+
+    [Theory]
+    // Avem nevoie de un numar suficient de upvotes pentru a nu lovi limita de 0 XP si a vedea fix matematica penalizarilor.
+    // 10 Upvotes ne asigura baza de: 10 * 10 XP = 100 XP + 25 XP (Milestone) = 125 XP de baza.
+
+    // Frontiera trecerii de la penalizarea minora (Tier 1) la medie (Tier 2): limita fix la 5 downvotes
+    [InlineData(10, 4, 117)] // 125 XP - (4 * 2) = 125 - 8 = 117 XP
+    [InlineData(10, 5, 115)] // Limita testata: 125 XP - (5 * 2) = 125 - 10 = 115 XP (Ultimul punct cu pentalizare de 2)
+    [InlineData(10, 6, 112)] // Fix dupa limita: 125 XP - 10 (Tier1) - 3 (pentru al saselea) = 112 XP
+
+    // Frontiera trecerii de la penalizare medie (Tier 2) la mica (Tier 3): limita fix la 15 downvotes
+    [InlineData(10, 14, 88)] // 125 XP - 10 (Tier1) - 9 * 3 (Tier2) = 125 - 37 = 88 XP
+    [InlineData(10, 15, 85)] // Limita testata: 125 XP - 10 (Tier1) - 10 * 3 (Tier2) = 125 - 40 = 85 XP
+    [InlineData(10, 16, 84)] // Fix dupa limita: 125 XP - 40 (Primele 15) - 1 * 1 (Tier3) = 125 - 41 = 84 XP
+    public void CalculateXPFromVotes_BVA_DownvoteBoundaries_ReturnsCorrectXP(int upvotes, int downvotes, int expectedXp)
     {
         // Act
         int resultXp = _gamificationService.CalculateXPFromVotes(upvotes, downvotes);
