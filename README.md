@@ -1,118 +1,77 @@
-# TSS-PROJECT
+# Testare unitară în C# 
 
-# Testare unitară în C# – GamificationService
+Am testat o componentă din aplicația Uniflow, și anume sistemul de gamificare care oferă utilizatorilor puncte XP în funcție de activitatea lor. Am vrut să verificăm dacă serviciul de gamificare calculează corect punctajul și dacă aplicația se comportă bine în situații diferite, inclusiv în cazuri limită.
 
-## Descriere
+## Clasa testată este GamificationService
 
-A fost testată componenta de gamificare din aplicația **Uniflow**, responsabilă pentru acordarea punctelor XP utilizatorilor în funcție de activitatea lor.
+Metoda CalculateXPFromVotes este responsabilă pentru calcularea numărului de puncte XP primite de un utilizator pentru o notiță, în funcție de voturile pozitive și negative primite din partea comunității.
 
-Clasa testată este:
+Metoda primește două valori:
+- upvotes - numărul de aprecieri ale notiței
+- downvotes - numărul de dezaprecieri ale notiței
 
-```csharp
-GamificationService
-```
+Sistemul calculează XP-ul pe baza mai multor reguli.
 
-Metoda analizată:
-
-```csharp
-CalculateXPFromVotes(int upvotes, int downvotes)
-```
-
-Scopul testării a fost verificarea corectitudinii calculului XP-ului și validarea comportamentului aplicației în diferite scenarii, inclusiv cazuri limită.
-
----
-
-# Funcționalitatea metodei
-
-Metoda `CalculateXPFromVotes` calculează numărul total de puncte XP obținute de un utilizator pentru o notiță, în funcție de:
-
-- numărul de voturi pozitive (`upvotes`)
-- numărul de voturi negative (`downvotes`)
-
----
-
-# Reguli de calcul XP
-
-## XP pentru upvotes
-
-XP-ul este acordat progresiv pe niveluri:
+## Tabel XP pentru upvotes
 
 | Interval upvotes | XP acordat |
 |---|---|
-| 0 - 10 | +10 XP / vot |
-| 11 - 25 | +8 XP / vot |
-| 26 - 50 | +5 XP / vot |
-| 51 - 100 | +3 XP / vot |
-| peste 100 | +2 XP / vot |
+| 0 - 10 | 10 XP / vot |
+| 11 - 25 | 8 XP / vot |
+| 26 - 50 | 5 XP / vot |
+| 51 - 100 | 3 XP / vot |
+| Peste 100 | 2 XP / vot |
 
----
+Pentru voturile pozitive, XP-ul este acordat progresiv pe niveluri. Primele 10 upvotes oferă câte 10 XP pentru fiecare vot. Între 11 și 25 de upvotes se acordă câte 8 XP, între 26 și 50 câte 5 XP, între 51 și 100 câte 3 XP, iar pentru valorile peste 100 se acordă câte 2 XP pentru fiecare vot.
 
-## Penalizări pentru downvotes
+## Tabel penalizări pentru downvotes
 
 | Interval downvotes | Penalizare |
 |---|---|
 | 0 - 5 | -2 XP / vot |
 | 6 - 15 | -3 XP / vot |
-| peste 15 | -1 XP / vot |
+| Peste 15 | -1 XP / vot |
 
----
+Pentru voturile negative se aplică penalizări. Primele 5 downvotes scad câte 2 XP, valorile între 6 și 15 scad câte 3 XP, iar cele peste 15 scad câte 1 XP pentru fiecare vot.
 
-## Bonusuri de popularitate
+## Tabel bonusuri de popularitate
 
-La atingerea anumitor praguri de apreciere se acordă bonusuri suplimentare:
-
-| Prag upvotes | Bonus |
+| Prag upvotes | Bonus XP |
 |---|---|
 | 10 | +25 XP |
 | 25 | +50 XP |
 | 50 | +100 XP |
 | 100 | +200 XP |
 
----
+Pe lângă acestea, metoda oferă și bonusuri atunci când sunt atinse anumite praguri de popularitate:
+- la 10 upvotes se acordă un bonus de 25 XP
+- la 25 upvotes se acordă încă 50 XP
+- la 50 upvotes se acordă încă 100 XP
+- la 100 upvotes se acordă încă 200 XP
 
-## Regula finală
-
-Dacă XP-ul total devine negativ:
-
-```csharp
-if(totalXP < 0)
-```
-
-metoda returnează:
-
-```csharp
-0
-```
+Rezultatul final reprezintă suma XP-ului obținut după aplicarea tuturor bonusurilor și penalizărilor.
 
 ---
 
-# Etapele metodei
+# Funcționalitatea metodei
 
-Metoda este împărțită în mai multe etape:
+Metoda este împărțită în mai multe etape.
+- calculează XP-ul pentru upvotes
+- aplică penalizări pentru downvotes
+- acordă bonusuri la pragurile de 10, 25, 50 și 100 upvotes
+- verifică dacă rezultatul final este negativ
 
-1. Calcularea XP-ului pentru upvotes
-2. Aplicarea penalizărilor pentru downvotes
-3. Aplicarea bonusurilor pentru praguri
-4. Verificarea rezultatului final
+Dacă XP-ul final devine mai mic decât 0, metoda returnează 0.
 
----
-
-# Scopul sistemului
-
-Sistemul urmărește:
-
-- recompensarea conținutului apreciat
-- penalizarea notițelor slab evaluate
-- încurajarea contribuțiilor de calitate
+Scopul sistemului este să recompenseze conținutul apreciat și să penalizeze notițele slab evaluate.
 
 ---
 
 # Partiționarea în clase de echivalență
 
-Pentru testare, valorile de intrare au fost împărțite în clase de echivalență.
+Pentru testare am împărțit datele de intrare în categorii similare (clase de echivalență).
 
-## Upvotes
-
+## La upvotes:
 - valori invalide
 - intervalul 0-10
 - intervalul 11-25
@@ -120,172 +79,111 @@ Pentru testare, valorile de intrare au fost împărțite în clase de echivalen�
 - intervalul 51-100
 - valori peste 100
 
-## Downvotes
-
+## La downvotes:
 - valori invalide
 - intervalul 0-5
 - intervalul 6-15
 - valori peste 15
 
-Pentru fiecare categorie au fost selectate valori reprezentative pentru verificarea corectitudinii rezultatului.
+Pentru fiecare categorie am ales valori reprezentative și am verificat dacă metoda returnează rezultatul corect.
 
 ---
 
 # Analiza valorilor de frontieră
 
-Au fost testate valorile aflate exact la limitele intervalelor pentru identificarea eventualelor erori de tip *off-by-one*.
+Am testat valorile aflate exact la limitele intervalelor pentru a evita erorile de tip off-by-one.
 
-## Exemple testate
+Exemple:
+- 9, 10, 11
+- 24, 25, 26
+- 49, 50, 51
+- 99, 100, 101
+- 4, 5, 6
+- 14, 15, 16
 
-### Upvotes
-
-```text
-9, 10, 11
-24, 25, 26
-49, 50, 51
-99, 100, 101
-```
-
-### Downvotes
-
-```text
-4, 5, 6
-14, 15, 16
-```
-
-Rezultatele au confirmat aplicarea corectă a regulilor la trecerea dintre praguri.
+Aceste teste au confirmat că metoda aplică regulile corect la trecerea dintre praguri.
 
 ---
 
 # Acoperirea la nivel de instrucțiune
 
-Statement Coverage verifică dacă fiecare instrucțiune importantă din metodă a fost executată cel puțin o dată.
+Acoperirea la nivel de instrucțiune (Statement Coverage) verifică dacă fiecare bloc important din metodă a fost executat cel puțin o dată.
 
-## Scenarii utilizate
+Primul scenariu a fost un caz de tip „Top Contributor”, cu:
+- upvotes = 150
 
-### Top Contributor
+Acest test trece prin toate nivelurile de upvotes și activează toate bonusurile.
 
-```text
-upvotes = 150
-downvotes = 0
-```
+Al doilea scenariu a fost un caz de tip „Spammer”, cu:
+- upvotes = 0
+- downvotes = 100
 
-Acest test:
+Acest test verifică penalizările mari și cazul în care XP-ul final este plafonat la 0.
 
-- parcurge toate nivelurile de upvotes
-- activează toate bonusurile
-
----
-
-### Spammer
-
-```text
-upvotes = 0
-downvotes = 100
-```
-
-Acest test verifică:
-
-- penalizările mari
-- plafonarea XP-ului la 0
-
-Prin aceste scenarii au fost executate toate instrucțiunile importante ale metodei.
+Prin aceste teste au fost executate toate instrucțiunile importante din metodă.
 
 ---
 
 # Acoperirea la nivel de decizie
 
-Decision Coverage verifică dacă fiecare ramură logică a fost parcursă.
+Acoperirea la nivel de decizie (Decision Coverage) verifică dacă fiecare ramură logică a fost parcursă.
 
-Pentru fiecare condiție din cod au fost create:
+Pentru fiecare condiție din cod am avut:
+- un test care intră pe ramura „Da”
+- un test care intră pe ramura „Nu”
 
-- un test pentru ramura „True”
-- un test pentru ramura „False”
-
-## Exemplu
+Un exemplu important este verificarea:
 
 ```csharp
 if(totalXP < 0)
 ```
 
-Au fost testate:
-
-- un caz în care XP-ul final devine negativ
+Am testat:
+- un caz în care XP-ul final este negativ și metoda returnează 0
 - un caz în care XP-ul rămâne pozitiv
 
 ---
 
 # Acoperirea la nivel de condiție
 
-Condition Coverage verifică fiecare condiție logică separat.
+Acoperirea la nivel de condiție (Condition Coverage) verifică fiecare condiție logică separat.
 
-În această metodă condițiile sunt simple și conțin un singur predicat, de exemplu:
+În această metodă condițiile sunt simple și conțin un singur predicat (o singură verificare), de exemplu:
 
 ```csharp
 upvotes <= 10
 ```
 
-Din acest motiv, obținerea Decision Coverage a acoperit automat și partea de Condition Coverage.
+Din acest motiv, odată ce am obținut acoperirea la nivel de decizie, a fost acoperită automat și partea de condiții.
 
 ---
 
-# Graful de control și complexitatea ciclomatică
+# Circuite independente și complexitate ciclomatică
 
-A fost realizat și graful de control al metodei:
+Am realizat și graful de control al metodei (CFG - Control Flow Graph), adică diagrama care arată toate traseele posibile prin cod.
 
-```text
-CFG - Control Flow Graph
-```
+Pe baza acestuia am calculat complexitatea ciclomatică folosind formula lui McCabe.
 
-Pe baza acestuia a fost calculată complexitatea ciclomatică folosind formula lui McCabe:
+Rezultatul obținut a fost:
 
 ```text
-C = P + 1
+C = P + 1 = 11 + 1 = 12
 ```
 
-unde:
+- C = complexitatea ciclomatică
+- P = numărul de decizii din cod
 
-- `C` = complexitatea ciclomatică
-- `P` = numărul de decizii din cod
+Acest lucru înseamnă că metoda are 12 circuite independente (trasee logice diferite).
 
-## Rezultat
-
-```text
-C = 11 + 1 = 12
-```
-
-Metoda are:
-
-```text
-12 circuite independente
-```
+Exemple de trasee:
+- Caz simplu cu puține upvotes și puține downvotes
+- Caz cu penalizare mare din cauza downvotes
+- Caz cu multe upvotes și toate bonusurile activate
 
 ---
 
-# Exemple de trasee independente
+# Prompt Ai
 
-- caz simplu cu puține upvotes și puține downvotes
-- caz cu penalizare mare din cauza downvotes
-- caz cu multe upvotes și toate bonusurile activate
-
----
-
-# Concluzie
-
-Testarea unitară a confirmat că metoda:
-
-- calculează corect XP-ul
-- aplică bonusurile și penalizările conform regulilor
-- tratează corect cazurile limită
-- plafonează corect valorile negative la 0
-
-Prin utilizarea:
-
-- claselor de echivalență
-- analizei valorilor de frontieră
-- statement coverage
-- decision coverage
-- condition coverage
-- complexității ciclomatice
-
-s-a obținut o verificare completă și riguroasă a funcționalității metodei.
+```text
+“Creează graful de control (Control Flow Graph) în limbaj Mermaid pentru logica completă din CalculateXPFromVotes. Include calculul pe tier-uri pentru upvotes și downvotes, bonusurile și limitarea finală la 0”
+```
