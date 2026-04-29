@@ -183,12 +183,11 @@ Exemple de trasee:
 ---
 
 # Prompt Ai
+Am o metoda C# numita CalculateXPFromVotes(int upvotes, int downvotes) care calculeaza XP-ul unui utilizator pe baza voturilor primite pentru o notita. Upvotes ofera XP progresiv pe 5 niveluri descrescatoare, downvotes aplica penalizari pe 3 niveluri, iar la pragurile de 10, 25, 50 si 100 upvotes se acorda bonusuri cumulative. Rezultatul nu poate fi niciodata negativ.
 
-Am o metodă C# numită CalculateXPFromVotes(int upvotes, int downvotes) care calculează XP-ul unui utilizator pe baza voturilor primite pentru o notiță. Upvotes oferă XP progresiv pe 5 niveluri descrescătoare, downvotes aplică penalizări pe 3 niveluri, iar la pragurile de 10, 25, 50 și 100 upvotes se acordă bonusuri cumulative. Rezultatul nu poate fi niciodată negativ. Creează un fișier C# standalone, fără librării externe, care să conțină logica metodei și un runner de teste care să verifice clasele de echivalență, valorile de frontieră la fiecare prag, cazurile în care XP-ul devine negativ, și în plus teste suplimentare care să verifice fiecare milestone în izolare, combinații de valori la frontieră simultane pentru upvotes și downvotes, valorile minime posibile (un singur vot) și comportamentul penalizărilor la valori mari de downvotes. Fiecare test să afișeze PASS sau FAIL cu valorile de intrare și rezultatul.
+Creeaza un fisier C#, fara librarii externe, care sa contina logica metodei si un runner de teste care sa verifice clasele de echivalenta, valorile de frontiera la fiecare prag, cazurile in care XP-ul devine negativ, si in plus teste suplimentare care sa verifice fiecare milestone in izolare, combinatii de valori la frontiera simultane pentru upvotes si downvotes, valorile minime posibile (un singur vot) si comportamentul penalizarilor la valori mari de downvotes.
 
-# Prompt
-
-Am o metodă C# numită `CalculateXPFromVotes(int upvotes, int downvotes)` care calculează XP-ul unui utilizator pe baza voturilor primite pentru o notiță. Upvotes oferă XP progresiv pe 5 niveluri descrescătoare, downvotes aplică penalizări pe 3 niveluri, iar la pragurile de 10, 25, 50 și 100 upvotes se acordă bonusuri cumulative. Rezultatul nu poate fi niciodată negativ. Creează un fișier C# standalone, fără librării externe, care să conțină logica metodei și un runner de teste care să verifice clasele de echivalență, valorile de frontieră la fiecare prag și cazurile în care XP-ul devine negativ. Fiecare test să afișeze PASS sau FAIL cu valorile de intrare și rezultatul.
+Fiecare test sa afiseze PASS sau FAIL cu valorile de intrare si rezultatul.
 
 ---
 
