@@ -71,19 +71,45 @@ Scopul sistemului este să recompenseze conținutul apreciat și să penalizeze 
 
 Pentru testare am împărțit datele de intrare în categorii similare (clase de echivalență).
 
-## La upvotes:
-- valori invalide
-- intervalul 0-10
-- intervalul 11-25
-- intervalul 26-50
-- intervalul 51-100
-- valori peste 100
+## Clase individuale la upvotes (U):
 
-## La downvotes:
-- valori invalide
-- intervalul 0-5
-- intervalul 6-15
-- valori peste 15
+| Clasă | Interval | Reprezentant |
+|---|---|---|
+| U_1 (invalid) | upvotes < 0 | -5 |
+| U_2 | upvotes = 0 | 0 |
+| U_3 | 1 <= upvotes <= 10 | 5 |
+| U_4 | 11 <= upvotes <= 25 | 15 |
+| U_5 | 26 <= upvotes <= 50 | 30 |
+| U_6 | 51 <= upvotes <= 100 | 60 |
+| U_7 | upvotes > 100 | 110 |
+
+## Clase individuale la downvotes (D):
+
+| Clasă | Interval | Reprezentant |
+|---|---|---|
+| D_1 (invalid) | downvotes < 0 | -3 |
+| D_2 | downvotes = 0 | 0 |
+| D_3 | 1 <= downvotes <= 5 | 3 |
+| D_4 | 6 <= downvotes <= 15 | 10 |
+| D_5 | downvotes > 15 | 20 |
+
+## Clase globale
+
+Clasele globale se obțin prin combinarea claselor individuale:
+
+| Clasă globală | Upvotes (U) | Downvotes (D) | Reprezentant |
+|---|---|---|---|
+| C_11 | U_2 (0) | D_2 (0) | (0, 0) |
+| C_32 | U_3 (1–10) | D_2 (0) | (5, 0) |
+| C_33 | U_3 (1–10) | D_3 (1–5) | (10, 3) |
+| C_34 | U_3 (1–10) | D_4 (6–15) | (10, 10) |
+| C_35 | U_3 (1–10) | D_5 (>15) | (10, 20) |
+| C_42 | U_4 (11–25) | D_2 (0) | (15, 0) |
+| C_52 | U_5 (26–50) | D_2 (0) | (30, 0) |
+| C_62 | U_6 (51–100) | D_2 (0) | (60, 0) |
+| C_72 | U_7 (>100) | D_2 (0) | (110, 0) |
+| C_U1 | U_1 (invalid) | — | (-5, 0) |
+| C_D1 | — | D_1 (invalid) | (10, -3) |
 
 Pentru fiecare categorie am ales valori reprezentative și am verificat dacă metoda returnează rezultatul corect.
 
@@ -93,15 +119,29 @@ Pentru fiecare categorie am ales valori reprezentative și am verificat dacă me
 
 Am testat valorile aflate exact la limitele intervalelor pentru a evita erorile de tip off-by-one.
 
-Exemple:
-- 9, 10, 11
-- 24, 25, 26
-- 49, 50, 51
-- 99, 100, 101
-- 4, 5, 6
-- 14, 15, 16
+**Frontierele testate pentru upvotes (U):**
+- U_2/U_3 (prag 0): 0, 1
+- U_3/U_4 (prag 10): 9, 10, 11
+- U_4/U_5 (prag 25): 24, 25, 26
+- U_5/U_6 (prag 50): 49, 50, 51
+- U_6/U_7 (prag 100): 99, 100, 101
 
-Aceste teste au confirmat că metoda aplică regulile corect la trecerea dintre praguri.
+**Frontierele testate pentru downvotes (D):**
+- D_3/D_4 (prag 5): 4, 5, 6
+- D_4/D_5 (prag 15): 14, 15, 16
+
+Aceste teste au confirmat că metoda aplică regulile corect la trecerea dintre praguri. 
+
+Pentru a aprofunda analiza (BVA pe clase globale), am testat inclusiv frontiere simultane, adică punctele în care ambele variabile iau valori limită în același timp:
+
+| Clasă globală | upvotes | downvotes | XP așteptat |
+|---|---|---|---|
+| C_33 | 10 | 5 | 115 |
+| C_34 | 10 | 15 | 85 |
+| C_42 | 25 | 5 | 285 |
+| C_42 | 25 | 15 | 255 |
+| C_52 | 50 | 5 | 510 |
+| C_62 | 100 | 15 | 830 |
 
 ---
 
@@ -162,18 +202,86 @@ Din acest motiv, odată ce am obținut acoperirea la nivel de decizie, a fost ac
 
 Am realizat și graful de control al metodei (CFG - Control Flow Graph), adică diagrama care arată toate traseele posibile prin cod.
 
-Pe baza acestuia am calculat complexitatea ciclomatică folosind formula lui McCabe.
-
-Rezultatul obținut a fost:
-
 ```text
-C = P + 1 = 11 + 1 = 12
+graph TD
+    Start((Start)) --> N1["1-3: totalXP=0, tier1Count, totalXP+="]
+
+    N1 --> D2{"4: upvotes <= 10?"}
+    D2 -- Da --> N12["17-19: totalPenalty=0, tier1Down, penalty+="]
+    D2 -- Nu --> N3["5-6: tier2Count, totalXP+="]
+
+    N3 --> D4{"7: upvotes <= 25?"}
+    D4 -- Da --> N12
+    D4 -- Nu --> N5["8-9: tier3Count, totalXP+="]
+
+    N5 --> D6{"10: upvotes <= 50?"}
+    D6 -- Da --> N12
+    D6 -- Nu --> N7["11-12: tier4Count, totalXP+="]
+
+    N7 --> D8{"13: upvotes <= 100?"}
+    D8 -- Da --> N12
+    D8 -- Nu --> N9["14-15: tier5Count, totalXP+="]
+    N9 --> N12
+
+    N12 --> D13{"20: downvotes <= 5?"}
+    D13 -- Da --> N18["27: bonuses=0"]
+    D13 -- Nu --> N14["21-22: tier2Down, penalty+="]
+
+    N14 --> D15{"23: downvotes <= 15?"}
+    D15 -- Da --> N18
+    D15 -- Nu --> N16["24-25: tier3Down, penalty+="]
+    N16 --> N18
+
+    N18 --> D19{"28: upvotes >= 100?"}
+    D19 -- Da --> N20["28: bonuses+=200"] --> D21{"29: upvotes >= 50?"}
+    D19 -- Nu --> D21
+
+    D21 -- Da --> N22["29: bonuses+=100"] --> D23{"30: upvotes >= 25?"}
+    D21 -- Nu --> D23
+
+    D23 -- Da --> N24["30: bonuses+=50"] --> D25{"31: upvotes >= 10?"}
+    D23 -- Nu --> D25
+
+    D25 -- Da --> N26["31: bonuses+=25"] --> N27["33: totalXP=up-pen+mil"]
+    D25 -- Nu --> N27
+
+    N27 --> D28{"34: totalXP < 0?"}
+    D28 -- Da --> N29["34: return 0"]
+    D28 -- Nu --> N30["34: return totalXP"]
+
+    N29 --> Stop((Stop))
+    N30 --> Stop
 ```
 
-- C = complexitatea ciclomatică
-- P = numărul de decizii din cod
+Pe baza acestuia am calculat complexitatea ciclomatică folosind formula lui McCabe, unde am adăugat un arc de la Stop la Start pentru a obține un graf complet conectat:
+
+```text
+V(G) = e - n + 2 = 30 - 19 + 2 = 13
+```
+
+Calcul echivalent prin numărul de decizii (unde P = numărul de decizii):
+
+```text
+V(G) = P + 1 = 11 + 1 = 12
+```
 
 Acest lucru înseamnă că metoda are 12 circuite independente (trasee logice diferite).
+Iată lista acestora:
+
+| Circuit | Secvența de linii |
+|---|---|
+| a) | 1-3, 4(Da), 17-19, 20(Da), 27, 28(Nu), 29(Nu), 30(Nu), 31(Nu), 33, 34(Nu) -> Stop -> Start |
+| b) | 1-3, 4(Nu), 5-6, 7(Da), 17-19, 20(Da), 27, 28(Nu), 29(Nu), 30(Nu), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
+| c) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Da), 17-19, 20(Da), 27, 29(Nu), 30(Da), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
+| d) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Nu), 11-12, 13(Da), 17-19, 20(Da), 27, 29(Da), 30(Da), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
+| e) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Nu), 11-12, 13(Nu), 14-15, 17-19, 20(Da), 27, 33, 34(Nu) -> Stop -> Start |
+| f) | ...20(Nu), 21-22, 23(Da), 17-19, 20(Da)... |
+| g) | ...23(Nu), 24-25, 17-19... |
+| h) | ...34(Da) -> Stop -> Start |
+| i) | ...28(Da), 32... |
+| j) | ...29(Da), 30(Da), 31(Da), 32... |
+| k) | ...30(Da), 31(Da), 32... |
+| l) | ...31(Da), 32... |
 
 Exemple de trasee:
 - Caz simplu cu puține upvotes și puține downvotes
@@ -410,11 +518,10 @@ class TestRunner
             Environment.Exit(1); // exit code 1 dacă există eșecuri
     }
 }
-
 ```
 
-```
 # Rezultat
+```text
 ═══════════════════════════════════════════════════════
   Teste CalculateXPFromVotes – GamificationService
 ═══════════════════════════════════════════════════════
