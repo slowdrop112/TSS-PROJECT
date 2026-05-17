@@ -1,47 +1,47 @@
-# Testare unitară în C# 
+# Testare unitară în C#
 
-Am testat o componentă din aplicația Uniflow, și anume sistemul de gamificare care oferă utilizatorilor puncte XP în funcție de activitatea lor. Am vrut să verificăm dacă serviciul de gamificare calculează corect punctajul și dacă aplicația se comportă bine în situații diferite, inclusiv în cazuri limită.
+S-a testat o componentă din aplicația Uniflow, și anume sistemul de gamificare care oferă utilizatorilor puncte XP în funcție de activitatea lor. S-a urmărit să se verifice dacă serviciul de gamificare calculează corect punctajul și dacă aplicația se comportă bine în situații diferite, inclusiv în cazuri limită.
 
 ## Clasa testată este GamificationService
 
-Metoda CalculateXPFromVotes este responsabilă pentru calcularea numărului de puncte XP primite de un utilizator pentru o notiță, în funcție de voturile pozitive și negative primite din partea comunității.
+Metoda `CalculateXPFromVotes` este responsabilă pentru calcularea numărului de puncte XP primite de un utilizator pentru o notiță, în funcție de voturile pozitive și negative primite din partea comunității.
 
 Metoda primește două valori:
-- upvotes - numărul de aprecieri ale notiței
-- downvotes - numărul de dezaprecieri ale notiței
+- **upvotes** - numărul de aprecieri ale notiței
+- **downvotes** - numărul de dezaprecieri ale notiței
 
 Sistemul calculează XP-ul pe baza mai multor reguli.
 
-## Tabel XP pentru upvotes
+### Tabel XP pentru upvotes
 
 | Interval upvotes | XP acordat |
-|---|---|
-| 0 - 10 | 10 XP / vot |
-| 11 - 25 | 8 XP / vot |
-| 26 - 50 | 5 XP / vot |
-| 51 - 100 | 3 XP / vot |
-| Peste 100 | 2 XP / vot |
+|------------------|------------|
+| 0 - 10           | 10 XP / vot|
+| 11 - 25          | 8 XP / vot |
+| 26 - 50          | 5 XP / vot |
+| 51 - 100         | 3 XP / vot |
+| Peste 100        | 2 XP / vot |
 
 Pentru voturile pozitive, XP-ul este acordat progresiv pe niveluri. Primele 10 upvotes oferă câte 10 XP pentru fiecare vot. Între 11 și 25 de upvotes se acordă câte 8 XP, între 26 și 50 câte 5 XP, între 51 și 100 câte 3 XP, iar pentru valorile peste 100 se acordă câte 2 XP pentru fiecare vot.
 
-## Tabel penalizări pentru downvotes
+### Tabel penalizări pentru downvotes
 
 | Interval downvotes | Penalizare |
-|---|---|
-| 0 - 5 | -2 XP / vot |
-| 6 - 15 | -3 XP / vot |
-| Peste 15 | -1 XP / vot |
+|--------------------|------------|
+| 0 - 5              | -2 XP / vot|
+| 6 - 15             | -3 XP / vot|
+| Peste 15           | -1 XP / vot|
 
 Pentru voturile negative se aplică penalizări. Primele 5 downvotes scad câte 2 XP, valorile între 6 și 15 scad câte 3 XP, iar cele peste 15 scad câte 1 XP pentru fiecare vot.
 
-## Tabel bonusuri de popularitate
+### Tabel bonusuri de popularitate
 
 | Prag upvotes | Bonus XP |
-|---|---|
-| 10 | +25 XP |
-| 25 | +50 XP |
-| 50 | +100 XP |
-| 100 | +200 XP |
+|--------------|----------|
+| 10           | +25 XP   |
+| 25           | +50 XP   |
+| 50           | +100 XP  |
+| 100          | +200 XP  |
 
 Pe lângă acestea, metoda oferă și bonusuri atunci când sunt atinse anumite praguri de popularitate:
 - la 10 upvotes se acordă un bonus de 25 XP
@@ -51,27 +51,24 @@ Pe lângă acestea, metoda oferă și bonusuri atunci când sunt atinse anumite 
 
 Rezultatul final reprezintă suma XP-ului obținut după aplicarea tuturor bonusurilor și penalizărilor.
 
----
+### Funcționalitatea metodei
 
-# Funcționalitatea metodei
-
-Metoda este împărțită în mai multe etape.
-- calculează XP-ul pentru upvotes
-- aplică penalizări pentru downvotes
-- acordă bonusuri la pragurile de 10, 25, 50 și 100 upvotes
-- verifică dacă rezultatul final este negativ
+Metoda este împărțită în mai multe etape:
+1. calculează XP-ul pentru upvotes
+2. aplică penalizări pentru downvotes
+3. acordă bonusuri la pragurile de 10, 25, 50 și 100 upvotes
+4. verifică dacă rezultatul final este negativ
 
 Dacă XP-ul final devine mai mic decât 0, metoda returnează 0.
-
 Scopul sistemului este să recompenseze conținutul apreciat și să penalizeze notițele slab evaluate.
 
 ---
 
-# Partiționarea în clase de echivalență
+## Partiționarea în clase de echivalență
 
-Pentru testare am împărțit datele de intrare în categorii similare (clase de echivalență).
+Pentru testare, datele de intrare au fost împărțite în categorii similare (clase de echivalență).
 
-## Clase individuale la upvotes (U):
+**Clase individuale la upvotes (U):**
 
 | Clasă | Interval | Reprezentant |
 |---|---|---|
@@ -83,7 +80,7 @@ Pentru testare am împărțit datele de intrare în categorii similare (clase de
 | U_6 | 51 <= upvotes <= 100 | 60 |
 | U_7 | upvotes > 100 | 110 |
 
-## Clase individuale la downvotes (D):
+**Clase individuale la downvotes (D):**
 
 | Clasă | Interval | Reprezentant |
 |---|---|---|
@@ -93,8 +90,7 @@ Pentru testare am împărțit datele de intrare în categorii similare (clase de
 | D_4 | 6 <= downvotes <= 15 | 10 |
 | D_5 | downvotes > 15 | 20 |
 
-## Clase globale
-
+**Clase globale**
 Clasele globale se obțin prin combinarea claselor individuale:
 
 | Clasă globală | Upvotes (U) | Downvotes (D) | Reprezentant |
@@ -111,28 +107,27 @@ Clasele globale se obțin prin combinarea claselor individuale:
 | C_U1 | U_1 (invalid) | — | (-5, 0) |
 | C_D1 | — | D_1 (invalid) | (10, -3) |
 
-Pentru fiecare categorie am ales valori reprezentative și am verificat dacă metoda returnează rezultatul corect.
+Pentru fiecare categorie au fost alese valori reprezentative și s-a verificat dacă metoda returnează rezultatul corect. Toate aceste teste se regăsesc și în suita xUnit (`GamificationTests.cs`).
 
 ---
 
-# Analiza valorilor de frontieră
+## Analiza valorilor de frontieră (BVA)
 
-Am testat valorile aflate exact la limitele intervalelor pentru a evita erorile de tip off-by-one.
+Au fost testate valorile aflate exact la limitele intervalelor pentru a evita erorile de tip off-by-one.
 
 **Frontierele testate pentru upvotes (U):**
-- U_2/U_3 (prag 0): 0, 1
-- U_3/U_4 (prag 10): 9, 10, 11
-- U_4/U_5 (prag 25): 24, 25, 26
-- U_5/U_6 (prag 50): 49, 50, 51
-- U_6/U_7 (prag 100): 99, 100, 101
+* U_2/U_3 (prag 0): 0, 1
+* U_3/U_4 (prag 10): 9, 10, 11
+* U_4/U_5 (prag 25): 24, 25, 26
+* U_5/U_6 (prag 50): 49, 50, 51
+* U_6/U_7 (prag 100): 99, 100, 101
 
 **Frontierele testate pentru downvotes (D):**
-- D_3/D_4 (prag 5): 4, 5, 6
-- D_4/D_5 (prag 15): 14, 15, 16
+* D_3/D_4 (prag 5): 4, 5, 6
+* D_4/D_5 (prag 15): 14, 15, 16
 
 Aceste teste au confirmat că metoda aplică regulile corect la trecerea dintre praguri. 
-
-Pentru a aprofunda analiza (BVA pe clase globale), am testat inclusiv frontiere simultane, adică punctele în care ambele variabile iau valori limită în același timp:
+Pentru a aprofunda analiza (BVA pe clase globale), au fost testate inclusiv frontiere simultane, adică punctele în care ambele variabile iau valori limită în același timp:
 
 | Clasă globală | upvotes | downvotes | XP așteptat |
 |---|---|---|---|
@@ -145,64 +140,40 @@ Pentru a aprofunda analiza (BVA pe clase globale), am testat inclusiv frontiere 
 
 ---
 
-# Acoperirea la nivel de instrucțiune
+## Acoperirea Testelor (Coverage)
 
+### Acoperirea la nivel de instrucțiune
 Acoperirea la nivel de instrucțiune (Statement Coverage) verifică dacă fiecare bloc important din metodă a fost executat cel puțin o dată.
 
-Primul scenariu a fost un caz de tip „Top Contributor”, cu:
-- upvotes = 150
-
+* Primul scenariu a fost un caz de tip „Top Contributor”, cu: `upvotes = 150`
 Acest test trece prin toate nivelurile de upvotes și activează toate bonusurile.
 
-Al doilea scenariu a fost un caz de tip „Spammer”, cu:
-- upvotes = 0
-- downvotes = 100
-
+* Al doilea scenariu a fost un caz de tip „Spammer”, cu: `upvotes = 0`, `downvotes = 100`
 Acest test verifică penalizările mari și cazul în care XP-ul final este plafonat la 0.
 
 Prin aceste teste au fost executate toate instrucțiunile importante din metodă.
 
----
-
-# Acoperirea la nivel de decizie
-
+### Acoperirea la nivel de decizie
 Acoperirea la nivel de decizie (Decision Coverage) verifică dacă fiecare ramură logică a fost parcursă.
-
-Pentru fiecare condiție din cod am avut:
+Pentru fiecare condiție din cod a existat:
 - un test care intră pe ramura „Da”
 - un test care intră pe ramura „Nu”
 
-Un exemplu important este verificarea:
-
-```csharp
-if(totalXP < 0)
-```
-
-Am testat:
+Un exemplu important este verificarea: `if(totalXP < 0)`. S-a testat:
 - un caz în care XP-ul final este negativ și metoda returnează 0
 - un caz în care XP-ul rămâne pozitiv
 
----
-
-# Acoperirea la nivel de condiție
-
+### Acoperirea la nivel de condiție
 Acoperirea la nivel de condiție (Condition Coverage) verifică fiecare condiție logică separat.
-
-În această metodă condițiile sunt simple și conțin un singur predicat (o singură verificare), de exemplu:
-
-```csharp
-upvotes <= 10
-```
-
-Din acest motiv, odată ce am obținut acoperirea la nivel de decizie, a fost acoperită automat și partea de condiții.
+În această metodă condițiile sunt simple și conțin un singur predicat (o singură verificare), de exemplu: `upvotes <= 10`. Din acest motiv, odată obținută acoperirea la nivel de decizie, a fost acoperită automat și partea de condiții.
 
 ---
 
-# Circuite independente și complexitate ciclomatică
+## Circuite independente și complexitate ciclomatică
 
-Am realizat și graful de control al metodei (CFG - Control Flow Graph), adică diagrama care arată toate traseele posibile prin cod.
+A fost realizat și graful de control al metodei (CFG - Control Flow Graph), adică diagrama care arată toate traseele posibile prin cod.
 
-```text
+```
 graph TD
     Start((Start)) --> N1["1-3: totalXP=0, tier1Count, totalXP+="]
 
@@ -253,53 +224,42 @@ graph TD
     N30 --> Stop
 ```
 
-Pe baza acestuia am calculat complexitatea ciclomatică folosind formula lui McCabe, unde am adăugat un arc de la Stop la Start pentru a obține un graf complet conectat:
+---
 
-```text
-V(G) = e - n + 2 = 30 - 19 + 2 = 13
-```
+## Testarea bazată pe mutanți (Mutation Testing)
 
-Calcul echivalent prin numărul de decizii (unde P = numărul de decizii):
+A fost rulat instrumentul Stryker.NET pentru a evalua calitatea testelor prin injectarea de mutanți (defecțiuni artificiale) în codul sursă al suitei de teste unitare din `GamificationTests.cs`.
 
-```text
-V(G) = P + 1 = 11 + 1 = 12
-```
+### Analiza raportului Stryker (GamificationService)
+* **Mutanți generați:** 147 
+* **Mutanți omorâți (Killed):** 116
+* **Mutanți supraviețuitori (Survived):** 31
+* **Scor de mutație (Mutation Score):** ~79%
 
-Acest lucru înseamnă că metoda are 12 circuite independente (trasee logice diferite).
-Iată lista acestora:
+### Analiza mutanților echivalenți
+În urma analizei, s-a observat că o parte din cei 31 de mutanți rămași sunt **echivalenți** (codul alterat dă același rezultat):
+* **ID 4051 (Equality):** `if (upvotes <= 10)` a devenit `< 10`. Pentru `upvotes = 10`, codul original dă 100 XP. Mutantul sare linia, dar următoarea condiție adaugă `0` la XP și se oprește la pragul de 25, returnând tot 100 XP.
+* **ID 4093 (Arithmetic):** Înmulțirea penalizării de tier 3 (`X * 1`) a fost schimbată în împărțire (`X / 1`). Deoarece constanta este `1`, rezultatul matematic este același.
 
-| Circuit | Secvența de linii |
-|---|---|
-| a) | 1-3, 4(Da), 17-19, 20(Da), 27, 28(Nu), 29(Nu), 30(Nu), 31(Nu), 33, 34(Nu) -> Stop -> Start |
-| b) | 1-3, 4(Nu), 5-6, 7(Da), 17-19, 20(Da), 27, 28(Nu), 29(Nu), 30(Nu), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
-| c) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Da), 17-19, 20(Da), 27, 29(Nu), 30(Da), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
-| d) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Nu), 11-12, 13(Da), 17-19, 20(Da), 27, 29(Da), 30(Da), 31(Da), 32, 33, 34(Nu) -> Stop -> Start |
-| e) | 1-3, 4(Nu), 5-6, 7(Nu), 8-9, 10(Nu), 11-12, 13(Nu), 14-15, 17-19, 20(Da), 27, 33, 34(Nu) -> Stop -> Start |
-| f) | ...20(Nu), 21-22, 23(Da), 17-19, 20(Da)... |
-| g) | ...23(Nu), 24-25, 17-19... |
-| h) | ...34(Da) -> Stop -> Start |
-| i) | ...28(Da), 32... |
-| j) | ...29(Da), 30(Da), 31(Da), 32... |
-| k) | ...30(Da), 31(Da), 32... |
-| l) | ...31(Da), 32... |
+### Teste suplimentare
+Pentru a "omorî" 2 dintre mutanții neechivalenți rămași în viață, s-au adăugat teste specifice în `GamificationTests.cs`:
 
-Exemple de trasee:
-- Caz simplu cu puține upvotes și puține downvotes
-- Caz cu penalizare mare din cauza downvotes
-- Caz cu multe upvotes și toate bonusurile activate
+* **Mutant ID 4024 (Logical):** Condiția `(FirstName == "" && LastName == "")` a devenit `||`. S-a creat testul `Kill_Mutant_LogicalAnd...` cu un utilizator care are doar prenume. Testul verifică preluarea corectă a numelui și pică dacă e folosit `||`.
+* **Mutant ID 4145 (Equality):** Verificarea de nivel `if (newLevel > oldLevel)` a devenit `>=`. S-a scris testul `Kill_Mutant_LevelUpCondition...` care acordă XP fără a crește nivelul. Mutantul ar acorda vouchere false, dar testul se asigură că lista de vouchere rămâne goală.
 
 ---
 
-# Prompt Ai
-Am o metoda C# numita CalculateXPFromVotes(int upvotes, int downvotes) care calculeaza XP-ul unui utilizator pe baza voturilor primite pentru o notita. Upvotes ofera XP progresiv pe 5 niveluri descrescatoare, downvotes aplica penalizari pe 3 niveluri, iar la pragurile de 10, 25, 50 si 100 upvotes se acorda bonusuri cumulative. Rezultatul nu poate fi niciodata negativ.
+## Implementare de Referință (Console Test Runner)
 
-Creeaza un fisier C#, fara librarii externe, care sa contina logica metodei si un runner de teste care sa verifice clasele de echivalenta, valorile de frontiera la fiecare prag, cazurile in care XP-ul devine negativ, si in plus teste suplimentare care sa verifice fiecare milestone in izolare, combinatii de valori la frontiera simultane pentru upvotes si downvotes, valorile minime posibile (un singur vot) si comportamentul penalizarilor la valori mari de downvotes.
+Pe lângă testele xUnit integrate în proiect (`GamificationTests.cs`), a fost generat folosind AI-ul și un runner de teste standalone (consolă) care înglobează logica izolată pentru a testa foarte rapid implementarea formulei.
 
-Fiecare test sa afiseze PASS sau FAIL cu valorile de intrare si rezultatul.
+### Prompt Ai
 
----
+> Am o metodă C# numită `CalculateXPFromVotes(int upvotes, int downvotes)` care calculează XP-ul unui utilizator pe baza voturilor. Upvotes oferă XP progresiv pe 5 niveluri descrescătoare (0-10, 11-25, 26-50, 51-100, >100), iar downvotes aplică penalizări pe 3 niveluri (0-5, 6-15, >15). De asemenea, există bonusuri cumulative la pragurile 10, 25, 50 și 100 upvotes. Rezultatul final este minim 0.
+> Te rog să generezi mai întâi clasele de echivalență (valide și invalide) pentru intrările acestei metode și să identifici valorile de frontieră pentru fiecare clasă. Apoi, creează un fișier C# fără librării externe care să conțină logica metodei și un runner de teste care să acopere exhaustiv clasele de echivalență, valorile de frontieră, teste pentru frontiere simultane, și milestone-uri izolate.
+> Fiecare test trebuie să afișeze PASS sau FAIL cu valorile de intrare și rezultatul obținut.
 
-# Cod
+### Cod
 
 ```csharp
 using System;
@@ -468,29 +428,18 @@ class TestRunner
         Test("Zero upvotes, penalizare → 0",               0, 100,   0);
 
         // ── Teste Suplimentare: Milestones izolate ───────────────────
-        // Verificăm că fiecare bonus apare EXACT o dată, nu acumulat greșit
         Section("Suplimentar: Verificare milestones individuale");
-        // La exact 10 upvotes: 10*10 XP + 25 bonus = 125
         Test("Milestone 10 – doar bonusul de 25 activ",   10,   0, 125);
-        // La exact 25 upvotes: 100 + 15*8 + 25+50 bonus = 295
         Test("Milestone 25 – bonusuri de 25+50 active",   25,   0, 295);
-        // La exact 50 upvotes: 100+120+25*5 + 25+50+100 bonus = 520
         Test("Milestone 50 – bonusuri de 25+50+100",      50,   0, 520);
-        // La exact 100 upvotes: toate tier-urile + toate bonusurile = 870
         Test("Milestone 100 – toate bonusurile active",  100,   0, 870);
-        // La 9 upvotes: niciun milestone activ
         Test("Sub orice milestone – 0 bonusuri",           9,   0,  90);
 
         // ── Teste Suplimentare: Frontiere simultane up+down ──────────
-        // Testăm combinații la limită pentru ambii parametri simultan
         Section("Suplimentar: Frontiere simultane upvotes + downvotes");
-        // La exact 10 upvotes și 5 downvotes (ambele la prag): 125 - 10 = 115
         Test("Ambele la prag: up=10, down=5",             10,   5, 115);
-        // La exact 25 upvotes și 15 downvotes: 295 - 40 = 255
         Test("Ambele la prag: up=25, down=15",            25,  15, 255);
-        // La exact 100 upvotes și 15 downvotes: 870 - 40 = 830
         Test("Ambele la prag: up=100, down=15",          100,  15, 830);
-        // Tier 5 upvotes + Tier 3 downvotes (cazul extrem pozitiv)
         Test("Extreme pozitiv: up=200, down=50",         200,  50, 995);
 
         // ── Teste Suplimentare: Un singur vot ────────────────────────
@@ -500,12 +449,8 @@ class TestRunner
         Test("1 upvote + 1 downvote → 10-2 = 8",          1,   1,   8);
 
         // ── Teste Suplimentare: Simetrie penalizare Tier 3 ───────────
-        // Tier 3 downvotes = 1 XP/vot (mai mic decât Tier 1 și Tier 2)
-        // Verificăm că la 100+ downvotes penalizarea nu crește la infinit
         Section("Suplimentar: Penalizare Tier 3 verificata la valori mari");
-        // 10 up + 50 down: 125 - (10 + 30 + 35*1) = 125 - 75 = 50
         Test("50 downvotes cu 10 upvotes → 50 XP",       10,  50,  50);
-        // 10 up + 100 down: 125 - (10 + 30 + 85) = 125 - 125 = 0
         Test("100 downvotes cu 10 upvotes → 0 XP",       10, 100,   0);
 
         // ── Sumar ────────────────────────────────────────────────────
@@ -515,12 +460,13 @@ class TestRunner
         Console.WriteLine("═══════════════════════════════════════════════════════");
 
         if (_failed > 0)
-            Environment.Exit(1); // exit code 1 dacă există eșecuri
+            Environment.Exit(1);
     }
 }
 ```
 
-# Rezultat
+### Rezultat
+
 ```text
 ═══════════════════════════════════════════════════════
   Teste CalculateXPFromVotes – GamificationService
