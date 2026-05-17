@@ -484,6 +484,44 @@ public class GamificationTests : IDisposable
         Assert.Equal("noname@test.com", entry.UserName);
     }
 
+    [Fact]
+    public async Task Kill_Mutant_LogicalAnd_NumeIncomplet_FolosesteCeAvem()
+    {
+        var user = new IdentityUser { UserName = "ion@test.com", Email = "ion@test.com" };
+        await _userManager.CreateAsync(user, "Test123!");
+        await _userManager.AddToRoleAsync(user, "Student");
+        
+        _context.UserProfiles.Add(new UserProfile { UserId = user.Id, FirstName = "Ion", LastName = "", XP = 500 });
+        await _context.SaveChangesAsync();
+
+        var leaderboard = await _gamificationService.GetLeaderboardAsync();
+
+        var entry = leaderboard.FirstOrDefault(e => e.UserId == user.Id);
+        Assert.NotNull(entry);
+        Assert.Equal("Ion ", entry.UserName);
+    }
+
+    [Fact]
+    public async Task Kill_Mutant_LevelUpCondition_FaraCrestereNivel_NuDaVoucher()
+    {
+        var user = new IdentityUser { UserName = "level@test.com", Email = "level@test.com" };
+        await _userManager.CreateAsync(user, "Test123!");
+        await _userManager.AddToRoleAsync(user, "Student");
+        
+        var voucher = new Voucher { Title = "Voucher Level 1", PartnerName = "Partner", RequiredLevel = 1, ValidityDays = 30, IsActive = true };
+        _context.Vouchers.Add(voucher);
+        await _context.SaveChangesAsync();
+
+        var profile = new UserProfile { UserId = user.Id, XP = 10 };
+        _context.UserProfiles.Add(profile);
+        await _context.SaveChangesAsync();
+
+        await _gamificationService.AwardXPAsync(user.Id, 20, "Inca in level 1");
+
+        var userVouchers = await _context.UserVouchers.Where(uv => uv.UserId == user.Id).ToListAsync();
+        Assert.Empty(userVouchers);
+    }
+
     #endregion
 
     public void Dispose()
