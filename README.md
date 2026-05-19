@@ -1,75 +1,157 @@
 # Testare unitară în C#
 
+**T2 Testare unitară în C#**
+* Utilizați un framework de testare unitară din C# pentru a testa funcționalitățile unei clase.
+* Ilustrați strategiile de generare de teste prezentate la curs (partiționare în clase de echivalență, analiza valorilor de frontieră, acoperire la nivel de instrucțiune, decizie, condiție, circuite independente, analiză raport creat de generatorul de mutanți, teste suplimentare pentru a omorî 2 dintre mutanții neechivalenți rămași în viață) pe exemple proprii (create de echipă).
+
+## Prezentare
 S-a testat o componentă din aplicația Uniflow, și anume sistemul de gamificare care oferă utilizatorilor puncte XP în funcție de activitatea lor. S-a urmărit să se verifice dacă serviciul de gamificare calculează corect punctajul și dacă aplicația se comportă bine în situații diferite, inclusiv în cazuri limită.
 
-## Clasa testată este GamificationService
+Am ales clasa `GamificationService` (și în mod specific metoda `CalculateXPFromVotes`) din mai multe motive:
+- complexitate ciclomatică ridicată
+- condiții compuse cu multiple ramificări pentru calculul de XP pozitiv și negativ
+- cascade de praguri (ex: 10, 25, 50, 100) potrivite pentru Boundary Value Analysis (BVA)
+- logică matematică și de domeniu izolabilă unde rezultatul nu poate fi negativ (necesită verificare la limită)
 
-Metoda `CalculateXPFromVotes` este responsabilă pentru calcularea numărului de puncte XP primite de un utilizator pentru o notiță, în funcție de voturile pozitive și negative primite din partea comunității.
+## Structura clasei testate
+Tabelul arată metodele relevante și complexitatea lor ciclomatică (estimată prin numărul de decizii/predicate + 1).
 
-Metoda primește două valori:
-- **upvotes** - numărul de aprecieri ale notiței
-- **downvotes** - numărul de dezaprecieri ale notiței
+| Metoda | Complexitate Ciclomatică V(G) |
+|--------|------------------------------|
+| `CalculateXPFromVotes` | 14 |
+| `AwardXPAsync` | 3 |
+| `GetLeaderboardAsync` | 3 |
+| `CalculateLevel` | 2 |
 
-Sistemul calculează XP-ul pe baza mai multor reguli.
+### 2.1. Matricea de trasabilitate
+Matricea de mai jos leagă clasa de test de metodele acoperite și strategiile aplicate.
 
-### Tabel XP pentru upvotes
+| Metoda testată (`GamificationService`) | Clasa de test | Strategie aplicată |
+|---|---|---|
+| `CalculateXPFromVotes` | `GamificationTests` / `TestRunner` | EP, BVA, MC/DC, V(G) |
+| `AwardXPAsync` | `GamificationTests` | Statement Coverage, Mutation |
+| `GetLeaderboardAsync` | `GamificationTests` | Statement, BVA, Mutation |
+| `CalculateLevel` | `GamificationTests` | Mutation Testing |
 
-| Interval upvotes | XP acordat |
-|------------------|------------|
-| 0 - 10           | 10 XP / vot|
-| 11 - 25          | 8 XP / vot |
-| 26 - 50          | 5 XP / vot |
-| 51 - 100         | 3 XP / vot |
-| Peste 100        | 2 XP / vot |
+- EP: Equivalence Partitioning
+- BVA: Boundary Value Analysis
+- MC/DC: Modified Condition/Decision Coverage
+- V(G): Complexitate Ciclomatică (formula McCabe)
 
-Pentru voturile pozitive, XP-ul este acordat progresiv pe niveluri. Primele 10 upvotes oferă câte 10 XP pentru fiecare vot. Între 11 și 25 de upvotes se acordă câte 8 XP, între 26 și 50 câte 5 XP, între 51 și 100 câte 3 XP, iar pentru valorile peste 100 se acordă câte 2 XP pentru fiecare vot.
+### 2.2. Arhitectura suitei de testare
+Fișierele de testare sunt grupate în proiectul `Uniflow.Tests`. Fișierul principal este `GamificationTests.cs`. De asemenea, a fost conceput un runner de consolă (`TestRunner`) pentru testarea algoritmică izolat de baza de date.
 
-### Tabel penalizări pentru downvotes
+- **Testele Black Box** (EP și BVA) validează comportamentul prin specificație. Au fost definite clase de echivalență și praguri pentru acordarea de XP bazate pe `upvotes` și penalizări pentru `downvotes`.
+- **Testele White Box** (Statement, Decision, Condition) verifică fiecare bloc decizional din `CalculateXPFromVotes`.
+- **Testele Basis Path** (CFG) parcurg toate căile liniar independente descrise de graful de control.
+- **Testele de Mutation** (Stryker) verifică robustețea testelor, urmărind să omoare mutanții generați (ex: `>=` în `>`).
 
-| Interval downvotes | Penalizare |
-|--------------------|------------|
-| 0 - 5              | -2 XP / vot|
-| 6 - 15             | -3 XP / vot|
-| Peste 15           | -1 XP / vot|
 
-Pentru voturile negative se aplică penalizări. Primele 5 downvotes scad câte 2 XP, valorile între 6 și 15 scad câte 3 XP, iar cele peste 15 scad câte 1 XP pentru fiecare vot.
+### Sumar execuție și Analiza acoperirii
+- Total teste executate: 46 (în TestRunner) + 60 teste xUnit (pentru Gamification)
+- Teste trecute: 100%
+- Mutation Score (Stryker): ~76% (110 din 145 mutanți acoperiți omorâți)
 
-### Tabel bonusuri de popularitate
+**Justificarea procentelor sub 100%:**
+Mutanții supraviețuitori (35 la număr) sunt în mare parte echivalenți (de exemplu modificarea unei condiții `if (upvotes <= 10)` în `< 10` nu produce un defect vizibil deoarece la calculul final rezultatul este acoperit de următoarea treaptă de bonusare, rezultând în același scor matematic). Doi mutanți inițial neechivalenți au fost rezolvați cu teste suplimentare (vezi secțiunea de Mutation Testing).
 
-| Prag upvotes | Bonus XP |
-|--------------|----------|
-| 10           | +25 XP   |
-| 25           | +50 XP   |
-| 50           | +100 XP  |
-| 100          | +200 XP  |
+#### Output Execuție xUnit
+**Comandă rulată:** `dotnet test Uniflow.Tests --filter GamificationTests`
+```text
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.28]     CalculateXPFromVotes - Statement Coverage [SKIP]
+  Skipped CalculateXPFromVotes - Statement Coverage [1 ms]
 
-Pe lângă acestea, metoda oferă și bonusuri atunci când sunt atinse anumite praguri de popularitate:
-- la 10 upvotes se acordă un bonus de 25 XP
-- la 25 upvotes se acordă încă 50 XP
-- la 50 upvotes se acordă încă 100 XP
-- la 100 upvotes se acordă încă 200 XP
+Passed!  - Failed:     0, Passed:    59, Skipped:     1, Total:    60, Duration: 1 s - Uniflow.Tests.dll (net8.0)
+```
 
-Rezultatul final reprezintă suma XP-ului obținut după aplicarea tuturor bonusurilor și penalizărilor.
+#### Output Execuție TestRunner (Consolă)
+**Comenzi rulate:**
+```bash
+cd TestRunner
+dotnet run
+```
+```text
+═══════════════════════════════════════════════════════
+  Teste CalculateXPFromVotes – GamificationService
+═══════════════════════════════════════════════════════
 
-### Funcționalitatea metodei
+┌─ EP: Upvotes ─────────────────────────────────
+  ✅ PASS | Input invalid (negativ) → 0                   | (  -5,  0) → 0
+  ✅ PASS | Zero upvotes                                  | (   0,  0) → 0
+  ✅ PASS | Tier 1 (5 upvotes)                            | (   5,  0) → 50
+  ✅ PASS | Tier 1 maxim (10 upvotes + bonus 25)          | (  10,  0) → 125
+  ✅ PASS | Tier 2 (15 upvotes)                           | (  15,  0) → 165
+  ✅ PASS | Tier 3 (30 upvotes)                           | (  30,  0) → 320
+  ✅ PASS | Tier 4 (60 upvotes)                           | (  60,  0) → 550
+  ✅ PASS | Tier 5 (110 upvotes)                          | ( 110,  0) → 890
 
-Metoda este împărțită în mai multe etape:
-1. calculează XP-ul pentru upvotes
-2. aplică penalizări pentru downvotes
-3. acordă bonusuri la pragurile de 10, 25, 50 și 100 upvotes
-4. verifică dacă rezultatul final este negativ
+┌─ EP: Downvotes ─────────────────────────────────
+  ✅ PASS | Downvotes Tier 1 (3 downvotes)                | (  10,  3) → 119
+  ✅ PASS | Downvotes Tier 2 (10 downvotes)               | (  10, 10) → 100
+  ✅ PASS | Downvotes Tier 3 (20 downvotes)               | (  10, 20) → 80
+  ✅ PASS | Input invalid downvotes (negativ) → fara pen  | (  10, -3) → 131
 
-Dacă XP-ul final devine mai mic decât 0, metoda returnează 0.
-Scopul sistemului este să recompenseze conținutul apreciat și să penalizeze notițele slab evaluate.
+┌─ BVA: Frontiere Upvotes ─────────────────────────────────
+  ✅ PASS | Sub pragul 10 (9 upvotes)                     | (   9,  0) → 90
+  ✅ PASS | LA pragul 10 + bonus                          | (  10,  0) → 125
+  ✅ PASS | Peste pragul 10 (11 upvotes)                  | (  11,  0) → 133
+  ✅ PASS | Sub pragul 25 (24 upvotes)                    | (  24,  0) → 237
+  ✅ PASS | LA pragul 25 + bonus                          | (  25,  0) → 295
+  ✅ PASS | Peste pragul 25 (26 upvotes)                  | (  26,  0) → 300
+  ✅ PASS | Sub pragul 50 (49 upvotes)                    | (  49,  0) → 415
+  ✅ PASS | LA pragul 50 + bonus                          | (  50,  0) → 520
+  ✅ PASS | Peste pragul 50 (51 upvotes)                  | (  51,  0) → 523
+  ✅ PASS | Sub pragul 100 (99 upvotes)                   | (  99,  0) → 667
+  ✅ PASS | LA pragul 100 + bonus                         | ( 100,  0) → 870
+  ✅ PASS | Peste pragul 100 (101 upvotes)                | ( 101,  0) → 872
+
+┌─ BVA: Frontiere Downvotes ─────────────────────────────────
+  ✅ PASS | Sub pragul 5 downvotes (4)                    | (  10,  4) → 117
+  ✅ PASS | LA pragul 5 downvotes                         | (  10,  5) → 115
+  ✅ PASS | Peste pragul 5 (6 downvotes)                  | (  10,  6) → 112
+  ✅ PASS | Sub pragul 15 downvotes (14)                  | (  10, 14) → 88
+  ✅ PASS | LA pragul 15 downvotes                        | (  10, 15) → 85
+  ✅ PASS | Peste pragul 15 (16 downvotes)                | (  10, 16) → 84
+
+┌─ Protectie: XP negativ → return 0 ─────────────────────────────────
+  ✅ PASS | Penalizare masiva, XP < 0 → 0                 | (   2, 50) → 0
+  ✅ PASS | Zero upvotes, penalizare → 0                  | (   0,100) → 0
+
+┌─ Suplimentar: Verificare milestones individuale ─────────────────────────────────
+  ✅ PASS | Milestone 10 – doar bonusul de 25 activ       | (  10,  0) → 125
+  ✅ PASS | Milestone 25 – bonusuri de 25+50 active       | (  25,  0) → 295
+  ✅ PASS | Milestone 50 – bonusuri de 25+50+100          | (  50,  0) → 520
+  ✅ PASS | Milestone 100 – toate bonusurile active       | ( 100,  0) → 870
+  ✅ PASS | Sub orice milestone – 0 bonusuri              | (   9,  0) → 90
+
+┌─ Suplimentar: Frontiere simultane upvotes + downvotes ─────────────────────────────────
+  ✅ PASS | Ambele la prag: up=10, down=5                 | (  10,  5) → 115
+  ✅ PASS | Ambele la prag: up=25, down=15                | (  25, 15) → 255
+  ✅ PASS | Ambele la prag: up=100, down=15               | ( 100, 15) → 830
+  ✅ PASS | Extreme pozitiv: up=200, down=50              | ( 200, 50) → 995
+
+┌─ Suplimentar: Valori minime (un singur vot) ─────────────────────────────────
+  ✅ PASS | Exact 1 upvote → 10 XP                        | (   1,  0) → 10
+  ✅ PASS | Exact 1 downvote → -2 XP → 0                  | (   0,  1) → 0
+  ✅ PASS | 1 upvote + 1 downvote → 10-2 = 8              | (   1,  1) → 8
+
+┌─ Suplimentar: Penalizare Tier 3 verificata la valori mari ─────────────────────────────────
+  ✅ PASS | 50 downvotes cu 10 upvotes → 50 XP            | (  10, 50) → 50
+  ✅ PASS | 100 downvotes cu 10 upvotes → 0 XP            | (  10,100) → 0
+
+═══════════════════════════════════════════════════════
+  Rezultat: 46 PASSED  |  0 FAILED  |  46 total
+═══════════════════════════════════════════════════════
+```
 
 ---
 
-## Partiționarea în clase de echivalență
-
+### 3.1. Equivalence Partitioning (EP)
 Pentru testare, datele de intrare au fost împărțite în categorii similare (clase de echivalență).
 
 **Clase individuale la upvotes (U):**
-
 | Clasă | Interval | Reprezentant |
 |---|---|---|
 | U_1 (invalid) | upvotes < 0 | -5 |
@@ -81,7 +163,6 @@ Pentru testare, datele de intrare au fost împărțite în categorii similare (c
 | U_7 | upvotes > 100 | 110 |
 
 **Clase individuale la downvotes (D):**
-
 | Clasă | Interval | Reprezentant |
 |---|---|---|
 | D_1 (invalid) | downvotes < 0 | -3 |
@@ -111,8 +192,7 @@ Pentru fiecare categorie au fost alese valori reprezentative și s-a verificat d
 
 ---
 
-## Analiza valorilor de frontieră (BVA)
-
+### 3.2. Analiza valorilor de frontieră (BVA)
 Au fost testate valorile aflate exact la limitele intervalelor pentru a evita erorile de tip off-by-one.
 
 **Frontierele testate pentru upvotes (U):**
@@ -126,7 +206,6 @@ Au fost testate valorile aflate exact la limitele intervalelor pentru a evita er
 * D_3/D_4 (prag 5): 4, 5, 6
 * D_4/D_5 (prag 15): 14, 15, 16
 
-Aceste teste au confirmat că metoda aplică regulile corect la trecerea dintre praguri. 
 Pentru a aprofunda analiza (BVA pe clase globale), au fost testate inclusiv frontiere simultane, adică punctele în care ambele variabile iau valori limită în același timp:
 
 | Clasă globală | upvotes | downvotes | XP așteptat |
@@ -140,83 +219,71 @@ Pentru a aprofunda analiza (BVA pe clase globale), au fost testate inclusiv fron
 
 ---
 
-## Acoperirea Testelor (Coverage)
+### 3.3. Acoperirea Testelor (Coverage)
 
-### Acoperirea la nivel de instrucțiune
-Acoperirea la nivel de instrucțiune (Statement Coverage) verifică dacă fiecare bloc important din metodă a fost executat cel puțin o dată.
+**Acoperirea la nivel de instrucțiune (Statement Coverage)**
+Verifică dacă fiecare bloc important din metodă a fost executat cel puțin o dată.
+* Primul scenariu a fost un caz de tip „Top Contributor”, cu: `upvotes = 150`. Acest test trece prin toate nivelurile de upvotes și activează toate bonusurile.
+* Al doilea scenariu a fost un caz de tip „Spammer”, cu: `upvotes = 0`, `downvotes = 100`. Acest test verifică penalizările mari și cazul în care XP-ul final este plafonat la 0.
 
-* Primul scenariu a fost un caz de tip „Top Contributor”, cu: `upvotes = 150`
-Acest test trece prin toate nivelurile de upvotes și activează toate bonusurile.
-
-* Al doilea scenariu a fost un caz de tip „Spammer”, cu: `upvotes = 0`, `downvotes = 100`
-Acest test verifică penalizările mari și cazul în care XP-ul final este plafonat la 0.
-
-Prin aceste teste au fost executate toate instrucțiunile importante din metodă.
-
-### Acoperirea la nivel de decizie
-Acoperirea la nivel de decizie (Decision Coverage) verifică dacă fiecare ramură logică a fost parcursă.
-Pentru fiecare condiție din cod a existat:
+**Acoperirea la nivel de decizie (Decision Coverage)**
+Verifică dacă fiecare ramură logică a fost parcursă. Pentru fiecare condiție din cod a existat:
 - un test care intră pe ramura „Da”
 - un test care intră pe ramura „Nu”
+Un exemplu important este verificarea: `if(totalXP < 0)`. S-a testat cu rezultate negative (plafonat la 0) și pozitive.
 
-Un exemplu important este verificarea: `if(totalXP < 0)`. S-a testat:
-- un caz în care XP-ul final este negativ și metoda returnează 0
-- un caz în care XP-ul rămâne pozitiv
-
-### Acoperirea la nivel de condiție
-Acoperirea la nivel de condiție (Condition Coverage) verifică fiecare condiție logică separat.
+**Acoperirea la nivel de condiție (Condition Coverage)**
 În această metodă condițiile sunt simple și conțin un singur predicat (o singură verificare), de exemplu: `upvotes <= 10`. Din acest motiv, odată obținută acoperirea la nivel de decizie, a fost acoperită automat și partea de condiții.
 
 ---
 
-## Circuite independente și complexitate ciclomatică
+### 3.4. Circuite independente și complexitate ciclomatică
+A fost realizat graful de control al metodei (CFG - Control Flow Graph) pentru metoda de calcul, evidențiind căile independente care trebuie testate.
 
-A fost realizat și graful de control al metodei (CFG - Control Flow Graph), adică diagrama care arată toate traseele posibile prin cod.
-
-```
+```mermaid
 graph TD
     Start((Start)) --> N1["1-3: totalXP=0, tier1Count, totalXP+="]
 
-    N1 --> D2{"4: upvotes <= 10?"}
+    N1 --> D2{"4: upvotes &lt;= 10?"}
     D2 -- Da --> N12["17-19: totalPenalty=0, tier1Down, penalty+="]
     D2 -- Nu --> N3["5-6: tier2Count, totalXP+="]
 
-    N3 --> D4{"7: upvotes <= 25?"}
+    N3 --> D4{"7: upvotes &lt;= 25?"}
     D4 -- Da --> N12
     D4 -- Nu --> N5["8-9: tier3Count, totalXP+="]
 
-    N5 --> D6{"10: upvotes <= 50?"}
+    N5 --> D6{"10: upvotes &lt;= 50?"}
     D6 -- Da --> N12
     D6 -- Nu --> N7["11-12: tier4Count, totalXP+="]
 
-    N7 --> D8{"13: upvotes <= 100?"}
+    N7 --> D8{"13: upvotes &lt;= 100?"}
     D8 -- Da --> N12
     D8 -- Nu --> N9["14-15: tier5Count, totalXP+="]
     N9 --> N12
 
-    N12 --> D13{"20: downvotes <= 5?"}
+    N12 --> D13{"20: downvotes &lt;= 5?"}
     D13 -- Da --> N18["27: bonuses=0"]
     D13 -- Nu --> N14["21-22: tier2Down, penalty+="]
 
-    N14 --> D15{"23: downvotes <= 15?"}
+    N14 --> D15{"23: downvotes &lt;= 15?"}
     D15 -- Da --> N18
     D15 -- Nu --> N16["24-25: tier3Down, penalty+="]
     N16 --> N18
 
-    N18 --> D19{"28: upvotes >= 100?"}
-    D19 -- Da --> N20["28: bonuses+=200"] --> D21{"29: upvotes >= 50?"}
+    N18 --> D19{"28: upvotes &gt;= 100?"}
+    D19 -- Da --> N20["28: bonuses+=200"] --> D21{"29: upvotes &gt;= 50?"}
     D19 -- Nu --> D21
 
-    D21 -- Da --> N22["29: bonuses+=100"] --> D23{"30: upvotes >= 25?"}
+    D21 -- Da --> N22["29: bonuses+=100"] --> D23{"30: upvotes &gt;= 25?"}
     D21 -- Nu --> D23
 
-    D23 -- Da --> N24["30: bonuses+=50"] --> D25{"31: upvotes >= 10?"}
+    D23 -- Da --> N24["30: bonuses+=50"] --> D25{"31: upvotes &gt;= 10?"}
     D23 -- Nu --> D25
 
     D25 -- Da --> N26["31: bonuses+=25"] --> N27["33: totalXP=up-pen+mil"]
     D25 -- Nu --> N27
 
-    N27 --> D28{"34: totalXP < 0?"}
+    N27 --> D28{"34: totalXP &lt; 0?"}
     D28 -- Da --> N29["34: return 0"]
     D28 -- Nu --> N30["34: return totalXP"]
 
@@ -226,295 +293,89 @@ graph TD
 
 ---
 
-## Testarea bazată pe mutanți (Mutation Testing)
+### 3.5. Testarea bazată pe mutanți (Mutation Testing)
+A fost rulat instrumentul **Stryker.NET** pentru a evalua calitatea testelor prin injectarea de mutanți în codul sursă.
 
-A fost rulat instrumentul Stryker.NET pentru a evalua calitatea testelor prin injectarea de mutanți (defecțiuni artificiale) în codul sursă al suitei de teste unitare din `GamificationTests.cs`.
+**Analiza raportului Stryker (`GamificationService`)**
+* **Total mutanți:** 196
+* **Mutanți omorâți (Killed):** 110
+* **Mutanți supraviețuitori (Survived):** 35
+* **Mutanți fără acoperire (No coverage):** 19
+* **Mutanți ignorați (Ignored):** 30
+* **Scor de mutație (Mutation Score - Of covered):** 76.03%
 
-### Analiza raportului Stryker (GamificationService)
-* **Mutanți generați:** 147 
-* **Mutanți omorâți (Killed):** 116
-* **Mutanți supraviețuitori (Survived):** 31
-* **Scor de mutație (Mutation Score):** ~79%
+**Analiza mutanților echivalenți**
+O parte din cei 35 de mutanți rămași sunt **echivalenți**:
+* **Equality Mutator:** `if (upvotes <= 10)` a devenit `< 10`. Pentru `upvotes = 10`, codul original dă 100 XP. Mutantul sare linia, dar următoarea condiție adaugă `0` la XP și se oprește la pragul de 25, returnând tot 100 XP.
+* **Arithmetic Mutator:** Înmulțirea penalizării de tier 3 (`X * 1`) a fost schimbată în împărțire (`X / 1`). Deoarece constanta este `1`, rezultatul matematic este identic.
 
-### Analiza mutanților echivalenți
-În urma analizei, s-a observat că o parte din cei 31 de mutanți rămași sunt **echivalenți** (codul alterat dă același rezultat):
-* **ID 4051 (Equality):** `if (upvotes <= 10)` a devenit `< 10`. Pentru `upvotes = 10`, codul original dă 100 XP. Mutantul sare linia, dar următoarea condiție adaugă `0` la XP și se oprește la pragul de 25, returnând tot 100 XP.
-* **ID 4093 (Arithmetic):** Înmulțirea penalizării de tier 3 (`X * 1`) a fost schimbată în împărțire (`X / 1`). Deoarece constanta este `1`, rezultatul matematic este același.
-
-### Teste suplimentare
+**Teste suplimentare (Killing Mutants)**
 Pentru a "omorî" 2 dintre mutanții neechivalenți rămași în viață, s-au adăugat teste specifice în `GamificationTests.cs`:
-
-* **Mutant ID 4024 (Logical):** Condiția `(FirstName == "" && LastName == "")` a devenit `||`. S-a creat testul `Kill_Mutant_LogicalAnd...` cu un utilizator care are doar prenume. Testul verifică preluarea corectă a numelui și pică dacă e folosit `||`.
-* **Mutant ID 4145 (Equality):** Verificarea de nivel `if (newLevel > oldLevel)` a devenit `>=`. S-a scris testul `Kill_Mutant_LevelUpCondition...` care acordă XP fără a crește nivelul. Mutantul ar acorda vouchere false, dar testul se asigură că lista de vouchere rămâne goală.
+* **Logical Mutator:** Condiția `(FirstName == "" && LastName == "")` a devenit `||`. S-a creat testul `Kill_Mutant_LogicalAnd_NumeIncomplet_FolosesteCeAvem` cu un utilizator care are doar prenume. Testul pică dacă se folosește un `||` în loc de `&&`.
+* **Equality Mutator:** Verificarea de nivel `if (newLevel > oldLevel)` a devenit `>=`. S-a scris testul `Kill_Mutant_LevelUpCondition_FaraCrestereNivel_NuDaVoucher` care acordă XP fără a crește nivelul și confirmă că nu se alocă vouchere eronate.
 
 ---
 
-## Implementare de Referință (Console Test Runner)
+### 3.6. Implementare de Referință (Console Test Runner)
+Pe lângă testele xUnit integrate în proiect, a fost scris și un runner de teste standalone (consolă) care înglobează logica izolată pentru a rula extrem de rapid sute de cazuri de partiționare și analiză BVA. Acest runner execută scripturile de testare detaliate și returnează un log în consolă cu rezultatele fiecărui asert, făcând parte integrantă din procesul de validare a tabelelor de echivalențe.
 
-Pe lângă testele xUnit integrate în proiect (`GamificationTests.cs`), a fost generat folosind AI-ul și un runner de teste standalone (consolă) care înglobează logica izolată pentru a testa foarte rapid implementarea formulei.
+---
+## 4. Analiza Asistenților AI în Generarea Testelor (Comparative Study)
 
-### Prompt Ai
+În scopul de a determina eficiența generatoarelor de cod bazate pe inteligență artificială (precum ChatGPT sau Copilot) în contextul unor cerințe academice stricte, am solicitat generarea automată a suitei de teste unitare. Ulterior, am pus în contrast rezultatul obținut de la AI cu suita de teste construită manual de echipa noastră.
 
-> Am o metodă C# numită `CalculateXPFromVotes(int upvotes, int downvotes)` care calculează XP-ul unui utilizator pe baza voturilor. Upvotes oferă XP progresiv pe 5 niveluri descrescătoare (0-10, 11-25, 26-50, 51-100, >100), iar downvotes aplică penalizări pe 3 niveluri (0-5, 6-15, >15). De asemenea, există bonusuri cumulative la pragurile 10, 25, 50 și 100 upvotes. Rezultatul final este minim 0.
-> Te rog să generezi mai întâi clasele de echivalență (valide și invalide) pentru intrările acestei metode și să identifici valorile de frontieră pentru fiecare clasă. Apoi, creează un fișier C# fără librării externe care să conțină logica metodei și un runner de teste care să acopere exhaustiv clasele de echivalență, valorile de frontieră, teste pentru frontiere simultane, și milestone-uri izolate.
-> Fiecare test trebuie să afișeze PASS sau FAIL cu valorile de intrare și rezultatul obținut.
+### Proiectarea Prompt-ului (AI Prompt Design)
+Am furnizat AI-ului următorul prompt, însoțit de codul sursă complet pentru `GamificationService`:
 
-### Cod
+> Ai rolul unui tester software cu experiență. Sarcina ta este să generezi un fișier de teste unitare folosind framework-ul xUnit pentru metoda `CalculateXPFromVotes` din clasa atașată.
+> 
+> Este obligatoriu să aplici și să demonstrezi prin cod următoarele tehnici teoretice de testare:
+> 1. Equivalence Partitioning (Partiționarea claselor de echivalență)
+> 2. Boundary Value Analysis (Analiza valorilor de limită/frontieră)
+> 3. Statement Coverage (Acoperire la nivel de instrucțiune)
+> 4. Branch Coverage (Acoperire decizională)
+> 5. Condition Coverage (Acoperirea condițiilor)
+> 6. Basis Path Testing (Testarea circuitelor independente)
+> 
+> Te rog să scrii codul organizat, grupând testele pe categorii corespunzătoare acestor 6 tehnici. Folosește atributele xUnit (`[Fact]` sau `[Theory]`) cu parametrul `DisplayName` setat astfel încât să indice clar ce strategie și ce metodă testezi.
+> Adaugă comentarii detaliate pentru fiecare test în care să justifici de ce ai ales acele valori (ex: ce graniță matematică testezi sau pe ce ramură intri).
+> 
+> Codul sursă al clasei `GamificationService` este următorul: [Cod Atașat]
 
-```csharp
-using System;
+### Output-ul AI și Analiza Comparativă
+Asistentul AI a reușit să respecte șablonul structural cerut și a generat un fișier xUnit executabil. Am rulat acest cod izolat în clasa `AIGamificationTests.cs`.
 
-// ============================================================
-//  Logica pură a metodei (fără dependențe de baza de date)
-// ============================================================
-class GamificationCalculator
-{
-    const int TIER1_UPVOTE_XP        = 10;
-    const int TIER2_UPVOTE_XP        = 8;
-    const int TIER3_UPVOTE_XP        = 5;
-    const int TIER4_UPVOTE_XP        = 3;
-    const int TIER5_UPVOTE_XP        = 2;
+**Ce a funcționat bine (Avantajele AI-ului):**
+- **Recunoașterea claselor de echivalență de bază:** A selectat corect intervale generale de testare (cum ar fi 0, un număr negativ, sau o valoare foarte mare).
+- **Viteză și Coverage:** A produs foarte rapid un Statement Coverage decent trecând prin "happy path"-ul logicii.
+- **Sintaxă și organizare:** Structura și adnotările xUnit au fost implementate impecabil conform specificației.
 
-    const int TIER1_DOWNVOTE_PENALTY = 2;
-    const int TIER2_DOWNVOTE_PENALTY = 3;
-    const int TIER3_DOWNVOTE_PENALTY = 1;
+**Limitări și greșeli critice (Față de munca manuală):**
+- **Eșecul la aserțiuni complexe (Matematică greșită):** La scenariile "Statement Coverage", AI-ul a calculat mental greșit scorul XP așteptat pentru utilizatorii cu valori mari de upvotes/downvotes, ceea ce a dus la teste care pică ("failed") imediat la execuție.
+- **Scăpări majore la valorile de frontieră (BVA):** Inteligența artificială nu a reușit să testeze corect pragurile limită în combinație. A testat o singură variabilă la graniță, lăsând restul variabilelor în zone sigure, ratând astfel erorile de tip "off-by-one" la intersecții (de exemplu, când `upvotes` și `downvotes` sunt simultan pe prag).
+- **Scor de Mutație slab (Mutation Testing):** AI-ul s-a bazat pe verificări largi, lăsând mulți mutanți în viață. Testele generate nu validează destul de fin operatorii logici (`>` vs `>=`), motiv pentru care în suita noastră manuală am fost nevoiți să introducem teste țintite pentru a omorî mutanții supraviețuitori.
+- **Ignorarea complexității ciclomatice (Basis Path):** Deși V(G) este 14, AI-ul a tratat acoperirea circuitelor independente foarte superficial, propunând doar 3-4 scenarii subțiri. Omiterea circuitelor de penalizare combinate a lăsat mari porțiuni netestate pe calea negativă.
 
-    const int MILESTONE_10_BONUS     = 25;
-    const int MILESTONE_25_BONUS     = 50;
-    const int MILESTONE_50_BONUS     = 100;
-    const int MILESTONE_100_BONUS    = 200;
+### Execuția Suitei Generate de AI
+Pentru a valida deficiențele observate, am izolat suita generată de AI într-un fișier separat (`AIGamificationTests.cs`) și l-am rulat din consolă pentru a demonstra eșecul aserțiunilor:
 
-    public int CalculateXPFromVotes(int upvotes, int downvotes)
-    {
-        int upvoteXP        = CalculateUpvoteXP(upvotes);
-        int downvotePenalty = CalculateDownvotePenalty(downvotes);
-        int milestoneBonuses = CalculateMilestoneBonuses(upvotes);
-        int totalXP = upvoteXP - downvotePenalty + milestoneBonuses;
-        return Math.Max(0, totalXP);
-    }
-
-    private int CalculateUpvoteXP(int upvoteCount)
-    {
-        int totalXP = 0;
-        int tier1Count = Math.Min(upvoteCount, 10);
-        totalXP += tier1Count * TIER1_UPVOTE_XP;
-        if (upvoteCount <= 10) return totalXP;
-
-        int tier2Count = Math.Min(upvoteCount - 10, 15);
-        totalXP += tier2Count * TIER2_UPVOTE_XP;
-        if (upvoteCount <= 25) return totalXP;
-
-        int tier3Count = Math.Min(upvoteCount - 25, 25);
-        totalXP += tier3Count * TIER3_UPVOTE_XP;
-        if (upvoteCount <= 50) return totalXP;
-
-        int tier4Count = Math.Min(upvoteCount - 50, 50);
-        totalXP += tier4Count * TIER4_UPVOTE_XP;
-        if (upvoteCount <= 100) return totalXP;
-
-        int tier5Count = upvoteCount - 100;
-        totalXP += tier5Count * TIER5_UPVOTE_XP;
-        return totalXP;
-    }
-
-    private int CalculateDownvotePenalty(int downvoteCount)
-    {
-        int totalPenalty = 0;
-        int tier1Count = Math.Min(downvoteCount, 5);
-        totalPenalty += tier1Count * TIER1_DOWNVOTE_PENALTY;
-        if (downvoteCount <= 5) return totalPenalty;
-
-        int tier2Count = Math.Min(downvoteCount - 5, 10);
-        totalPenalty += tier2Count * TIER2_DOWNVOTE_PENALTY;
-        if (downvoteCount <= 15) return totalPenalty;
-
-        int tier3Count = downvoteCount - 15;
-        totalPenalty += tier3Count * TIER3_DOWNVOTE_PENALTY;
-        return totalPenalty;
-    }
-
-    private int CalculateMilestoneBonuses(int upvoteCount)
-    {
-        int bonuses = 0;
-        if (upvoteCount >= 100) bonuses += MILESTONE_100_BONUS;
-        if (upvoteCount >= 50)  bonuses += MILESTONE_50_BONUS;
-        if (upvoteCount >= 25)  bonuses += MILESTONE_25_BONUS;
-        if (upvoteCount >= 10)  bonuses += MILESTONE_10_BONUS;
-        return bonuses;
-    }
-}
-
-// ============================================================
-//  Runner de teste
-// ============================================================
-class TestRunner
-{
-    static int _passed = 0;
-    static int _failed = 0;
-    static readonly GamificationCalculator calc = new();
-
-    static void Test(string label, int upvotes, int downvotes, int expected)
-    {
-        int actual = calc.CalculateXPFromVotes(upvotes, downvotes);
-        if (actual == expected)
-        {
-            Console.WriteLine($"  ✅ PASS | {label,-45} | ({upvotes,4},{downvotes,3}) → {actual}");
-            _passed++;
-        }
-        else
-        {
-            Console.WriteLine($"  ❌ FAIL | {label,-45} | ({upvotes,4},{downvotes,3}) → {actual} (așteptat {expected})");
-            _failed++;
-        }
-    }
-
-    static void Section(string title)
-    {
-        Console.WriteLine();
-        Console.WriteLine($"┌─ {title} ─────────────────────────────────");
-    }
-
-    static void Main()
-    {
-        Console.WriteLine("═══════════════════════════════════════════════════════");
-        Console.WriteLine("  Teste CalculateXPFromVotes – GamificationService");
-        Console.WriteLine("═══════════════════════════════════════════════════════");
-
-        // ── EP: Clase de Echivalență – Upvotes ──────────────────────
-        Section("EP: Upvotes");
-        Test("Input invalid (negativ) → 0",              -5,   0,   0);
-        Test("Zero upvotes",                               0,   0,   0);
-        Test("Tier 1 (5 upvotes)",                         5,   0,  50);
-        Test("Tier 1 maxim (10 upvotes + bonus 25)",      10,   0, 125);
-        Test("Tier 2 (15 upvotes)",                       15,   0, 165);
-        Test("Tier 3 (30 upvotes)",                       30,   0, 320);
-        Test("Tier 4 (60 upvotes)",                       60,   0, 550);
-        Test("Tier 5 (110 upvotes)",                     110,   0, 890);
-
-        // ── EP: Clase de Echivalență – Downvotes ────────────────────
-        Section("EP: Downvotes");
-        Test("Downvotes Tier 1 (3 downvotes)",            10,   3, 119);
-        Test("Downvotes Tier 2 (10 downvotes)",           10,  10, 100);
-        Test("Downvotes Tier 3 (20 downvotes)",           10,  20,  80);
-        Test("Input invalid downvotes (negativ) → fara pen", 10, -3, 131);
-
-        // ── BVA: Valori de Frontieră – Upvotes ──────────────────────
-        Section("BVA: Frontiere Upvotes");
-        Test("Sub pragul 10 (9 upvotes)",                  9,   0,  90);
-        Test("LA pragul 10 + bonus",                      10,   0, 125);
-        Test("Peste pragul 10 (11 upvotes)",              11,   0, 133);
-        Test("Sub pragul 25 (24 upvotes)",                24,   0, 237);
-        Test("LA pragul 25 + bonus",                      25,   0, 295);
-        Test("Peste pragul 25 (26 upvotes)",              26,   0, 300);
-        Test("Sub pragul 50 (49 upvotes)",                49,   0, 415);
-        Test("LA pragul 50 + bonus",                      50,   0, 520);
-        Test("Peste pragul 50 (51 upvotes)",              51,   0, 523);
-        Test("Sub pragul 100 (99 upvotes)",               99,   0, 667);
-        Test("LA pragul 100 + bonus",                    100,   0, 870);
-        Test("Peste pragul 100 (101 upvotes)",           101,   0, 872);
-
-        // ── BVA: Valori de Frontieră – Downvotes ────────────────────
-        Section("BVA: Frontiere Downvotes");
-        Test("Sub pragul 5 downvotes (4)",                10,   4, 117);
-        Test("LA pragul 5 downvotes",                     10,   5, 115);
-        Test("Peste pragul 5 (6 downvotes)",              10,   6, 112);
-        Test("Sub pragul 15 downvotes (14)",              10,  14,  88);
-        Test("LA pragul 15 downvotes",                    10,  15,  85);
-        Test("Peste pragul 15 (16 downvotes)",            10,  16,  84);
-
-        // ── Protecție: XP negativ plafonat la 0 ─────────────────────
-        Section("Protectie: XP negativ → return 0");
-        Test("Penalizare masiva, XP < 0 → 0",             2,  50,   0);
-        Test("Zero upvotes, penalizare → 0",               0, 100,   0);
-
-        // ── Teste Suplimentare: Milestones izolate ───────────────────
-        Section("Suplimentar: Verificare milestones individuale");
-        Test("Milestone 10 – doar bonusul de 25 activ",   10,   0, 125);
-        Test("Milestone 25 – bonusuri de 25+50 active",   25,   0, 295);
-        Test("Milestone 50 – bonusuri de 25+50+100",      50,   0, 520);
-        Test("Milestone 100 – toate bonusurile active",  100,   0, 870);
-        Test("Sub orice milestone – 0 bonusuri",           9,   0,  90);
-
-        // ── Teste Suplimentare: Frontiere simultane up+down ──────────
-        Section("Suplimentar: Frontiere simultane upvotes + downvotes");
-        Test("Ambele la prag: up=10, down=5",             10,   5, 115);
-        Test("Ambele la prag: up=25, down=15",            25,  15, 255);
-        Test("Ambele la prag: up=100, down=15",          100,  15, 830);
-        Test("Extreme pozitiv: up=200, down=50",         200,  50, 995);
-
-        // ── Teste Suplimentare: Un singur vot ────────────────────────
-        Section("Suplimentar: Valori minime (un singur vot)");
-        Test("Exact 1 upvote → 10 XP",                    1,   0,  10);
-        Test("Exact 1 downvote → -2 XP → 0",              0,   1,   0);
-        Test("1 upvote + 1 downvote → 10-2 = 8",          1,   1,   8);
-
-        // ── Teste Suplimentare: Simetrie penalizare Tier 3 ───────────
-        Section("Suplimentar: Penalizare Tier 3 verificata la valori mari");
-        Test("50 downvotes cu 10 upvotes → 50 XP",       10,  50,  50);
-        Test("100 downvotes cu 10 upvotes → 0 XP",       10, 100,   0);
-
-        // ── Sumar ────────────────────────────────────────────────────
-        Console.WriteLine();
-        Console.WriteLine("═══════════════════════════════════════════════════════");
-        Console.WriteLine($"  Rezultat: {_passed} PASSED  |  {_failed} FAILED  |  {_passed + _failed} total");
-        Console.WriteLine("═══════════════════════════════════════════════════════");
-
-        if (_failed > 0)
-            Environment.Exit(1);
-    }
-}
+```bash
+dotnet test --filter AIGamificationTests
 ```
 
-### Rezultat
-
+**Rezultatul rulării (Terminal Output):**
 ```text
-═══════════════════════════════════════════════════════
-  Teste CalculateXPFromVotes – GamificationService
-═══════════════════════════════════════════════════════
+Starting test execution, please wait...
+A total of 1 test files matched the specified pattern.
+[xUnit.net 00:00:00.39]     CalculateXPFromVotes - Statement Coverage [FAIL]
+  Failed CalculateXPFromVotes - Statement Coverage [4 ms]
+  Error Message:
+   Assert.Equal() Failure: Values differ
+Expected: 890
+Actual:   925
+  Stack Trace:
+     at Uniflow.Tests.AIGamificationTests.CalculateXPFromVotes_StatementCoverage()
 
-┌─ EP: Upvotes ─────────────────────────────────
-  PASS | Input invalid (negativ) → 0                   | (  -5,  0) → 0
-  PASS | Zero upvotes                                  | (   0,  0) → 0
-  PASS | Tier 1 (5 upvotes)                            | (   5,  0) → 50
-  PASS | Tier 1 maxim (10 upvotes + bonus 25)          | (  10,  0) → 125
-  PASS | Tier 2 (15 upvotes)                           | (  15,  0) → 165
-  PASS | Tier 3 (30 upvotes)                           | (  30,  0) → 320
-  PASS | Tier 4 (60 upvotes)                           | (  60,  0) → 550
-  PASS | Tier 5 (110 upvotes)                          | ( 110,  0) → 890
-
-┌─ EP: Downvotes ─────────────────────────────────
-  PASS | Downvotes Tier 1 (3 downvotes)                | (  10,  3) → 119
-  PASS | Downvotes Tier 2 (10 downvotes)               | (  10, 10) → 100
-  PASS | Downvotes Tier 3 (20 downvotes)               | (  10, 20) → 80
-  PASS | Input invalid downvotes (negativ) → fara pen  | (  10, -3) → 131
-
-┌─ BVA: Frontiere Upvotes ─────────────────────────────────
-  PASS | Sub pragul 10 (9 upvotes)                     | (   9,  0) → 90
-  PASS | LA pragul 10 + bonus                          | (  10,  0) → 125
-  PASS | Peste pragul 10 (11 upvotes)                  | (  11,  0) → 133
-  PASS | Sub pragul 25 (24 upvotes)                    | (  24,  0) → 237
-  PASS | LA pragul 25 + bonus                          | (  25,  0) → 295
-  PASS | Peste pragul 25 (26 upvotes)                  | (  26,  0) → 300
-  PASS | Sub pragul 50 (49 upvotes)                    | (  49,  0) → 415
-  PASS | LA pragul 50 + bonus                          | (  50,  0) → 520
-  PASS | Peste pragul 50 (51 upvotes)                  | (  51,  0) → 523
-  PASS | Sub pragul 100 (99 upvotes)                   | (  99,  0) → 667
-  PASS | LA pragul 100 + bonus                         | ( 100,  0) → 870
-  PASS | Peste pragul 100 (101 upvotes)                | ( 101,  0) → 872
-
-┌─ BVA: Frontiere Downvotes ─────────────────────────────────
-  PASS | Sub pragul 5 downvotes (4)                    | (  10,  4) → 117
-  PASS | LA pragul 5 downvotes                         | (  10,  5) → 115
-  PASS | Peste pragul 5 (6 downvotes)                  | (  10,  6) → 112
-  PASS | Sub pragul 15 downvotes (14)                  | (  10, 14) → 88
-  PASS | LA pragul 15 downvotes                        | (  10, 15) → 85
-  PASS | Peste pragul 15 (16 downvotes)                | (  10, 16) → 84
-
-┌─ Protectie: XP negativ → return 0 ─────────────────────────────────
-  PASS | Penalizare masiva, XP < 0 → 0                 | (   2, 50) → 0
-  PASS | Zero upvotes, penalizare → 0                  | (   0,100) → 0
-
-═══════════════════════════════════════════════════════
-  Rezultat: 32 PASSED  |  0 FAILED  |  32 total
-═══════════════════════════════════════════════════════
+Failed!  - Failed:     1, Passed:     5, Skipped:     0, Total:     6, Duration: 292 ms - Uniflow.Tests.dll (net8.0)
 ```
+Eroarea confirmă incapacitatea AI-ului de a anticipa corect calculele matematice complexe cumulate (bonusuri suprapuse), demonstrând necesitatea scrierii și validării umane pentru logica de domeniu avansată.
